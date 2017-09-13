@@ -1,0 +1,37 @@
+\documentclass[10pt, draft]{article}
+\usepackage{amsmath}
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+%\usepackage{physics}
+
+\newcommand{\dd}[1]{\mathrm{d}#1}
+
+\begin{document}
+
+\author{karl}
+\raggedright
+\textbf{\Large{\begin{center}
+Scaling reduction of the perturbative triples correction to cc theory via laplace transformation formalism\\
+Constans, Ayala, and Scuseria\\
+ \end{center}}}
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+Accurate prediction of molecular properties requires an explicit and precise treatment of electron correlation. Current ab initio methods treat electron correlation by a hierarchical truncation of the complete n-electron fock space. Higher than double excitations are necessary electronic contributions in accurate treatments.\\
+trucation arising from exponential ansatz in CC produce several, among the most reliable, approaches to electron correlation.\\
+As system size increases CCSD scales as O(N6). COmputation scaling when full triples are also included is N8.  Computing perturbative triples scales as N7.  The particular choice of triples yields results close to complete CCSDT and has high efficiency.\\
+Also large basis sets are important.   orbital product expansions poorly reproduce interelectronic cusps in correlated wave functions, convergence to the CBS is extremely slow. Extrapolation schemes have been developed to reduce the actual size of the AO basis set. CBS model chemistries well established that use reduced expansions and provide reliable predictions for molecular properties. \\
+Shown that triples contribution convergest faster to CBS limit than S or D.  This suggest that a dual basis set scheme would speed up CCSD(T).\\
+Steep scaling in ab intio correlation usually referred as the exponential scaling wall is artifact from using delocalized MO.  Local formalism reveal the excitation amps and correlation integrals (this is defined as the product between two electron integrals and density matrix elements) decay according to the power law with distance.  \\
+Screening protocols yield low-order scaling methods proving that scaling steepness not related to physics of the electron interaction.\\
+Typically, in the past, one uses canonical representation for perturbative triples. MO energies in the denominator impede simple rederivations in a noncanonical or nonorthogonal basis.  Almlof replaced energy denominators by laplace transform.  The orbital energy difference then appeated as exponents.  Splitting the single term into many results in exponential factors that are defined as weights defining attenuated integrals or amplitudes.  Resulting expression in terms of attenuated integrals and amps keep the simple closed form of canonical formulation.  The correlation energy remains invariant under unitary transformation that do not mix occupied and virtual orbitals. Therefore localized orbital treatments are simpler with the Laplace transform formalism \textbf{sources 21-23}\\
+Laplace ansatz also permits decoupling of nested summations in higher-order perturbation producing lower scaling equations \textbf{source 24} A reduction in scaling proerties does not hinge on the assumption of large molecule asymptote but on a numerical approach to an integral transformation.  \\
+In article apply Laplace transform to perturbative CCSD(T) to reduce N7 scaling.  Integration requires only 2 to 3 quadrature points.  Cross over occurs in small systems if generalized CCSD natural orbital derivation and screening protocols are considered.  
+
+\section{Theory}
+The laplace transform does not need to assemble the most expensive step of triples and the scaling of the forth and fifth order components is also reduced.  E4 is most important contribution in terms of magnitude and cost so the focus of this paper is this term.  Other tems reduced using same principle.\linebreak[1]
+The ansatz for the fourth order energy is 
+\[E_T^{[4]} = 1/3 \sum_l w_l \sum_{ijk} \sum_{abc} W^{abc}_{ijk} R[W]^{abc}_{ijk} e^{-D^{abc}_{ijk} s_l}\]
+wl is the quadrature weights. Since the Laplace weight factorizes the indices are not coupled by D.  At this point the ansatz premits lower scaling conctractions for the triples energy.  More advantageous contractions are apparent after a compete expansion in terms of 2 integral amp products.  
+\end{document}

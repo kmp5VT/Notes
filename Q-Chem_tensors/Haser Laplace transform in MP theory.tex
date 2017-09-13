@@ -1,0 +1,76 @@
+\documentclass[10pt, draft]{article}
+\usepackage{amsmath}
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+%\usepackage{physics}
+
+\newcommand{\dd}[1]{\mathrm{d}#1}
+
+\begin{document}
+
+\author{karl}
+\raggedright
+\textbf{\Large{\begin{center}
+Laplace tranform tech in MP perturbation theory\\
+Haser and almlof\\
+ \end{center}}}
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+Look to sources 1-8\linebreak[1]
+
+SCF calculations are possible on systems with nearly 2000 basis function and very large basis used in correlation.  correlated methods show a steep power law dependence on the size of the system or on the dimensionality of the occupied virtual spaces used in correlation treatment. \\
+previous paper use laplace transform to eliminate the energy denominator in perturbation theory lifting constraints of canonical orbitals.  At the expense of evaluating the integrals, which can be accomplished by numerical quadrature scheme, the energy denominators are eliminated and requirement of canonical orbitals lifted.  \\
+In this work show that fewer than 10 points are required to get 6-6 digit accuracy.  Especially with localized orbitals in extended systems the price for repeated evalueation of e2 at different values of t is more than offset by the small effective orbital spaces needed in localized scheme \textbf{source 10, 11}\\
+The exp factors will effectively eliminate all but the highest occupied and lowest virtual orbitals for large values of t.  Additionally the quad points responding to large t values will be relatively inexpensive with a reasonable screening to eliminate numerically insignificant contributions.  \\
+NB. - contributions for different quadrature points can be evaluated in parallel and the scheme is suited for modern high performance computer architectures.\\
+This work demonstrate similar technique to decomple nested summations in higher-order perturbation theory independent partial summation and lower overall power dependence on the basis set size.  
+
+\section{Perturbation theory}
+Fourth order MP theory requires double excited and singly, double, triply or quadruply excited states.In MP pert theory the sum over k-tuply excited states are replaced by 2k-fold summations overorbtials and the energy differences in teh denominators are expressed as orbital energy differences.  For most general contributions expression involving up to 2M orbitals occur in Mth order MP pert theory.  \\
+Introducing usual notation C term is the T2 initial amplitude along with a laplace transformation for the remaining denominator Using auxiliary matrices defined in the paper the expression for MP4 energy contributions can take the form 
+\[ \Delta E^4(T) = \int_0^\infty Tr\{X(t) Y(t)\}dt\]
+The trace is a $N_{vir}^4$ procedure.  The number of elements evaluated in X and Y is also $N_{vir}^4$.  The total cost for this section of MP4 is $N_oN^5_v$.\\
+
+In general fourth order corrections can be contracted using a procedure no more than $N^6$ expensive and storage requirements of no more than $N^4$.  \\
+The aforementioned technique applies well to higher order MP theory.  The computational requirement for Mth order perturbation theory will grow by at least 1 order for every order of perturbation theory.  With the Laplace transform the offending factors in the denominator can be transferred into mutliple quadrature schemes.  In higher orders there are cases which require combination of 4 index quantities and the n6 dependence can no longer be achieved.  
+
+\section{Numercial Quadrature}
+
+Basic idea of all Laplace MPn schemes to replace denominators by laplace transforms which allow a factorization of terms.  
+
+\[ \frac{1}{x_q} \approx \int_0^\infty dt e^{-x_qt}\]
+To do this integration numerically amounts to replacing the integral by a finite sum,
+
+\[\frac{1}{x_q} = \sum_{\alpha = 1}^\tau \omega_\alpha e^{-x_qt_{\alpha}}\]
+May also be considered a approximation of 1/x by a superposition of exponential functions with weights.  The aim is to determine the weights and the exponenetial factos which produce 1/x most accurately for all values of x.\\
+Use a least squares approximation to perform the task
+\[ \sum_q f_q (\frac{1}{x_q} - \sum_{\alpha=1}^\tau \omega_\alpha e^{-x_q t_\alpha})^2 = min!\]
+
+where q runs over all MO index quadrapules.  Introduced weights f for least squares procedure.  the best weight for mp2 would obviously be $f_q = <ab || ij>^2$.  However it is possible to avoid 2 electron integrals by a direct construction of the two electron density in other nonorthogonal basis sets.  It is good to avoid 2-electron MO integrals in the least squares approximation which must precede the actual calculation of the correlation energy.  The least squares method though is not overly sensitive to changes in the weights f: setting f = 1 for all q = (a,b,i,j) yields an approximation useful in actual laplace mp2 calculations.  \\
+Disadvantage of LS condittion is it sums over q, orbital quadruples in MP2.  This can be addressed by replacing the explicit summation over index quadruples q by an integral over the interval $[min(x_q), max(x_q))$ with a weight function f(x) >=0. This counts the number of xq in the vicinity of x.  \\
+The integral above can be obtained analytically if f(x) is set to unity over the entire interval.  This is the simplest solution to the approximation problem. \\
+It is always possible to calculate the least squares integral regardless of f(x) and can take derivatives wrt w and t at small cost.  The weights w for any choice of factors t by solving the system of linear equations $Bw=a$ where 
+\[a_\alpha = \int_{x_{min}}^{x_{max}} dx f(x) 1/x e^{-xt_\alpha} \]
+\[B_{\alpha \beta} = \int_{x_{min}} ^{x_{max}} dx f(x) e^{-x(t_\alpha + t_\beta)}\]
+B is symmetric and positive definite.  Different values of t give independent sets of similar equations.  \\
+Unfortunately the condition number of B and related matrices grows exponential with $\tau$ and round off errors can impede an accurate solution of nonlinear equations when tau is larger than 5.\\
+To find the optimal exponential factors t we use robust simplex algorithm applied directly to the least-squares condition with the weights w. \\
+In all exapmles studied so far w and t's are found to be positive.  \\
+The orbital function representation is 
+\[|i_\alpha> = \psi_i(t_\alpha) = \omega_\alpha^{1/8} \psi_i(0) e^{\epsilon_i + \epsilon_F)t_\alpha/2}\]
+and similar for unoccuped orbital functions. where $\epsilon_i$ is the orbital energies of the MOs i etc and $\epsilon_F$ is any value chosen to lie in the HOMO-LUMO interval.  epsilon F is mearly a matter of numerical convenience and guarantees that the exponentials are negative.  
+
+results show that for their example micro-hartree accuracy can be obtained with 8 terms in the expansion of 1/x.  When high virtual orbitals are frozen the approximation should become simpler in terms of number of exponentials needed.  All results are determined in least squares weight functions f(x) derived from the distribution of the mp2 energy denominators x. Also sudied was weight function f(x) =1 for all x in (xmin, xmax)  3 important results from these calculations\\
+Laplace MP2 energies oscilate around exact mp2 energy\\
+absolute values of error flucuate and are up to 3 times larger than relative errors\\
+L1 and L2 now over estimate the actual rel errors significantly.\\
+All results are consistent w/ notion that errors derived from Least squares approx of 1/x with a constant function behaves predominantly as statistical errors, whereas a systematic error dominates when f(x) is derived from distribution of orbital energy differences.  \\
+Systematic underestimation of MP2 energies from table 2 can be traced to neglect of MO integral size distribution over x.  largest MO ints usually occur for smaller values of x where the approximation function is smaller than 1/x according to their limiting behavior as x $\leftarrow$ 0.  \\
+Conclude that approximation of MP2 orbitals as sum of exponentials can achieve micro-hartree accuracy using about 8 terms.  Further improvements seems possible if an empirically established integral size distribution is incorporated into least squares weight function.  It is sufficient to establish size distribution of 2 electrons ints like (ia|ia) over ea - ei since its shown that 
+\[ <ab||ij>^2 + <ab||ji>^2 \leq 3( <aa|ii> < bb|jj> + <aa|jj> <bb|ii>)\]
+
+\section{summary}
+Shown that discrete Laplace method is able to eliminate energy denominators in perturbation calculation of electron correlation.  Applying laplace techniques to reduce computation cost of high-order perturbation theory by factorization of denominator appears to be new.  Computational simplifiications are possible once explicit denominators are disposed of.  Shown before, modified MP2 energy expression invariant to orbital rotations and localization of orbitals is therefore possible.  Allows direct construction of an MP2 2 particle density in an nonorthogonal basis set prior to calculation of 2 electron MO integrals.  Additionally lifting constraints of canonical orbitals advantage for construction of derivatives of the energy wrt various perturbation. 
+\end{document}

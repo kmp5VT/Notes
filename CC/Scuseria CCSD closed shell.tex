@@ -1,0 +1,76 @@
+\documentclass[10pt, draft]{article}
+\usepackage{amsmath}
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+%\usepackage{physics}
+
+\newcommand{\dd}[1]{\mathrm{d}#1}
+
+\begin{document}
+
+\author{karl}
+\raggedright
+\textbf{\Large{\begin{center}
+Efficient reformulation of the closed shell CCSD equations
+ September 1988
+ The author is Scuseria, Janssen, Schaefer\\
+ \end{center}}}
+ 
+ \section{introduction}
+ The cluster expansion [5] tool for size extensive description of physical systems.  Exponential cluster operator first used in nuclear physics and brought to quantum chemistry by Cizek in 1966.  CCD came first them CCSD By bartlett in 1982.  They have implemented higher levels of CC theory.  Scuseria developed closed shell energy and analytic energy gradient methods at CCSD level.  ALso developed and implemented an analytic energy gradient program for the CCSDT-1 wave function.  Results are comparable to CISDTQ for single bonds with reduced scaling compared to CISDTQ.  \\
+ A new set of CCSD equations for closed shell is presented that reduces the number of operations by 2 compared to previous scheme.  Achieved by properly selecting intermediate arrays that minimize the number of operations.  From a spin-adaption view the present formulation is the same as the previous one it is a consequence of using a spin integration scheme based on the unitary group approach.  The selection of cluster coeff and the set of equations derived for the closed shell case are the ones appearing in the model when all quantities are involved writtedn in terms of the unitary group generators.  \\
+ CC is 50 years newer than configuration interaction method.  CC and CI interrelatedness can help in the optimization of both methods.
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%
+ 
+ \section{Theory}
+ CC method based on exp ansatz
+ 
+ \[|\Psi> = e^T|0>\]
+ 
+ The exact wave function satisfies the schrodinger equation may be obtained from any reference determinant $|0>$ provided that $<\Psi|0> \neq 0$. The cluster operator T is decomposed into irreducible components of one and two particle hole excitations.
+ \[T_1 = \sum_{ia}t^i_a E_{ai} \]
+ \[T_2 = 1/2 \sum_{ia}t^{ab}_{ij}E_{ai}E_{bj}\]
+ the generators of the unitary group 
+ \[E_{pq} = p_\uparrow ^\dagger q_\uparrow + p_\downarrow^\dagger q_\downarrow\]
+ Where up and down arrow refer to alpha and beta spin, satisfy the commutation relation
+ \[[E_{pq},E_{rs}] = E_{ps}\delta_{rq} - E_{rq}\delta_{ps} \]
+ 
+ The hamiltonian H = H1 + H2 may also be written in terms of these generators,
+ 
+ \[H_1 = \sum_{pq} h_{pq}E_{pq}\]
+ \[H_2 = 1/2 \sum_{pqrs} v_{qs}^{pr}(E_{pq}E_{rs} - \delta_{qr}E_{ps})\]
+  where h and v are matrix elements of the one and two electron hamiltonians.\\
+  This choice of T1 and T2 guarantees that all possible singles and double excited stated preserve the spin symmetry of the reference state are included in the model.  Higher than double excitations are introduced with the exponential operator.  The number of cluster operators N is the same as in a unitary group CISD calculations.\\
+  Not necessary to attach spin labels to cluster amps, consequence of commutation relations between Sz and Ti and S-+, Ti when i=1,2.  The cluster excitation operators are the proper linear combinations of spin-adapted T1 and T2 operators giving the totally symmetric spin component and preserving Sz and Ssquared.  Consequently the the doubly excited states are not orthogonal among themselves.  The use of nonorthogonal basis leads to significant simplifications in the theory of electron pairs.  \linebreak[1]
+  
+  Steps follow as normal mult shro by $e^{-T}$ which then gives the projected ccsd equations. Since H is at most a two-particle operator the Hausdorff formula gives a finite number of terms which can be given in the equations as expansions to the exponentials. Terms must be linked to the Hamiltonian operator to survive.   From here the closed shell CCSD equations may be obtained by replacing T1, T2 and H by their expressions in terms of unitary group generators, as provided earlier with E's instead of a and by using commutation relations.  \\
+  One can choose the the single and double excited states and gives different expressions for the CC equations.  THere is no freedom like that for the T1 and T2 operators if you want to preserve the spin symmetry of the reference state.  \\
+  See paper for specific choice of projection for the Unitary group.
+  
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  
+  \section{computation considerations}
+  the number of floating point operations in this implementation is only 
+  \[1/2 o^2v^4 + 4o^3v^3 + 1 o^4v^2\]
+  when $n^5$ and smaller loops are neglected. Computational reduction can be obtained using term definition of b and tau that represents 2 intermediates, one of which is totally symmetric with symmetry properties in elements and the other is a skew symmetric matrix. Due to the symmetry these matrix need only be evaluated over a smaller subset than the fill range and contracted over a>=b.. The current implementation of CCSD has identical computational requirements as CCD.  The introductions of singles adds an overhead proportional to $n^5$. \\
+  \textbf{Look at lee and rice paper [31]}\\
+  The reduction in computational cost achieved is partially applicable for analytical CCSD energy gradient formulation [18,19]
+  
+  %%%%%%%%%%%%%%%%%%%%%%%%%%
+  
+  \section{comparison of CCSD and CISD}
+  The CISD equations are linearized versions of the closed shell CCSD equations however the C1 and C2 equations have nonzero energy dependent right hand sides that prevent the model from being size extensive.  CCSD is 2 times more expensive than CISD per iteration independent of the point group symmetry group and depending on the vals of o and v.  
+  
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  
+  \section{test cases}
+  53 basis function water 4 times faster than old CCSD. Flouride peroxide is nine times faster than the old CCSD.  full CCSD evaluated within a rigorous mathematical formulation is more practical approach than imagined. The new closed shell CISD method is usually (up to 3.7 times) than the more general shape-driven graphical unitary group approach.  Only when a small number of orbitals occupied is the SDGUGA program as efficient as the new CISD.\\
+  variational wave functions like davidson algorithm require fewer iterations than the iterative procedure based on the Moller Pleset partitioning usually employed to solve the algebraic CC eqauations.  Extrapolation procedures like the DIIS method improve the convergence of the CC equations\\
+  \textbf{Look to source 34}\\
+  
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \section{conclusions}
+  for molecules with high symmetry the ratio of CCSD/CISD was as low as 2.3 but in low symmetry cases could be as high as 10.  It wouldn't be surprising to see approximative CCSD methods come up if it does cost 10x more to run ccsd to cisd.  The new method reduces the need for approximative methods.  Since the new CCSd requires comp effort within a factor of 2 of the standard CISD method it may be best for closed shell molecules to use CCSD directly and avoid any approximations.  
+  
+ \end{document}

@@ -1,0 +1,58 @@
+\documentclass[10pt, draft]{article}
+\usepackage{amsmath}
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+%\usepackage{physics}
+
+\newcommand{\dd}[1]{\mathrm{d}#1}
+
+\begin{document}
+
+\author{karl}
+\raggedright
+\textbf{\Large{\begin{center}
+Elimination of energy den in MP theory by Laplace transform\\
+Jan Almlof\\
+ \end{center}}}
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+
+Look to sources 1-7 for literature review.\linebreak[1]
+
+Bottleneck of correlation calc is storage and manipulation of integrals in MO basis rather than the CPU time.  In extended systems the information in the integrals can be compressed if the orbitals were localized with a resulting saving in the storage requirements.  Localization is also good in view point of reducing basis set superposition errors.  Many schemes for electron correlation place restriction on orbital localization and a deviation from canonical orbitals often requires the use of iterative schemes.\\
+
+Their solution is based on Laplace transformation, applied to wide variety of electronic structure calculations where energy denominator encountered.  2nd order pert one simple illustration.\\
+
+Taking a second order correction to electronic energy is 
+\[ E^{(2)} = - 1/4 \sum_{ijab} \frac{ <ab || ij>^2}{\epsilon_a + \epsilon_b - \epsilon_i - \epsilon_j}\]
+
+By introducing a Laplace transformation of denominator 
+
+\[ (\epsilon_a + \epsilon_b - \epsilon_i - \epsilon_j) ^ {-1} = \int_0^\infty exp[ - (\epsilon_a + \epsilon_b - \epsilon_i - \epsilon_j) t] dt\]
+
+Resulting in 
+
+\[ E^{(2)} = -1/2 \int_0^\infty dt \sum_{ijab} <ab || ij> ^2 \times exp[ - (\epsilon_a + \epsilon_b - \epsilon_i - \epsilon_j) t] dt\]
+
+t dependence of integrand tranferred to the orbitals. 
+\[ \psi_i(t) = \psi_i(0) exp(1/2 \epsilon_i t)\]
+for occupied and same for virtual with negative sign in the exponent.Then correlation energy look like
+\[ E^{(2)} = \int_0^\infty e^{(2)} (t) dt\]
+where 
+\[e^{(2)}(t) = -1/4 \sum_{ij,ab} <a(t) b(t) || i(t) j(t) > ^2\]
+
+The important note is that a canonical rep is no longer required when the sum over pairs is carried out.  Due to generalized def of orbitals the sum need not be restricted to any particular subspaces. This leaves flexibility in defining different types of orbital rotations for computational convenience.  \\
+An example would be to define rotation of the orbtial spaces by means of various unitary matrices.  \\
+several important classes of unitary rotations of the orbital spaces for which the new form is invariant.  \\
+Seperating orbital rotations applied to the four indices,\\
+different rotations for different t values, etc.\\
+The parameterized orbital wfns are not normalized so a unitary rotation in the occupied space leaves the orbitals non-orthogonal. Though occupied virtual blocking structure is not required in U, the unitary transformation.  \\
+Schemes employing localized or non--orthogonal orbitals can be implemented.  This is attracted for large systems where even transformed integrals cant be stored in a canonical basis. Localization increases sparcity and reduces storage.  Non-orthogonality is important to remove the localization tails.\\
+integrals must be evaluated numerically but $e^{(2)}$ is well behaved monotonically decreasing function so thats fine.  \\
+Logarithmically spaced quadrature points, no more than 10-15 points ar e required to obtain accuracy at the micro-hartree level.  Localized orbitals in extedned systems, the price for the repeated evaluation of integrals at different values of t is often off-sey by the smaller effective orbital spaces needed in a localized picture.\linebreak[1]
+
+Summary\linebreak[1]
+Shown that energy denominator in perturbation theory can be replaced by a numerical integration over an aux variable. Rotation made possible by a technique not restricted to simple unitary rotations within the occupied orbital space. Rotation made possible by such a technique are not restricted to simple unitary rotations within the occupied orbital space.  
+\end{document} 

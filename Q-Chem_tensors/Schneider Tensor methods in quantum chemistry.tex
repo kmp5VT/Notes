@@ -1,0 +1,77 @@
+\documentclass[10pt, draft]{article}
+\usepackage{amsmath}
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+%\usepackage{physics}
+
+\newcommand{\dd}[1]{\mathrm{d}#1}
+
+\begin{document}
+
+\author{karl}
+\raggedright
+\textbf{\Large{\begin{center}
+Tensor methods in quantum chemistry\\
+Schneider, Rohwedder, Legeza \\
+ \end{center}}}
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+ \section{introduction}
+ 
+Multi-particle Schrodinger equation important example of problem posed on high-dimensional tensor spaces.  Numerical approximation of solutions of these types of problems suffer from the curse of dimensionality, the comp complexity scales exponentially with the dimension of the space.  Circumventing this problem in a challenging topic in modern numerical analysis applying from electronic to nuclear schrodinger equation, the Fokker-Planck equation and the chemical master equation.Progress has been made by concepts of tensors product approximation.  many concepts are used in many body quantum physics (matrix product states, tensor networks) found again in numerical analysis.\\
+let $\mathcal{V}_1, ..., \mathcal{V}_d$ be hilbert spaces where $\mathbb{K} = \mathbb{R}$ or$ \mathbb{C}$ .  An order d tensor over these spaces is then given by any $U \in \mathcal{V} := \otimes_{i=1}^d \mathcal{V}_i$, which may be viewed as a multivariate function.\\
+Tensors play an important role in the description of complex systems.  Many given implicitely as solution to things such as partial differential or integral equations.  Standard approaches like Galerkin approaches not used for all but small size since tensor space grows exponentially in d.  data sparse rep resp. approximation of tensors of higher order d is challenge in contemporary numerical analysis. \\
+A common feature of tensor product approximation techniques in the approximation of high-dimensional object by separation of variablesThe single variate component functions are treated numerically and such tensor product approximation sometimes offer a flexible tool for a data-sparse approximation of high-dimensional data functions.
+
+\section{Low-rank approx of high-dimensional problems}
+
+Example, shrodinger type differential.  The form covers ground state problems for stationary schrodinger equation and linear equations HU = B by minimizing for symmetric H and a functional.  For approx treatement of problem constrained to some embedded manifold of lower dimension: Approximation on M will be perfomed by the dirac-frenkel variational principle.  \\
+for time-dependent problems for an approximation U(t), the derivative lies in the tangent space of M at U for all t >0 that is subject to a flow equation.  Desirable properties of the orginal problem( convexity, well posedness) are often lost so that in theory and practice new challenges in the treatment of these problems arise.
+
+\section{Different formats for tensor rep}
+Choice of approximation manifold of the tensor format used is crucial for utility of the above ansatz.  \linebreak[1]
+\textbf{Look to Hackbush 2012 for information}\linebreak[1]
+
+Canonical format. Decomp of tensor U of order d uses a rep by r elementary products of singled valued functions.\\
+example multivariate polynomial can by read as an exact canonical rep of U of rank r = d.  The canonical rank r of U is the decisive quantity in terms of complexity.  Linear dependence on d, n, and r makes a popular choice for high dimensional problems.  However at times one is faced with severe instabilities and slow convergence in practice.  The set of rank r-tensors lack desirable theoretical properties existence of best approximations. It is not an embedded manifold, ruling out the tangent space approach and rank r is often not small in practically relevant cases.\\
+\textbf{Tucker and TT format}\\
+ALternative approach, optimizing approximation subspaces in each coordinate direction.  Tucker decomp determines spaces Ui of dimension ri.  The vector of ranks is the tucker rank of U, the size-r tensor with entries $c_{k_1,...,k_d}$ is called a core of U.  The storage complexity of tensors in tucker format depends expontnially on the spae dimension d limiting the applicability of the tucker format for larger d.\\
+Alt tensor U can be represented by the so-called tensor train decomposition.  U is represented in terms of d component tensors of order at most 3.  For each $U \in \mathcal{V}$ a minimal rank is well-defined and is equal to the rank of the unfolding ie the matrix obtained from U by taking x's to i-1 as row indices and the rest as column indices.  Tensor train takes less storage than tucker.  Computing entries has to be evaluated using matrix product state formulation popular in contex of many body quantum physics interpreted in 1995 as thermodynamic limit of density matrix renormalization group algorithm by Ostlund and Rommer.  \\
+Tucker and TT many desirable properties.  respective manifolds of fixed rank are weakly closed, implying that minimization of convex problem exists.  ALso manifold of fixed rank possess a stable local parameterization of the manifold perfeclty removing the intrinsic redundancies.  Tucker is good for multi-configurational self consistent approach.  \linebreak[1]
+\textbf{See Post-Hartree-Fock methods by M. Lewin and C. Lubich}\linebreak[1]
+\textbf{HT format and tensor networks}\\
+TT format is a special case of the hierarchical tensor format which generalizes the Tucker idea of subspace approximation to a hierarchical splitting, described by a binary dimensional partition tree.  Has good properties like before.  In general framework tensor networs can be defined. Unfortunately fixed rank tensor networks with non-treelike structure are not weakly closed and lack properties like existence of best approximations.  \linebreak[1]
+
+\textbf{Decelopments using tensor trees and networks developed independently in quantum physics by marti and murg}
+
+\section{Component equations for high-dimensional problems}
+If tensors can be approximated well by low rank tensors in the TT, HT or tucker format optimization tasks and time dep equations can be treated by ansantz in previous section.  First tangent space rep required for a tensor U.  d-1 components are left orthogonal.  A gauge condition set.  The equaitons given for optimization tasks and time-dependent equations on M formulated above now deliver stable equations for all d component.  The time dep equations break down into d coupled non-lilnear diff equations with density matricies using the embedding operators.  The equations given are anaologous to the time dep multi-confic scf and TH(F) equations for the tucker format.
+
+\section{Tensor product over $\mathbb{K}^2$: the space $\bigotimes_{i=1}^d \mathbb{K}^2$}
+\textbf{Tensorization tech} \\
+\textbf{concept of vector tensoriztion Oseledets, 2010}\\
+In simple example sum of exponent function, these tensors are efficiently rep by canonical format but the TT/MPS format is usually more sutiable reduces the original complexity of $N=2^d$ to $\mathcal{O}(logN)$\textbf[1]
+\textbf{Binary fock ansatz for schrodinger equation}\\
+For application in quantum mech delineate how a binary encoding of the discrete fock space F may be used for the computation of schrodinger type equations with anti-symmetric contraints. The ensemble of all slater determinants with particle number M forms an orthonormal basis of an antisymmetric discrete M-particle tensor space. Index each basis function by a binary string of length d.  The mapping of the function is a unitary isomorphism between the fock space F and the binary fock space W.  \\
+The solution of the discrete stationary N-electron schrodinger equation is an element of the fock space F, subject to the contraint that it is constructed solely of N-particle slater determinants, ie it is an eigenvector of the number operator. This can be formulated in the binary fock space W, to which tensor decomposition techniques can be applied without having to deal with the antisymmetry contraint explicitly. \\
+One can obtain the binary annihilation and creation operators.  With this the discrete schrodinger equation can be cast into the binary variational form of finding the tensor in the binary fock space W.\\
+
+Using tensor trains/MPS Matrix product, one has access to full CI wvfn in given variational framework where rep provides full insight to sep of system in 2 subsystems and their entaglemennts via svd of corresponding matrix products.  Very good for strongly correlated systems when CC failing.  Follow formulation of second quantization.
+
+\section{Numerical techniques}
+Short incomplete overview of other tensor techniques.  \\
+\textbf{computation of best approximation}  One important min case is the functiontional with A the identity.  Computing a rank one approx of this problem is NP hard.  The best approx of a fixed rank tucker tt or ht format has a solution and a quasi best solution rep can be found using successive SVDs\\
+\textbf{Greedy algorithms for convex problems} proper generalized decompositions recently been introduced for construction of tensor approx by greedy approximation ansatz. \\
+\textbf{ALS scheme and modification}  Using TT/MPS format cariational problems can be a simple alternating approach similar to als.  A cariant of this enabling the adaption of ranks during the iteration process, is the modified ALS (MALS algorithm)\linebreak[1]
+
+\textbf{Look to Holtz Rohwedder Schneider 2011b}\linebreak[1]
+
+synonymous to denisty renormalization group algorithm.  \\
+
+\textbf{DMRG}\\
+Using mult target states numerical instibilities related to degeneracies of the energy spectrum can be overcome. Method allows one to treat local ineterations and momentum space representation or numerical solutions of the schrodinger equation by quantum chemistry dmrg.  Size of the ranks depends on the choice of orbital basis functions and their ordering\linebreak[1]
+
+\textbf{look to schollwock 2011}
+\end{document}

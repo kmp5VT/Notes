@@ -1,0 +1,224 @@
+\documentclass[10pt, draft]{article}
+\usepackage{amsmath}
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+%\usepackage{physics}
+
+\newcommand{\dd}[1]{\mathrm{d}#1}
+
+\begin{document}
+
+\title{Crawford CC}
+\maketitle
+\author{karl}
+\raggedright
+%\textbf{\Large{\begin{center}
+ %DOI: 10.1063/1.4864755 \\
+ %The author is David Hollman, Schaefer, and Valeev\\
+ %\end{center}}}
+ \vspace{5mm}
+ 
+
+\section*{Fundamental Concepts}
+
+\section{Cluster Expansion of the wavefunction}
+Full wave function of electrons described as a slater determinant of one electron functions $\phi_i(\textbf{x}_1)$ this provides antisymmetric WRT interchange of the coordinates of any pair of electrons.  Expansion of the determinant reveals LC of products of N functions with the electron coordinates distributed among them in all possible ways.  \linebreak[1]
+
+The component functions $\phi_i$ can be chosen in a variety of ways.  For a molecular system the functions can be constructed as a linear combination of atomic orbitals in which each one electron function represents a molecular orbital whose AO coefficients are optimized via HF SCF procedure.  The single determinant wavefunction fails to account for the instantaneous Coulombic interactions that keep electrons of opposite spin apart.(Szabo)  To improve the independent-particle approximation($\phi_i$ is a function describing the probability of a single electron/particle)  the set of occupied orbitals (the functions that compose the Slater determinant) are chosen from a larger set of one-electron functions.  The extra functions are referred to as virtual or unoccupied orbitals and are a byproduct of the SCF procedure.  Any function of N variables can be written in terms of N-tuple products of $\phi_p$ for example a 2 variable/electron system can be written as the linear combination of all binary products of the set of 1-electron functions 
+
+\[f(\textbf{x}_1,\textbf{x}_2) = \sum_{p>q}c_{pq}\phi_p(\textbf{x}_1)\phi_q(\textbf{x}_2)\]
+
+p > q indicates the only unique pairs are included.  Instead of correlating the motion of a single pair of electrons, used is a function to correlate the motion of any 2 electrons within a selected pair of occupied orbitals, called a \textbf{2-particle cluster function}, 
+
+\[f_{ij}(\textbf{x}_m, \textbf{x}_n) = \sum_{a>b} t^{ab}_{ij}\phi_a(\textbf{x}_m)\phi_b(\textbf{x}_n)\]
+
+$t^{ab}_{ij}$ is the cluster coefficients determined via the electronic schrodinger equation.  Inclusion of the cluster function, $f_{ij}$ produces a linear combination of Slater determinants involving the replacement of occupied orbitals with unoccupied orbitals, i.e. 
+
+\[\Psi = \Phi_0 + \sum_{a>b} t^{ia}_{jb} |\phi_a(\textbf{x}_1)...\phi_k(\textbf{x}_N)>\] 
+
+here 2 orbitals, $\phi_i$ and $\phi_j$ are replaced with $\phi_a, \phi_b$.  The cluster operator is also antisymmetrized so the reordering of terms introduces a negative sign. The cluster function is intended to correlate the motions of any pair of electrons placed in orbitals i and j, not just the motions of electrons 1 and 2.  \linebreak[1]
+
+It might be more intelligent to include all possible pairwise combinations, which can be done with a linear combination of cluster operators.  One can include all cluster functions from single orbital to N orbitals and obtain the exact wavefunction within the space spanned by the $\{\phi_p\}$. One can assume that clusters larger than pairs are less important to the adequate description of the system (this assumption is supported by the fact that the H contains operators describing pairwise electron interactions at most).  
+
+\section{Cluster Functions and Exponential Ansatz}
+The full expansion of a wavefunction each determinant involving a cluster function is really a linear combination of determinants each of which differs from the reference by a specific number of orbitals. Therefore each term can be written as the result of some substitution operator (or product of subs) acting on $\Phi_0$.  This task is accomplished using the mathematical technique known as second quantization.\linebreak[1]
+
+The \textbf{creation operator} is defined by its action on the Slater Determinant:
+\[a_p^{\dagger}|\phi_q...\phi_s > = |\phi_p \phi_q...\phi_s>\]
+
+This has added one more column and one more row (orbital and electron) to form the new determinant on the RHS.  The \textbf{annihilation operator} is defined similarly 
+\[a_p|\phi_p\phi_q...\phi_s> = |\phi_q ... \phi_s> \]
+
+removing the first orbital and electron/ row and column from the original function.  A given slater determinant can be written as a chain of creation operators acting on the true vacuum state.  Annihilation acting on a vacuum state gives a zero result. Pairwise permutations of the operators introduce changes in the sign of the resulting determinant, antisymmetric. There is an \textbf{anticommutation relation} for a pair of creation operators and annihilation operators.
+
+\[a_p^{\dagger}a_q^\dagger + a_q^\dagger a_p^\dagger = 0\]
+
+The anticommutation relation for the mixed product is as follows
+
+\[a_p^\dagger a_q + a_q a_p^\dagger = \delta_{pq}\]
+
+Using these second-quantization operators we may define the single orbital cluster operator
+\[\hat{t}_i \equiv \sum_a t_i^a a_a^\dagger a_i\]
+
+The second quantization operator 
+\[\hat{t}_{ij} \equiv \sum_{a>b} t_{ij}^{ab} a_a^\dagger a_b^\dagger a_j a_i\]
+
+The creation operators only act on virtual orbitals and annihilation only act on occupied orbitals.  Therefor the creation-annihilation operator pairs exactly anticommute:
+\[a_a^\dagger a_i + a_i a_a^\dagger = \delta_{ia} = 0\]
+
+Therefore all the creation and annihilation operators in $\hat{t}_i$ and $\hat{t}_{ij}$ anticommute.  Also given the fact that cluster operators always contain even numbers of second quantization operators the $\hat{t}_i$ and $\hat{t}_{ij}$ operators will exactly commute.(this holds when the occupied and virtual orbital spaces are disjoint)\linebreak[1]
+
+One can define the \textbf{total one- and two orbital cluster operators}
+\[\hat{T}_1 \equiv \sum_i \hat{t}_i = \sum_{ia}t_i^a a_a^\dagger a_i.\]
+\[\hat{T}_2 \equiv \frac{1}{2}\sum_{ij} \hat{t}_{ij} = \frac{1}{4} \sum_{ijab} t_{ij}^{ab} a_a^\dagger a_b^\dagger a_j a_i \]
+
+So the n=orbital cluster operator is 
+\[\hat{T}_n = (\frac{1}{n!})^2 \sum_{ij...ab...}^n t_{ij...}^{ab...}a_a^\dagger a_b^\dagger... a_j a_i \]
+
+Since the all the operators $\hat{T}_k$$ \forall k \in 1,2...n$  one can rewrite the full expansion as the power series expansion of an exponential function.\linebreak[1]
+The exponential ansatz is one of the central equations of coupled cluster theory.  The exponential cluster operator $\hat{T}$ when applied to ref produces a new wfn containing cluster functions which correlate motion of electrons in orbitals.  If T includes all possible groupings for N electron system then the exact wfn within one-electron basis is obtained from the ref.  Operators $\hat{T})_n$ are called \textbf{excitation operators} they produce from $\Phi_0$ something that looks like excited states in HF theory.  
+
+\section{Wavefunction Separability and size consistency of the energy}
+Comparing the couple cluster ansantz to expansion of other wavefunctions.//
+in CI a linear excitation operator is used instead of exponential,
+\[\Psi_{CI} = (1+\hat{C})\Phi_0\]
+
+$\hat{C}$ is a linear combination of cluster like operators defined similar to $\hat{T}$.  Truncation of $\hat{C}$ provides the same number of amplitudes needed as couple cluster. However couple cluster implicitly includes higher excitation levels by the inclusion of $\hat{T}$ products in the power series expansion of $e^{\hat{T}}$.  Such products are called \textbf{disconnected wavefunction contributions}. Both full CI and full CC produce the exact wavefunction.  The 2 different forms of excitation operator in CI and CC have sig consequences for energy and wfn as number of electrons increases or as the system separates into fragments. Couple cluster has \textbf{size consistency} the sum of the CC energies computed for each fragment separately is the same as the supermolecule where both fragments are included.  CI is not size consistent. When the CI cluster operator is not truncated one can write the full CI wavefunction as a product of wavefunctions for each fragment. so at full CI CI and CC are equivalent.  Some caution should be exercised when applying size consistency to open shell fragments a given method may be size consistent for some systems but not for others.  Size inconsistency can occur when two open shell electrons on the atoms must be singlet-coupled to produce the correct dissociation limit but for the supermolecule that would require two-determinant approach.  This difficulty also applies to CC or perturbation-based wfns that use the RHF determinant as a reference, these methods can only be size consistent if the reference is size consistent.  \\
+CC energy is \textbf{size extensive}  Math characteristic of wfn which relates to scaling of the computer energy wrt number of correlated electrons and the resulting energy dependence of the wfn amplitude equations.  Size extensivity is not dependent on the system and it applies to all regions of the PES.  
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Formal Coupled Cluster Theory}
+At this point don't know how to get amplitudes that parameterize the power series expansion.  The starting point is the electronic Schodinger equation.
+\[ \hat{H}|\Psi> = E|\Psi> \] 
+The couple cluster wavefuction, $Psi_{CC} \equiv e^{\hat{T}} \Phi_0$ is used to approximate the exact solution.
+\[\hat{H}e^{\hat{T}}|\Phi_0> = Ee^{\hat{T}}|\Phi_0> \]
+using projection one can find the energy expression 
+\[<\Phi_0|\hat{H}e^{\hat{T}}|\Phi_0> = E<\Phi_0|e^{\hat{T}}|\Phi_0> = E\]
+There is intermediate normalization $<\Phi_0|\Psi_{CC}> = 1.$  One can obtain expressions for the Cluster amplitudes by projecting excited determinants produced by the action of the cluster operator $\hat{T}$ on the reference.  The equations are nonlinear and energy dependent.  They are formally exact if the cluster operator is not truncated.  
+
+\section{Truncation of the Exponential Ansatz}
+With the exponential expansion we find the energy expression becomes 
+\[ <\Phi_0| \hat{H} |\Phi_0> + <\Phi_0| \hat{H} \hat{T}|\Phi_0> + <\Phi_0| \hat{H} \frac{\hat{T}^2}{2!} |\Phi_0> +  <\Phi_0| \hat{H} \frac{\hat{T}^3}{3!} |\Phi_0> + ... = E \]
+H is at most a 2-particle operator and T is at least a one particle excitation operator. Assuming that reference is a single determinant from a set of one-electron functions. Slater rules state that matrix elements of the Hamiltonian btwn determinants that differ by more than 2 orbitals are 0.  Therefore triple excitations and higher are 0 so the energy equation simplifies to 
+\[ <\Phi_0| \hat{H} |\Phi_0> + <\Phi_0| \hat{H} \hat{T}|\Phi_0> + <\Phi_0| \hat{H} \frac{\hat{T}^2}{2!} |\Phi_0> = E\]
+Truncation depends on the form of H
+
+\section{The Hausdorff Expansion}
+Though the energy and amp expressions are useful for gaining formal understanding of CC they are not amenable to practical computer implementation.  It is convenient to exercise mathematical foresight and multiply the schodinger equation be the inverse of the exponential operator $e^{-\hat{T}}$  by left projecting the reference and excited determinants one obtains energy and amp equations.  The \textbf{similarity-transformed Hamiltonian} $e^{-\hat{T}}\hat{H}e^{\hat{T}}$.  These equations define conventional coupled cluster method.  There are 2 advantages to this form: the amplitude equations are decoupled from the energy equation and a simplification using the Cambell-Baker-Hausdorff formula of  $e^{-\hat{T}}\hat{H}e^{\hat{T}}$ leads to a linear combination of nested commutators of H with the cluster operator T 
+\[  e^{-\hat{T}}\hat{H}e^{\hat{T}} = \hat{H} + [\hat{H}, \hat{T}] + \frac{1}{2!} [[\hat{H}, \hat{T}] \hat{T}] + ...\]
+This infinite series truncates naturally in a manner analogous to that described earlier.\\
+The hamiltonian can be described using the creation and annihilation operators to rep dynamical operators 
+\[ \hat{H} = \sum_{pq} h_{pq} a_p^\dagger a_q + \frac{1}{4}\sum_{pqrs}<pq||rs> a_p^\dagger a_q^\dagger a_s a_r \]
+$h_{pq} \equiv <\phi_p|\hat{h}|\phi_q>$ a matrix element of the one electron component of the hamiltonian and $<pq||rs> $ antisymmetrized 2-electron counterpart. the annihilation and creation operators are \textbf{general} in this equation meaning they can act on either occupied or virtual subspaces.  (the cluster operator has ones restricted so one of these spaces).  The cluster operators commute with one another but not with the hamiltonian.  When considering the raising and lowering operators between general and specific orbitals, the commutator between a reduces the number of general-index second-quantization operators by one.  Each nested commutator from the Hausdorff expansion of H and T eliminates one of the electronic Hamiltonians general-index annihilation or creation operators in favor of a simple delta function.  H contains at most 4 operators, all creation or annihilation operators arising from H will be eliminated beginning with the quadruply nested commutator in the Hausdorff expansion.  All higher terms are therefore 0.  Using this expansion is the first step to obtaining expressions that are implementable on the computer.  The next step is to truncate T and derive expressions using 1 and 2 electron integrals and cluster amplitudes.  
+
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Derivations of the coupled cluster equations}
+
+This section construct working equations for the CCSD method. Approximation T = T1 + T2.  First introduce tools of second quantization: normal ordering and Wick's theorem to make the mathematical analysis less complicated.  
+
+\section{Normal-Ordered Second-Quantized Operators}
+a normal ordered strong of second quantization operators is one which we find "all annihilation operators standing to the right of all creation operators"  Normal ordering of such strings tell which nonzero matrix elements of second quantization operators.  Once operators acting on vaccuum state in normal order all values are 0 except for all delta functions, assuming vacuum state is normalized. One can rewrite reference states in terms of raising and lowering operators and then apply normal ordering to again find all non-zero values against the vacuum state.  Use anticommutation relation
+\[a_p a_q^\dagger = \delta_{pq} - a_q^\dagger a_p\]
+This approach can be tedious and slow for even relatively short operator strings and many opportunities for errors arise.
+
+\section{Wick's theorem for the evaluation of Matrix Elements}
+Using the anticommutation relation an arbitrary strong of ann and cre can be written as a LC of normal-ordered strings multiplied by kronecker delta functions. A contraction between 2 arbitrary ann/cre operators is defined as 
+\[\bar{AB} \equiv AB - \{ AB\}_v\]
+where $\{AB\}_v$ indicates the normal ordered form of the pair wrt the vacuum.  When the pairs are both creation or both annihilation or when the pair is already normal ordered the contraction = 0.  Only when the first term is annihilation and the second is creation does the contraction = delta function.  Reordering must be consistent with sign change. \linebreak[1]
+\textbf{Wick's Theorem} provides a recipe which an arbitrary string of annihilation and creation operators can be written as a linear combination of normal-ordered strings.  Formally Wick's theorem is 
+\[ABC...XYZ = \{ ABC ... XYZ \}_v \]
+	\[+ \sum_{singles} \{ \bar{AB} ... XYZ \}_v \]
+	\[ + \sum_{doubles} \{ bar over ABC bar over BC... XYZ \}_v\]
+	\[+...\]
+	
+Where the limits singles doubles etc refer to the number of pairwise contractions included in the summation.  The notation of brackets v is used to indicate the normal ordered form of the string.   the contraction introduces a sign $(-1)^P$ where P is the number of permutations required to bring the operators adjacent.  \\
+Wicks theorem helps us because, in the expansion of normal ordered strings, the only terms that need to be retained are those that are fully contracted.  All other normal ordered terms will provide 0 by construction.  You can determine term by lines, if number of crossing is odd the term is negative, if the number of crossings is even the sign is positive.(only for fully contracted terms)
+
+\section{The Fermi Vacuum and Particle-Hole Formalism}
+It is more convenient to deal with n-electron reference than the true vacuum state.  The use of NO strings would be tedious if one had to include the full set of operators required to generate the reference from vacuum.  The definition of normal ordering from vacuum to reference is altered.  \\
+One electron states occupied in the reference are called \textbf{hole states}.  Unoccupied in the reference are considered \textbf{particle states}.  Operators that creator or destroy holes and particles are \textbf{quasiparticle construction operators} . q-particle creators create holes and particles ($a_i$ and $a_a^\dagger$).  The q-annihilation operators are those that annihilate holes and paricles ($a_i^\dagger$ and $a_a$).  A strong of second-quantized operators is normal-ordered wrt Fermi vacuum if all q-annihilation operators lie to the right of all q-creation operators.\\
+Contractions change slightly.  The nonzero contractions place the q-particle operator to the left of the q-particle creation operator.  All other combinations involving mixed hole and particle indices for which kronecker delta functions will give 0.
+
+\section{The normal-ordered Electronic Hamiltonian}
+
+S-Q H looks like 
+\[ \hat{H} = \sum_{pq} <p|\hat{h}|q> a_p^\dagger a_q + 1/4 \sum_{pqrs} <pq||rs> a_p\dagger a_q\dagger a_s a_r \]
+
+this can be cast into NO form using Wick's theorem.\\
+The one electron part is simply
+
+\[ \sum_{pq} <p|\hat{h}|q>\{a_p^\dagger a_q\} + \sum_i <i|h|i> \]
+
+The two electron part can be written as, understanding symmetry in Dirac notation ( moving 1 index changes the sign).
+
+\[ 1/4 \sum_{pqrs} <pq||rs> \{a_p^\dagger a_q^\dagger a_s a_r\} + \sum_{pri} <pi||ri> \{a_p ^\dagger a_r\} + 1/2 \sum_{ij} <ij||ij> \]
+
+The complete hamiltonian has the first two terms are the normal ordered fock the second term is the normal ordered 2 body potential.  The last three terms are the hartree fock energy.
+
+\[ \hat{H} = \hat{F}_N + \hat{V}_N + <\Phi_0|\hat{H}|\Phi_0> \]
+
+so we see
+
+\[\hat{H}_N \equiv  \hat{F}_N + \hat{V}_N = \hat{H} - <\Phi_0|\hat{H}|\Phi_0> \]
+
+This result can be generalized: the normal ordered form of an operator is simply the operator minus its reference expectation value.  For the hamiltonian this means that the HN is the hamiltonian minus the SCF energy.  HN is considered to be a correlation operator.  
+
+\section{simplification of the CC H}
+The goal for constructing CCSD equations is to obtain second quantization expressions from each term in the similarity transformed H where T is truncated to be T = T1 + T2.  \\
+Important wick's theorem generalization.\linebreak[1]
+
+The only nonzero terms in the Hausdorff expansion are those in which the normal ordered hamiltonian has at least one contraction with every cluster operator on it right.\linebreak[1]
+Because of this theory the hausdorff expansion can be written more simply with truncation at the quartic terms since the ham contains at most 4 annihilation and creation operators.  this is called connected cluster form.  
+
+\section{The CCSD Energy Equation}
+
+Using the connected cluster form of Hbar and wicks theorem and normal ordering one can derive a prog form of the energy expression in the ccsd approx. 
+\[ E_{ccsd} - E_0 = <\Phi_0|\bar|\Phi_0> \]
+
+The leading term in this expression is the reference expectation value of the NO Ham which is 0 by construction, (by NO theorem since the annihilation operators on the right of the creation operators think wrt vacuum)\\
+For all other terms use the advantage of NO of the operators to det all the fully contracted terms of the operator product.  So for example, the HT1 gives only fock energy since no full contractions can happen with the potential term.\\
+But the term given by HNT1 will provide 0 if brilliouins theorem holds for MO in which the fock matrix is represented.  
+For HNT2 we find that the fock portion of this contraction is 0 since no fully contracted components can be formed.  But there exists a two-electron component which is fully contracted that contributes to energy.  \\
+So therefore its easy to tell that 2 electron components will exist in the contraction of $HNT1^2$ but no fock elements will exist.\\
+All remaining terms in the energy expression contribute more construction operator pairs than the H.  Therefore none of these terms can produce fully contracted products and their reference exp vals are 0. This is rationalized with slater condon rules, the H is a 2 electron operator and higher order products cannot couple to the reference through the hamiltonian.  This interpretation is inadequate later because it fails to explain why certain terms are missing from the amp equations for higher excitations (eg T3 amplitudes)\\
+The final energy expression is given as equation [134] \\
+This eq is not restricted to CCSD since higher excitation cluster operators cannot provide full contracted terms with H their contribution is 0.  so this eq holds for CCSDT and CCSDTQ though higher ex cluster op can contribute to energy ind through the eq used to det the amplitudes tia and tiajb needed for the energy equation. 
+
+\section{The CCSD amp equations}
+cluster amps that parameterize the cc wfn may be det from the projective shrodinger equation tia form
+\[ 0 = < \Phi_i^a | \bar{H}|\Phi_0> \]
+ and doubles from 
+ \[ 0 = < \Phi_{ij}^{ab} | \bar{H}|\Phi_0> \]
+ 
+ amp eqn more complicated than the energy require matrix elements btn the ref and the specific excited determinants evaluate. convert excitations into ref with string of excitation operators.  now need full contracted wicks theorem elements btwn products of the operator string from the excited determinent with H and T operators.  when evaluating require at least one contraction btwn H fragment and the cluster operator on its right always. This fact was indicated in our Hausdorff expansion, the hamiltonian fragment must be connected at least once to every cluster operator on the right.  \\
+ 
+ In certain examples, at higher amplitudes equations, one finds that there are terms you might expect from slater rules but because the hamiltonian cannot connect to more than 4 cluster operators on its right, such a matrix element cannot contribute to the amplitude equations.\linebreak[1]
+ 
+ As the number of terms increases even with wicks theorem, algebra becomes too great.  Look to literature for programs to do it sources [33] [36] [118]
+\break
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{extra points}
+
+\section{variational coupled cluster}
+The similarity transformed hamiltonian expression provides an asymmetric energy formula and does not conform to any variational conditions in which energy is determined form an expectation value equation.  Therefor the computed energy will not be an upper bound to the exact energy in the event that the cluster operator is truncated.  One can construct a variational solution to the coupled cluster equations.  This can be achieved by requiring that the amplitudes minimize expression 56 in the paper.  This equation is more complex since there is no natural truncation of the power series.  The impracticality of the variational coupled cluster theory ask a question regarding the physical reality of coupled cluster energy as computed using projective, asymmetric techniques. QM requires physical values be expectation values of hermitian operators.  The coupled cluster energy expression is not hermitian regardless of the truncation.  But if T is not truncated the Sim Trans oper has an energy eig-v spectrum identical to the original Hermitian operator H thus justifying its formal use in quantum mechanical models.  The CC Energy tends to closely approx the exp value result even when T is truncated. \\
+Some studies of VCC method include unitary cc. T replaced by T - $T^\dagger$ The infinite series is truncated by identifying which terms are needed to complete the series through a particular order of perturbation theory. \\ Expectation value CC: the usual definition of T is retained but the series truncation is based on perturbation theory arguments.\\ Extended couple cluster method:  uses modified energy functional including an additional exponentiated de-excitation operator analogous to $e^{T\dagger}$.  These and other variational and semivariational methods approaches to the cluster expansion reviewed by ref 99 and 100.
+
+\section{E-value approach to CC}
+Currently we focused on expansion of the wfn using exp ansatz.  When cluster operator is truncated CC wfn can be viewed as approx e-function of exact electronic H.  Another perspective is construction of exact e-vectors of an approximate H.  The CISD approx the H is represented schematically as 
+\[ \hat{H}_{CISD}  = 
+	\begin{pmatrix}
+	E_{SCF} & 0 & \hat{H}_{0D} \\
+	0 & \hat{H}_{SS} & \hat{H}_{SD}\\
+	\hat{H}_{D0} & \hat{H}_{DS} & \hat{H}_{DD}
+	\end{pmatrix} \]
+Where $\hat{H}_{SD}$ rep the block of H matrix elements btwn singly and doubly excited determinants and $E_{SCF} = <\Phi_0| \hat{H}|\Phi_0>$.  We assume that Brilliouins theorem holds for the reference determinant and therefore the matrix elemebts involving $\Phi_0$ and singly excited determinants are 0.  The CISD energy is the lowest e-value of this hermitian matrix and the CISD wavefunction is the corresponding e-vector. We can write the eigenvalue problem of the coupled cluster energy and amp expressions as 
+\[e^{-T}He^{T} |\Phi_0> = E|\Phi_0> \]
+The ground state eigenvector of $\bar{H} = e^{-T}He^{T} $ is simply $|\Phi_0> $ and the e-value E. but Hbar is not hermition like the CI H and its matrix rep is therefore nonsymmetric.  In the CCSD approx the H matrix has Hds != Hsd and the amplitude equations satisfy that single and double excitation coupled with ground state =0.Therefore the right and left hand e-value problems give different solutions, different eigenvectors but the computed energy is the same for both equations.  finding the left hand ground state eigenvectors is the same as determining the amplitudes to the left de-excitation operator L.  The ground state coupled cluster energy may be then written as 
+\[E = <\Phi_0| \hat{L}\bar{H} |\Phi_0> \]
+
+There the left and right wfns are normalized.  This equation provides a useful starting point for the derivation of coupled cluster analytic energy derivatives.  The left-hand e-vector is related to the $\hat{\Lambda}$ operator that arises as a result of the response of the cluster amps to the external perturbation parameter.  This method can be easily generalized to include excited states.  For this method one must still determine the clutser amplitudes that define the sim-trans. This method is rather CI-like approach for determining excited state wavefuctions.  \\Equation of motion CC, name based on early formulation involving response operators, is defined as the diagonalization of the CCSd effective H in the space of all singly and doubly excited determinants.  Note that the truncation of the cluster operator in the definition of Hbar does not introduce errors into the EOM-CC energy because the exact energy would still be obtained if the diagonalization basis were complete.\\Efforts devoted development of EOM-CC. Linear response CC can be used to obtain identical results to those given by conventional EOM. \\ Symmetry-adapted cluster (sac-ci) viewed as an approximation to EOM or LR.   And others [page 54].
+
+
+ \end{document}

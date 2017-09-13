@@ -1,0 +1,66 @@
+\documentclass[10pt, draft]{article}
+\usepackage{amsmath}
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+%\usepackage{physics}
+
+\newcommand{\dd}[1]{\mathrm{d}#1}
+
+\begin{document}
+
+\author{karl}
+\raggedright
+\textbf{\Large{\begin{center}
+New algorithm to solve parafac model\\
+Hayashi and Hayashi \\
+ \end{center}}}
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+ \section{introduction}
+The explanation and demonstration of the usefulness of the parafac model is in the papers by Harshman 1970 , 1977, 1980 and kruskal 1981.\\
+Kruskal gave computer program of parafac developed by harshman in 1980.  \\
+fool proof algorithm to impolement computationally. 
+
+\section{Fundamental formula}
+ based on successive approximation.  effective for rapid comvergence of solution to apply a good first approximation.  \\
+ calculate $T_{ii'}$ using multiplication of tensor elements for paiwise i, i' elements.  Assuming the columns of factor matrix C is orthogonal and B are normalized.
+ \[T_{ii'} = \sum_s^S a_{is}a_{i's}\]
+ similar solutions for Tjj'\\
+ 
+ One can determine the a's and b's under the conditions that sum of $a_is^2/I=1$ and similar for b for s=1,2,...,S by calculating the vectors corresponding to the characteristic roots in descending order in the characteristic equation below.  (eigen value equation per pair of ii' and jj')\\
+ 
+ After this process a's b's and c's are obtained by the least squares method presented the derivate of the least squares equation wrt C =0.\\
+ c's are determined as the solution of a linear simultaneous equation.\\
+ 
+ Thus for all k and r we have 
+ \[ c_{kr} \sum_i \sum_j x_{i,j,k} a_{ir} b_{ir}\]
+ 
+ where r twlls how many characteristic roots of a and b to take.  \\
+ one can assume any new factor is comprised of the original factor plus the original factor times some Delta a(b or c)\\
+ this means one can order any set of a b and c in terms of a0 b0 and c0 + ...\\
+ one can order these original factors into a matrix A(r) which is proportional to the factors and find xhat = xijk - sum Aijk(r)\\
+ the proportionality constant is for the adjustment of scale which results by using normalized a,b and c.  \\
+ 
+ The corresponding xhat ~ the Aijk(r) * the delta terms, is considered and the least squares method is used to obtain the deltas.\\
+ The derivative of the least squares equation by any factor is 0 (not in Aijk(r))\\
+ Solve simultaneous linear equation\\
+ process repreated using obtained a, b, c instead of a0, b0, c0.  continued until solution is determined.\\
+ The convergence of $\Delta z \rightarrow 0$ shown by the succesive process of decreasing abs(delta z) so that the coming is based on the solutions of simultaneous linear equation.
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%
+ \section{determination of S}
+ They pick a random s to loik at a nd determine goodness of fit wrt S.
+ 
+ \section{Measure of goodness of fit}
+ 
+ Have an error function from the 2-norm then do goodness is 1-error squared over variance squared.
+ 
+ \section{discussion of pre-processing of data}
+ 
+ Preprocessing can help with the PARAFAC analysis but can also hurt the solution.  There are rules for preprocessing in this paper.  
+ 
+ \section{example}
+ 
+\end{document}

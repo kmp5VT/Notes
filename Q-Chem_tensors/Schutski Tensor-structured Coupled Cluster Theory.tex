@@ -1,0 +1,118 @@
+\documentclass[10pt, draft]{article}
+\usepackage{amsmath}
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+%\usepackage{physics}
+
+\newcommand{\dd}[1]{\mathrm{d}#1}
+
+\begin{document}
+
+\author{karl}
+\raggedright
+\textbf{\Large{\begin{center}
+Tensor-Structured Coupled cluster theory\\
+Schutski, Zhao, Henderson, Scuseria\\
+ \end{center}}}
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+algebraic manipulations with tensors have a significant numerical cost which grows exponentially with dimension d of the tensor. Such manipulations are the computational bottleneck of theories. \\
+Manipulation can be reduced by some form of tensor decomposition in which a d-dimensional tensor expressed in lower dimensional objects. RI can be used to decompose 2 electron integrals.  Tensor hypercontraction has recently been introduced.  In this scheme 4-order tensor rep aby a contraction of 5 factor matrices.  Related to THC is canonical polyadic decomposition.\\
+decomps have been used to introduce low-scaling versions of conventional electronic structure methods.  THC applied to CC2 methods where it is used to rep an electron interation potential and others did the same to their reduced density matrix algorithm.\\
+Benedict et al used their polyadic decomposition of amps and interaction integrals in cc douples and full configuration interation methods.  \\
+Recent work by Hummel 14 showed that using THC of electron interaction in contex of distinguishable cluster doubles or linearlized CCSD one can reduce complexity from N6 to N5.\\
+In this paper apply tensor decomposition based on THC to CCSD the cost of orginal CCSD scales n6 by using but using tensor decomposition scales as N4.  Show how to build THC algebraically for full fourth order tensor in N5 cost of N4 if use resolution of identity.  Thier method uses half the rank of previous work but has same accuracy.  This method not limited to THC.
+
+\section{Tensor Decomposition}
+Tensor hypercontraction can be regarded as a combination of 2 established factorizations: a rank decomposition of a matrix such as the eigenvalue or SVD and the canonical polyadic decomposition of third order tensors on the other.  Discuss 2 ideas
+\subsection{Resolution of identity and SVD}
+Computation of rank-revealing decompo of electron interaction is well studied and known by names of RI or density fitting.  Introducing an auxiliary basis the coulomb interaction can be written as a contraction of 3 tensors 
+\[V_{pqrs} \approx U_{pa}^\alpha D_{\alpha, \alpha'} \tilde{U}_{rs}^{\alpha'}\]
+V is the Mulliken-ordered interaction, U and U tilde are three index integrals and D is a generalized overlap.  \\
+Ri is the same basic form of a singular value or an eigenvalue decomposition of the interaction tensor.  Error in RI of Coulomb operator decays exponentially with auxiliary basis size and negligible errors can be reached with the number of auxiliary basis functions scaling as O(N)\\
+For a given rank, the lowest error in RI can be calculated using an SVD of the matrix $V_{pq, rs}$ and taking D, U and Utilde to be S, U and VT. Optimality of the factorization will be then gauranteed by the eckart young theorem. Though not typically used.  A popular practical option in the case of 2 electron integrals is the use of cholesky decomposition but is limited to symmetric tensors only.\\
+The restriction of V to Mulliken ordering is important bc the order of the original tensor crucially influences the size of the rank for a fixed approximation error.  \\
+The RI can lead to reduced scaling of some quantum chemistry algorithms.  
+
+\subsection{Canonical Polyadic Decomposition}
+Polyadic is a rank one tensor so this is equivalent to CP decomposition.  They have theirs structured in transpose order because they use column major indexing, while mine is the other way for row major indexing.\\
+The CPD is the polyadic decomposition of lowest rank.  It may be seen as one of the generalizations of SVD to third and higher order tensors for dimensions greater than 2 and is unique under mild conditions. No closed form algorithm to extract the CPD is known and one must rely on iterative optimization techniques to approximate the CPD.  Typical algorithms are ALS, gradient descent and methods of Broyden Fletcher Goldfarb and Shanno (BFGS) and non linear least squares methods \textbf{Look to source 32}\\
+
+\subsection{Tensor Hypercontraction}
+A factorization of fourth order tensors can be seen as combo of SVD and a CPD. The TCH The size of the auxiliary indices are the ranks of the decomposition though for simplicity are the same size.  
+
+\section{Algorithms for THC}
+\subsection{composite Method}
+Calculate THC of a 4 index tensor as a combo of svd and cpd.\\
+First one reshpaes the original tensor V with dimensions into to matrices  (I1 x I2 x I3 x I4 to I1I2 X I3I4) and apply a truncated svd.  Chose to multiply square roots of singular values into left and right singular vectors.  The two matrices are then reshaped into third order tensors.  THe CPD of rank rcpd is calculated for each of the tensors separately with any algorithm.  \\
+A similar scheme employed by Hohenstein in their initial work on thc.  the scaling of the algorithm is dominated by the truncated svd.   The svd can be avoided if substitue singular values are available for tensor V.  \\
+A faster algorithm based on teh RI approx can be formulated as follows. Start with third order tensors  and an overlap matrix. A matrix root of the overlap is calculated using SVD or eigenvalue decomp.  The matrix is then multiplied into the order 3 tensors.  If the size of the RI basis is large an optimal compression step can be applied.\\
+algorithm 3 the auxiliary dimension of the RI basis is reduced by a truncated SVD of rank rsvd. Finally a CPD of rank rcpd is calculated for the left and right parts, and the resulting factors with no external indices are merged into a single factor X.\\
+In practical calculations found that the latter contribution, despite scaling the smallest with size N and opitmal ranks, is dominated because of the large number of iterations required by the CPD algorithm.  This motivated the group to look for an equivalent algorithm to build the THC decomposition directly.
+
+\subsection{direct method}
+
+Follow Sorber to build a simple alternating least squares algorithm for THC.  The approximation of a fourth order tensor V by its THC decomp, Vtilde. Then define an error tensor 
+\[\Delta_V = V- \tilde{V}\]
+where the loss function frobenius norm is 
+\[min (f) =min \| \Delta_V\|^2 =  min (V^*_{pqrs} - \tilde{V}^*_{pqrs}) (V_{pqrs} - \tilde{V}_{pqrs})\]
+f is real valued analytic function\\
+To minimize the cost function proceed with calculation of f's gradient.  \\
+End up with a problem 
+\[A \cdot W^* = B\]
+Solution to this problem can be taken inverse of A or pseudo-inverse.  
+
+\section{Numerical Experiments}
+Wish to compare the performance of composite methods THC-CPD(ALS), THC-CPD(BFGS), THC-CPD(NLS) and direct algorithms THC ALS, THC-BFGS. \\
+To summarize first table assume the rank of svd and thc are N. ALl composite algorithms have non-iterative n5 step followed by iterative n4 step, while direct algorithms have n5 cost per iteration. If RI is used all algorithms have N4 scaling per iteration.  \\
+To see how algorithms perform in practice compared the convergence speed of direct and composite methods using metrics proposed by dolan and More.  \\
+Composite methods outperformed direct thc decomposition. Difference is more prominent for rthc = 3 than rthc = 2.  Poor performance of direct algorithms because the THC factors are not unique whereas the factors in the cpd are unique under mild conditions.  This non-uniqueness results in gradient vectors which are close to 0 in certain directions and optimize algorithms then require many more iterations to minimize the objective function.\\
+Best method for THC is composite THC-CPD(NLS)  \textbf{Look to sources 32 and 37}.\\
+No method was able to solve all problems though composite methods succeed majority of time.  Did not pose a problem in practical applications.  
+
+\section{Tensor Structured Coupled Cluster}
+overview of restricted CCSD.\\
+define a cluster operator 
+\[\hat{T} = \hat{T}^1 + \hat{T}^2\]
+where Ti is excitation operator 
+\[\hat{T}^1 = \hat{T}^a_i \hat{E}_i^a\]
+Here 
+\[\hat{E}_i^a = \hat{a}_{a , \uparrow}^\dagger \hat{a}_{i, \downarrow} + \hat{a}_{, \downarrow}^\dagger \hat{a}_{i, \downarrow}\]
+for a single Ti there are order 2i amplitude tensors. Constructing the similarity transformed hamiltonian. The excitation amplitudes are obtained by projecting the similarity tranformed hamiltonian on the left against a set of excited determinants to form residuals which are set to 0.\\
+The results is polynomial equations of amplitude tensors which can be transformed to the form 
+\[ T^a_i = D^a_i G^a_i\]
+\[T^{ab}_{ij} = D^{ab}_{ij} G^{ab}_{ij}\]
+which can be solved by iterations until a fixed point is found.  D are orbital energy denominator tensors build from diagonal elements of the fock matrix F.
+G are built form contractions of the amplitude tensors with the hamiltonian.
+
+\subsection{Least squares coupled cluster theories}
+
+The logic used to derive the ALS for THC can be applied in CC contex\\
+Begin by imposing the THC on the doubles amps.  Approximate the amp tensor with its thc decomposition.  the difference between the original and approximated amps is 
+\[\Delta_T = T^2 - \tilde{T}^2 = T^2 - (Y^2 \odot Y^1) \cdot Z \cdot ( Y^4 \odot Y^3) ^T\]
+where y's and z are factors in the THC decmposition of T2. Wish to minimize the squared norm of the error tensor which is minimization of the corresponding cost function $f_T$
+\[f_T = |\Delta_T|^2 = ((T^{2*} - \tilde{T}^{2*}) ( T^2 - \tilde{T}^2)\]
+Setting the partial derivatives of ft wrt decomposition factors to zero, obtain a new set of equations.\\
+Use this to replace $T^*2$ with $D^2G^2$.  The idea is to thus minimize the difference between a decomposition tensor $\tilde{T}^2$ and a solution of the CCD amplitude equations. The resulting amplitude equations are 
+\[\tilde{T}^* \frac{\delta\tilde{T}}{\delta Y} = G^2 D^2 \frac{\delta \tilde{T}}{\delta Y}\]
+This can be solved in the least squares sense with pseudoinverse as the left-hand-side is linear in Y*\\
+Equations can be futher factorized if one employs CPD of D2 to disentangle particle and hole indices.  \\
+A low rank decomposition of denominator tensor can also be built using a exponential parameterization laplace transform.\\
+THe explicit form of the equations and analogous expression for ALS-type CCSD.  This equations has quartic scaling in rthc and N per iteration.  
+
+\section{Test calculations}
+Small to medium size from EMSL database using cc-pVDZ-RI 
+\subsection{Decomposition of two-electron integrals}
+The acc of 2 electron integral decomp governs accuracy of energy in subequent calcs.  The decomp is computationally useful if rank rrhc is close to number of basis functions.  Error in 2 electron integrals decays exponentially wrt thc.  Holds for every system tested and depends only slightly on whether 2e integrals decomposed in atomic or molecular orbital basis. \\
+The error in the MP2 correlation energy follows the trend seen in the decomposition of the two electron integrals.Expect that THC work better for larger more extended systems as 2-e ints become sparser and a lower rank decomposition becomes more accurate.
+
+\subsection{Restricted CCSD}
+The error in the RCCSD energy has non-monotomic dependence on rank but follows the same basic trends.  They see what part of error in energy attributed to approimation of the Hamiltonian.  Using exact 2 electron ints decreases the error but does not remove the non-monotonic dependence on the THC rank.  
+
+\section{Conclusions}
+Systematically dependable quantum chemical methods rely on solving Schrodinger equation, but do so at a significant cost.  Many body methods such as CC the cost can be explained simply: various objects of the theory are high order tensors which must be contracted with one another and teh contraction of two high order tensors is computationally costly.  
+TD lower cost by writing high order tensors as sums of products of low-order objects and are one of the most promising ways to apply many body theories to large systems.\\
+Hown that combo of tensor hypercontraction and CPD allow to solve closed shell CCSD with o(n4) scaling by solving directly for factors which decompose the cluster operator.  Their ALS method improves over previous studies of THC in CC theories were fixed real space quadratures were used to build the decomposition of cluster amps and provides more accurate results for smaller ranks.  The scheme is general and can be applied to any decomposition as well as extended to more sophisticated cc theories.  Finally CC methods with decomposed amps are much more suitable for parallelization than the traditional ones because the communication becomes cheaper.
+\end{document}

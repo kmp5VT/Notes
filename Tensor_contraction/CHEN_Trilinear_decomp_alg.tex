@@ -1,0 +1,87 @@
+\documentclass[10pt, draft]{article}
+\usepackage{amsmath}
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+%\usepackage{physics}
+
+\newcommand{\dd}[1]{\mathrm{d}#1}
+
+\begin{document}
+
+\author{karl}
+\raggedright
+\textbf{\Large{\begin{center}
+Novel trilinear decomposition algorithm for second order linear calibration\\
+Chen, Wu, Jiang, Yu\
+ \end{center}}}
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+ \section{introduction}
+
+Algorithms which do not require an accurate estimation of the number of factors important (not factor matrices this means rank). With some collinearity PARAFAC is slow to converge and large data arrays causes iterations to be computationally expensive.\\
+
+\textbf{Proposed remedies are in sources 16-23}\linebreak[1]
+
+Alsberg and Kvalheim described a method to accelerate the convergence of PARAFAC by compressing high dimensional array which equivalent to CANDELINE approach (17-18-19)\\
+Bro and anderson reduce size of array using a fast Tucher3 algorithm.  \\
+All methods reduce size of matrices to speed up iterations.\linebreak[1]
+
+Also come methods to reduce number of iterations required.  \\
+Michell and Burdick 22 suggest avoiding swamping due to degeneracy by stopping a run as soon as it enters a swamp area and randomly starting a new run.  \\
+Paatero introduced a penalty term with decreasing impact to accelerate the optimizing procedure\\
+\textbf{Kiers -3 step algoritm which greatly reduce the number of iterations required} \linebreak[1]
+
+All these methods suffer the same problem, requiring accurate estimation of rank.\\
+
+Method Self-weighted alternating trilinear decomposition (SWATLD)\\
+minimizes 3 objective functions with intrisic relationship rather than the objective function of PARAFAC.  Method can resist the influence of excess factors and reduce number of iterations.
+
+\section{Nomenclature}
+\[[X_{..k} = A_{I \times F} diag(c_k) B^T_{J \times F} + E_{..k} (k = 1,2, ..., K) ...\]
+the kth frontal slice, similar for the other 2 dimensions (or N dimension) and the E are the corresponding slices of the threeway residue array.  the diagonal matrices have elements equal to the kth jth and ith row of factor matrices.  cond(A) 2-norm condition number of loading matrix A.
+
+\section{model and algorithm}
+\textbf{Tri-linear decomposition model first proposed by harshman 3 and Caroll and Chang 4}\\
+Model can be expressed in matrix form as equation 1 listed above.\\
+Also proposed a ALS parafac method in sources to solve problem by successively assuming factors in 2 modes known and estimating the last mode.  Follows objective function
+
+\[S(A,B,c_1,...,c_k) = \sum_{k=1}^K \| X_{..k} - Adiag(c_k)B^T \|_F^2\]
+
+optimal unbiased estimation makes sense, it suffers from low convergence rate and requires accurate estimation of number of factors.  Slow convergence can happen from multicollinearity of data.  This means considerable differences in the estimated parameters induce only a small diff in terms of loss function value.  \\
+
+A way to speed the optimizing procedure is to change the response behavior of the loss function (by some penalty term).  It is an art choosing the penalty parameter.  \\
+Another approach is to optimize some other objective functions with favorable response surface instead of parafac.  The obj func should have intrinsic relationship with the trilinear model and their solutions should be equivalent to the actual underlying factor matrices.  \\
+To have an algorithm with high convergence rate use alternatively optimization the 3 objective functions rather than utilized in parafac\\
+reason for alternatively minimize is they have strong intrinsic relationsihp and solutions equal to actual loading matrix of error free trilinear model.\\It can be expected that alternatively min the 3 functions may avoid possible swamp areas.  \\
+
+SWATLD unique in the way it tries to avoid possible swamp areas by alternatively min 3 functions.  SWATLD may not be a monotonically decreasing one.  
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{experimental}
+
+only tested agains parafac, other methods use compression techniques.\\
+
+\section{results and discussion}
+
+\subsubsection{The convergence property and accelerating capacity of SWATLD}
+400 arrays of randomly simulated data were run 10 times by both SWATLD and PARAFAc with random initialization.  All 4000 runs of SWATLD converged to a satisfactory result within fewer iterations than PARAFAC. The SWATLD converged very quickly also for randomly simulated data array with severe multicollinearity check table 2.  when noise is very low SWATLD takes 37 times less iterations and 35 times less in terms of computation time\linebreak[1]
+
+All results demonstrate that the unique optimizing scheme of SWATLD can speed the convergence rate through alternatively minimizing three different objective functions with intrinsic relationships to avoid possible swamp areas.
+
+\subsubsection{property of SWATLD being insensitive to the excess factors used in calculation}
+
+For N>F the results of Parafac are linear combinations of the actual underlying factors instead of the actual underlying factors themselves.  Increasing N seems to hardly influence on the results of SWATLD. The excess columns represent noise which can be easily discriminated from the desired columns.  SWATLD does not require an accurate estimation of the number of factor in mixtures.  
+
+\subsubsection{Influence of noise on results qualities}
+
+low noise perfect consistence with real loading matrices.  when noise increased to .01 results still very good.  futher noise deteriorates quality of results.  noise as high as .02 still gives okay results, slightly worse than parafac.  
+
+\subsubsection{the results of HPLC-DAD data array}
+	when number of columns grows in parafac it takes many iterations and soes not converge.  The SWATLD converged within several seconds longest was 16.7s.  insensitive to excess factors in calculations.  The accuracy is also very good using SWATLD.  All of the parafac results are worse than the swatld results
+	
+	\section{conclusions}
+	optimizing for trilinear decomposition proposed contrived for second-order linear calibration.  SWATLD properties of fast convergence and insensitive to excess factors.  
+
+\end{document}

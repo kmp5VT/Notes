@@ -1,0 +1,64 @@
+\documentclass[10pt, draft]{article}
+\usepackage{amsmath}
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+%\usepackage{physics}
+
+\newcommand{\dd}[1]{\mathrm{d}#1}
+
+\begin{document}
+
+\author{karl}
+\raggedright
+\textbf{\Large{\begin{center}
+Minimax approximations for the decomposition of energy denominators in Laplace transformed MP theories\\
+Takatsuka, Ten-no, and Hackbusch\\
+ \end{center}}}
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+Development of fast correlated methods with low order scaling is significant important in qc to widen the realm of applicability of accurate electronic structure calculations. Short-range nature of electron correlation exploited in MB pertuburbation theory by using localized molecular orbitals. \\
+Laplace transform tech introduced by Almlof energy denominator broken up.  \\
+The ansatz has been used in MP2, computation of triples in MP4, AO-MP2, AO-MP2 energy gradient, combinations with resolution of the identity and the density matrix based MP2.\\
+Laplace transformed tehnique would be useful if number of quadrature points for the numerical integration is less than the number of cycles in iterative methods.  \\
+Haser and Almlof suggested an accurate quadrature minimizing the error in the MP2 energy denominators directly. Scaling of comp cost is unfavorable.  \\
+In this paper introduce minimax approx in Laplace transformed electronic structure theory.  
+
+\section{Theory}
+Laplace transfrom of 1/x in an interval $x \in [1, R]$ can be approximated by a numerical quadrature
+\[1/x \approx E_k(x; \{\omega_\nu\},\{\alpha_\nu\}) = \sum_{\nu=1}^k \omega_\nu exp(-\alpha_\nu x)\]
+alpha is roots and omega is weigts.  Multiplication of 1/A gives the corresponding approximation in arbritaty interval $y=Ax\in [A,B]$ with B  = AR as
+\[1/y \approx E_k (y; \{\omega_\nu\},\{\alpha_\nu\}) = \sum_{\nu=1}^k \omega_\nu exp(-\alpha_\nu x)\]
+\[\bar{\omega} = \omega_\nu / A\]
+\[\bar{\alpha} = \alpha_\nu / A\] 
+There is a unique sum minimizing the Chebyshev norm.  The minimax approximation in the semi-infinite range $[1, \infty)$ was also studied by Braess and Hackbusch.  The main features of the approximation is as follows\\
+In the error distribution function if there exist 2k+1 points fufilling 
+\[sign[\eta_k (x_i ; \{\omega_\nu\},\{\alpha_\nu\})] = -sign[\eta_k(x_{i+1} ; \{\omega_\nu\},\{\alpha_\nu\})]  \forall 0 \leq i \leq 2k-1\]
+the set of points is called an alternant.  Using the minimum or Chebyshev norm of the distribution function in an interval the best possible approximation is $E_k(x, \{\omega^*_\nu\},\{\alpha^*_\ne\})$ .\\
+This solution is known to be the minimax approximation.The minimax norm of the minimax approximation decays exponentially wrt k.\\
+The application of the alternation theorem leads to Remex algorithm for the best approximation.  In the paper is the procedure for the quadrature implementation.Standard Newton Raphson scheme used for nonlinear optimization.  
+
+\section{Results and discussion}
+Performance of minimax is investigated and compared with other numerical quadratures.  The integral from 0 to inf can be estimated by the gauss-Laguerre quadrature.  It is more accurate to use this method by changing variable s= t/(1-t).  The error of the minimax approx for k=5 is distributed equally small in the range x from 1 to 100 in accord with the alternation theorem.  The Gauss-Legendre quead is not accurate at both ends of the range. \\
+In the valance shell correlated case the minimax approximation si more accurate than thhe gauss legendre quadrature.  Minimax error decreases almost exponentially wrt quadrature points k, follows what one might expect with the exponential decay of the Chebyshev norm.\\
+Gauss laguerre quadrature much less accurate not suitable for laplace MP2.  \\
+Though increased range worsens the convergence the minimax quadrature is still accurate.  \\
+Haser and almlof reported that numerical quadrature scheme explicitly dependent on number of quadrature points requires from 8 to 9 terms to obtain microhartree accruacy.  \\
+Present results indicated that the minimax approximation is comparable or more accurate than the Haser Almlof scheme without treating the computationally unfavorable quartic energy denominators.\\
+The max value of R increases with cardinal number of the basis and result becomes less accurate in general.  The minimax approx requires only k=3 for the result accrate to 1 mhartree in valence shell correlated case.  \\
+The computational cost for the minimax quadrature is negligibly small, an optimization with six iterations for k=7 takes less than .1s.  Though results only for benzene and ozone convergence similar for all molecules observed by this author.  \\
+Minimax approximation is useful due to its accuracy in previous use of laplace transformed technique.  \\
+Another applicaiton of the technique is constructing Hybrid quantum chemical methods.  In the usual MP pert theories a single H partitioning H = H0 + V is used.  Though further splitting of the perturbation V = Va + Vl leads to various hybrid approximations as possible combo of HF MP and CC methods where Va is the perturbation in the small active region embedded in the entire system.  \\
+Example the amplitude for CC-MP2 is obtained by retaining higher order contributions in Va and linear terms in VI
+\[ <\mu| exp(-T)(H_0 + V_A) exp(T) + V_I|HF> = 0\]
+reduced to MP2 and CC when Va = 0 and Va = V for E = $<HF| H exp(T)|HF>$ Choice of Va could be localized MO or others.  \\
+The hybrid CC-MP2 method can be rel easily implemented by a small modification of a CC program.  \\
+treatment of only Va in CC iteration makes the application of CC to large molecules feasible retaining the accuracy in the active part.  
+
+\section{Summary}
+Introduced the minimax approximation in laplace transformed MP theories.  Best approx is defined by minimizing the CHebyshev norm of the error in the given interval.  \\
+Illustrated the optimization scheme based on teh alternation theorem.\\
+Minimax qas applied to Laplace transformed MP2 calcs to exhibit fast convergence wrt number of quadrature points.  It takes 10 points to have 10 micro hartree accuracy in all-electron correlated case. Though this may be slower it is significantly more accurate than the other numerical quadratures examined.\\
+
+\end{document}

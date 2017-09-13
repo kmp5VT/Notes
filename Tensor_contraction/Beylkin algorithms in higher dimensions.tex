@@ -1,0 +1,139 @@
+\documentclass[10pt, draft]{article}
+\usepackage{amsmath}
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+%\usepackage{physics}
+
+\newcommand{\dd}[1]{\mathrm{d}#1}
+
+\begin{document}
+
+\author{karl}
+\raggedright
+\textbf{\Large{\begin{center}
+Algorithms for numerical analysis in high dimensions\\
+Beylkin and Mohlenkamp
+referred to in Udo's paper using AG to decompose tensors for MP2 calculation
+ \end{center}}}
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+ \section{introduction}
+ complexity of algorithms grows in dimension D exponentially in D.  Even accessing a vector in dimension d requires $M^d$ operations wher M is the number of entries in each direction.  called curse of dimensionality.  In this paper describe how to solve linear systems and show how to deal with antisymmetric fuctions.  \\
+ A number of problems solved by using separation of variables.  This allows one to approximate a function with complexity growing only linearly in d and compute using only one-dimensional operations, avoiding exponential dependence. If simple separation of variables is not good enough there is no way, in that framework to improrve the accuracy.  \\
+ The extension is to make a function a sum of functions multiplied by a weighting coefficient.  This is called separated representation. An accuracy goal is developed and the functions, weighting coefficents and number of terms is adapted to acheive the goal.  This is a rich structure and is not well understood.  \\
+ It is not a projection onto a subspace but a nonlinear method to track a function in a hgih-dimensional space while using a small number of parameters.  \\
+ Many LA operations can be performed by using the separated representation.  Then one can perform operation in D dimensions using combinations of one dimensional operations so computational complexity scales linearly in D, formally.  The complexity also depends on the separation rank, r.  \\
+ The practical question is how to keep the separation rank close to optimal during the course of a numerical algorithm.  \\
+ In order to use the separated rep for num analysis app, many algorithms and operations need to be translated into this framework. Many standard methods, like gaussian elimination, do not make sense in the separated representation.  In this paper 2 approaches to solve a linear system shown.  AG method for sparse matrices and least squares problem.
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+ \section{The separated representation}
+ \begin{center}
+ introduce the separated representation and discuss its properties. 
+ \end{center}
+
+ clarifying information. \\
+ a function f in dimension d is is a map $f : \textbf{R}^d \rightarrow \textbf{R} $ from d-dimensional Euclidian space to the real numbers.  f is written as $f(x_1, ...,x_d) $ where $x_i \in \textbf{R}$\\
+ A vector \textbf{F} in dimension d is a discrete rep of a function in dimension d on a rectangular domain. written as $\textbf{F} = F(j_1,...,j_d)$ where $j_i = 1,...,M_i$ \\
+ A linear operator $\mathcal{A}$ in dimension d is a linear map $\mathcal{A} : S \rightarrow S $ where S is a subspace of functions in dimension d.\\
+ A matrix $\mathbb{A}$ in dimension d is a discrete representation of a linear operator in dimension d. written $\mathbb{A} = A(j_1, j_1';...;j_d,j_d') $ where $j_i = 1,...,M_i$ \\
+ For simplicity we assume $M_i' = M_i = M$ for all i.\linebreak[1]
+ 
+ We define the separation representation as 
+ \[ \sum_{l=1}^r s_l F_1^l \otimes F_2^l \otimes ... \otimes F_d^l \]
+ where sl is a scalar and $F_i^l$ is a vector in dimension 1 with entries $F_i^l(j_i)$, and unit norm.  We require 
+ \[ \| F- \sum_{l=1}^r s_l  F_1^l \otimes F_2^l \otimes ... \otimes F_d^l \| \leq \epsilon \]
+ sl separation values and integer r the separation rank.\\
+ 
+ A matrix is defined similarly $\mathbb{A}_i^l = A_i^l(j_i,j_i')$ replacing the vectors $\textbf{F}_i^l(j_i)$\\
+ Definition 2.2: The condition number of  the sum equation is the ratio 
+ \[\kappa = \frac{\sum_{l=1}^r s_l^2)^{1/2}}{\|\textbf{F}\|} \]
+ In order to maintain sig digits cannot allow $\kappa$ to be too large. to achieve numerical it suffices to have 
+ \[\kappa\mu\|\textbf{F}\| \leq \epsilon\]
+ where $\mu$ is the machine roundoff.\\
+ Next one will show how to do basic operations of addition, inner product and matrix vector multiplication.  Other operations such as scalar multiplication, trace, Frobenius norm, matrix-matrix multiplication, etc follow a similar pattern.  \linebreak[1]
+ 
+ Proposition 2.3\\
+ vector representation cost requires $\mathcal{O}(d r M)$ entries to store.\\
+ vector addition $\hat{F} + \tilde{F}$: vectors in separate reps can be added by merging their representations as sums and resorting.  there is no appreciable comp cost but the new sep rank is nominally the sum of the two ranks $r = \hat{r} + \tilde{r}$\\
+ Vector inner product $ <\hat{F} , \tilde{F}>$ can be computed via inner product of two vectors 
+ \[ <\hat{F}, \tilde{F}> = \sum_{\hat{l}=1}^{\hat{r}} \sum_{\tilde{l}=1}^{\tilde{r}} \hat{s}_{\hat{l}}\tilde{s}_{\tilde{l}}<\hat{F}_1^{\hat{l},} \tilde{F}_1^{\tilde{l}}> ... < \hat{F}_d^{\hat{l},} \tilde{F}_d^{\tilde{l}}> \]
+ Matrix-vector multiplication $\mathbb{A}\textbf{F}$ looks like 
+ \[\textbf{G} = \mathbb{A} \textbf{F} =  \sum_{\hat{l}=1}^{r_{\mathbb{A}}} \sum_{\tilde{l}=1}^{r_{\textbf{F}}} s_{lhat}^{A}s_{ltidle}^F (AF)1 \otimes ... \otimes (AF)d\]
+ the resulting separation rank is $r_G = r_A r_F$\\
+ The representation has been studied under the name of canonical decomposition and parallel factors analysis\linebreak[1]
+ 
+ \textbf{look to references 14, 27, 28, 13, 12}\linebreak[1]
+ 
+ Other reps have been proposed that are more easily studied, higher order SVD is generalization of SVD but as a consequence has computational complexity that depends exponentially on d.  Configuration interaction (CI) methods use a representation that looks like the separation representation but with additional constraint that all the vectors are selected from a master orthonormal set.\\
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ %This paper talks about seperating the variables of a function to reduce the complexity of calculating in a specific direction.  They have an example to solve greens function linearly on page 9 which might be useful.  This might be a good thing to for either the one electron portion of HF, to calculate the SCF loop more quickly, or the two electron integrals, so the number of computation does not increase as quickly as one might expect.  Look back to original paper.
+ 
+ \subsection{Classes of functions}
+ General functions in higher dimensions.  \\
+ the class of complete asymptotically smooth functions is considered\\
+ The sparse grid approach in [46] considers function classes that allow hierarchically arranged efficient grids in high dimensions.  each grid point corresponds to a separable basis function.  This construction yields a separated representation with separation rank equal to the number of grid points.  \\
+ No current methods to characterize a function with low separation rank.  
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+ \section{Reducing the separation rank }
+ 
+ \textbf{To reduce the separation rank of a matrix $\mathbb{A}$ we can treat the component matrices $\mathbb{A}_i^l$ as vectors using the Frobenius inner product and norm.}\\
+ For the timings presented the optimal solution is not necessary ( doing the CP-ALS method that I already made) A nearly optimal representation will have similar computational cost and is easier to construct.  A suboptimal representation is preffered when it has better conditioning.  
+ 
+ \subsection{Method}
+ 
+ Solve the problem as you are doing optimize a guess, either calling the core routine to create a best solution until the solution F(which approximates G) does not change, or increase the rank approximation.  \linebreak[1]
+ 
+ 1. Alternating Least Squares \linebreak[1]
+ 
+ For a given r the best separated rep is that which minimizes the error $\|F-G\|$ subject to the condition number constraint.  First algorithm ignores constraint on $\kappa$ then in section section it will be taken into account.  \\
+ min is a nonlinear least-sqares problem.  To solve exploit its multilinearity and use an ALS approach.  \\
+ \textbf{ALS is used in statistic for similar purpose in 21,28,29,8,15,40}\\
+ input is a vector in separated representation (rather than a dense data vector in dimension d)\\
+ ALS Takes F and refines one direction k, at a time then "alternate" the direction k=1,...,d.  To refine direction k, fix all other directions and solve for new $F^{\tilde{l}}_k$\linebreak[1]
+ 
+ \textbf{example of linear least squares problem solved using standard linear algebra in 17}\linebreak[1]
+ 
+ Taking the gradient of $\|F-G\|$ wrt the vector entries in direction k and setting =0, one obtains a linear system to solve for the updated vector entries.\linebreak
+ 
+ For fixed K form the matrix B with entries 
+ \[B(lh, lt) = \Pi_{i\neq k} <F_i^lt, F_i^lh> \]
+ for fixed coordinate jk, form the vector bjk with entries 
+ \[b_{j_k}(lh) = \sum_{l=1}^{r_G} s_l^G G_k^l(j_k) \Pi_{j \neq k} <G_i^l, F_i^{lh}\]
+ THen solve the eigenvalue equation
+\[B C_{j_k} = b_{j_k}\]
+The norm of c is the singular value and the vector of F = c/s.  \linebreak[1]
+
+2.Controlling the condition number \linebreak[1]
+
+The minimization can be ill-conditioned so we control the condition number $\kappa$ Instead of minimizing the normal problem we minimized 
+\[\|F-G\|^2 + \alpha (\kappa (\|F\|)^2 = \|F-G\|)^2 + \sum _{lt}^{rf}(s_{lt}^F)^2\]
+where alpha is a small parameter.  this is called regularization.  The modification of the als algorithm is simple just a redefinition of a singular value term, just add alpha*Identity to B.  
+
+\section{ Solving a linear system.}
+
+How to solve a linear system $\mathbb{A}F = G$ for F, where all opjects are in the separated representation.  One standard method is Gaussian elimination LU factorization.  Can't use this in separated representation.  \\
+Better with iterative algorithms.  Fist aproach apply one of the iterative methods designed for large sparse systems.  Second approach to formulate the system as a least sqaures problem then solve this joint problem method similar to previously stated.  
+\subsection{iterative algorithm}
+
+Under the assumption $\|\mathbb{I} - \mathbb{A}\| < 1$ one method for solving the system is the iteration 
+\[F_{k+1} = (\mathbb{I} -\mathbb{A})F_k +G\]
+ 
+ This requires only matrix-vector multiplication and vector addition both whcih can be performed at linear cost in d.  Rank is required to be reduced since LA ops increase rank.  \\
+ Steepest decent and conjugate gradient methods only require matrix vector multiplication, vector addition and vector inner product. One can construct their iterations such that 
+ 
+ \[F_{k+1}=(I - c\mathbb{A}^*\mathbb{A}F_k + c\mathbb{A}^*G\]
+ where c is chosen to make $c\|\mathbb{A}^*\mathbb{A}\| <1$.\linebreak[1]
+ 
+ \subsection{Finding a low separation-rank solution to a linear system.}
+ The problem of solving a linear system $AF=G \rightarrow \|AF -G\|$ can be cast as a minimization problem.  There is a constraint on the rank and therefore solve the linear system and find a reduced separation-rank representation for the solution.  The algorithm is similar to the one discussed in section 3.  There are some extra terms but if the matrix A = I the problems are the same.
+ 
+ \section{Antisymmetry}
+ 
+ \end{document}

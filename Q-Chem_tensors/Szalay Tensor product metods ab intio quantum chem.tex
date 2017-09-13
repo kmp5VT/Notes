@@ -1,0 +1,122 @@
+\documentclass[10pt, draft]{article}
+\usepackage{amsmath}
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+%\usepackage{physics}
+
+\newcommand{\dd}[1]{\mathrm{d}#1}
+
+\begin{document}
+
+\author{karl}
+\raggedright
+\textbf{\Large{\begin{center}
+Tensor product methods and entanglement opt for ab initio quantum chemistry\\
+Szalay, Pfeffer, Murg, Barcza, Verstraete, Schneider , Legeza \\
+ \end{center}}}
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+ \section{introduction}
+ 
+
+ Trade off between accuracy and computational complexity.  No method of choice solution for finding a sufficiently accurate data sparse rep of the exact many body wavefunction if electrongs are strongly correlated. open shell transition metal complexes for example.\\
+ Due to many electron interations strongly correlated problems cannot be described by small perturbations of a single slater determinant.  Treatment of other many particle systems have been proposed resulting in matrix product states MPS. These rep wavefunctions of a system of d components by formin products of d matrices, each one component.  complexity dictated by size of the matrices related to eigenvalue spectrum of the corresponding subsystem density mattix characterizing a formal way the so called entanglement among the different components.\\
+ MPS has linear arrangement of components. More recently approach called Tensor Network States more flex connection of components\\
+ Identical approaches devised in numerical mathematics under name tensor product approx, where low rank factorization of matrices is generalized to higher-order tensors.\\
+ Using data sparse representation an accurate rep of electronic strucure will be possible in polynomial if the exact wfn can be approx to be a sufficient extent by moderately entangled TNS representations.  The underlying MO basis can be optimized by well known techs of multiconfigurational methods which consitutes a tensor approximation method as well as the level of first quantization.\\
+ 
+ Entanglement based methods have been developed in quantum chemistry. A promising direction is to develop and implement efficient quantum chemistry algorithm based on tree tensor newtork states.Enabling the treatments in quantum chem that are intractable by standard DFT or CC particularly interesting\\
+ 
+ Paper gives pedagogical intro into field and provides underlying benefits through numerical application.  
+ 
+ \section{Tensor product methods in quantum chemistry}
+ 
+ Multiparticle shrodinger type equations suffer curse of dimensionality.  Curcumventing the problem challenge of modern numerical analysis covering schrodinger equation Fokker-plank equation and chemical master equation. \\
+ In 1992 S. R. White introduced DMRG allows chemists to determine the physical properties of low-dimensional correlated systems such as quantum spin chains or chains of interacting itinerant electrons\\
+ DMRG has gone though major algorithmic developments in the past decade. One direction is the post DMRG treatment of dynamic correlation. DMRG can be considered as a CAS-CI technique can recover static correlation and dynamic correlation depending on the size of the active space.  \\
+ 
+ DMRG can be used to calculate ground and excited states.  DMRG is flexible and can be used in situations when the wfn character changes dynamically.  Ansatz is size consistent by construction and symmetries as particle number, spin projection spin reflection abelian point group and non abelian symmetries can be factore dout explicitly.  \\
+ Recently MPS and futher tensor product approximations have been applied to post-HF methods to decompose the 2 electron integrals, the AO-MO transormation and MP2 energy expression\\
+ 
+ MPS methods scale by matrices size used to approximate wfn.  controlled based on truncation.  Systems with identical sites feature is direclty connected to scaling of entaglement when subsystems include larger and larger portion of the system, called area law.  \\
+ More complicated in Quantum chem since rank depends on the ordering of the matrices.  different orderings lead to better or worse results if ranks are kept fixed.  Basis obtimization and intiliazation also affect the results.  \\
+ 
+ HOSVD have made MPS the basis of variational frameworks and revealed a profound connection to quantum information theory. \\
+ MPS corresponds to systems arranged in linear topology, quantum states more complex topologies so use of TNS.  Applications in small systems called complete graph tensor network state approach and tree tensor network states.  QC-TTNS combine  features general concept of data-sparsity allow for efficient rep of bigger class of wfns.  Ansatz can span full CI space. 
+ 
+ \subsection{entanglement}
+ 
+ Entanglement is synonymous to correlation.  QC-DMRG and QC-TTNS algorithms approx composite systems with strong interations btwn pairs of orbitals, Quantum information theory can be used to understand their convergence criteria.\\
+ total correlation can be char by single-orbital entropy sum of all soe gives total correlation.  orbital entropy provides chemical information about system especially bond formation and nature of static / dynamic correlation.\\
+ 
+ Two orbital information can yeild a weighted graph of the overall 2-orbital correlation.
+ 
+ \subsection{Tensor Decomp in math}
+ 
+ Recent analysis shows that beyond matrix almost all tensor problems, even that of finding the best rank-1 approximation, are in general NP hard. Though this means tensor product approx difficult a variety of complex concepts for the approximation of solutions of certain problem have been proposed.\\
+ 
+ Tucker format attains sparsity via a subspace approximation.  Multiconfig methods are tucker approximations in framework of antisymmetry.  Unfav scaling worked around using Hierarchical subspace approximation framework corresponding to TTNS.  Tensor trains developed independ formal version of MPS with open boundary conditions.  TNS and MPS have desirable properties from matrix factorization.  In general the robustness and quasi-best approximation of the HOSVD and the one site DMRG as simple and efficient numerical methods are now well-understood.  
+ 
+ \section{Quantum Chemistry}
+  Quantum system of N nonrel electrons described by a state-function $\Psi$ depending on 3 spatial variables together with N discrete spin variables. The wavefunction belongs to the hilbert space $L_2((\mathbb{R}^3 \times \{+- 1/2\})^N)$\ has an inner product as I know  with the norm as the sqrt of the inner product.  The Pauli antisymmetric principle states that the wfn of fermions in perticular electrons must be antisymmetric wrt permutation of variables.\\
+  These wave-functions are elements of the antisymmetric tensor subspace in the paper.  The pauli exclusion principle immediatly follows $\Psi$ must vansih for the points in the hilbert space which have the corridinates ra=rb and sa=sb for some a$\neq$ b fermions.\\
+  
+  In quantum mechanics interested in wfn definite energies, stationary schrodinger equation $ H \Psi = E \Psi $ \\
+  wfn an eigenfunction of a differential operation, Hamiltonian, the eigenvalue E $\in \mathbb{R}$ is energy of state of the wavefunction.  Most important is lowest ground state energy.  \\
+  Born-Oppenheimer approximation considers a nonrelativistic quantum mechanical system of N electrons in an exterior field generated by K nuclei.  In this case H is defined as
+  \[H = K + V , where V = V_{ext} + V_{int}\]
+  \[K = \sum_{a=1}^N -1/2 \Delta_a,  V_{ext} = \sum_{a=1}^N \sum_{c=1}^K \frac{Z_c}{|R_c - r_a|}, V_{in} = 1/2\sum_{a,b=1 a\neq b}^N \frac{1}{r_b - r_a}\]
+  
+ H is second order linear diff op, analysis for electronic schrodinger eqn already established to a certain extent.  \\
+ Some basic results from the literature:\\
+ Sobolev spaces are defined as the spaces of functions for which all derivatives up to order m are in $H^0$ defined as the original hilbert space.  Therefore H maps the sobolev space H1 continuously into a daul space H-1 boundedly. \\
+ The potential operator maps the Sobolev space H1 continuously into H0 boundedly.  The electronic schrodinger operator admits a complicated spectrum.  Interested mainly in the ground state energy. For neutral systems Eo is an eigenvalue of finite multiplicity of the kinetic energy operator.\\
+ Assume Eo a simple eigenvalue of multiplicity 1.  This case is stationary electronic schro eqn in nonrelativistic and born-opp setting, can assume wfn is real valued. According to mini-max principle ground state energy and corresponding wfn satisfy the Rayleigh-Ritz variational principle, ie lowest eigenvalue is the min of the Rayleigh quotient $\frac{<\Psi, H\Psi>}{<\Psi, \Psi>}$\\
+ 
+ \subsection{Full CI and Ritz-Galerkin approximation}
+ 
+ A convenient way to approximate the wavefunction is to use an antisymmetric tensor product of basis function depending on a single paricle variables realized by determinants.  Consider a finite subset of an orthonormal set of basis function. These functions called spin orbitals because they depend on the spin variable and spatial variable.  \\
+ 
+ Build slater determinants of an N-electron system by selecting N different indices out of a larger set of orbitals.  By this we have chosed N orthonormal spin orbitals to define the slater determinant.  \\
+ Full CI space for an N electron system is as the finite dinemsional VN spanned by the slatter determinamnts dim VN about O($d^n$)\\
+ 
+ To obtain an approximate solution one may apply Ritz-Galerkin method using the finite dimensional subspace.  that is considered a finite dimensional eigenvalue problem projected by an L2 orthogonal projection.  The Ritz-Galerkin method provides an upper bound for the exact energy value.  The eigenvalue converges quadratically compared to the convergence of the eigenfunction. Since the dimension of full CI is >= $O(2^N)$ full CI scales exponentially wrt N. Therefore the molecules this approach can practically compute is very small.
+ 
+ \subsection{Fock spaces}
+ 
+ Embeding the full CI space of N-electrons into a larger space Fd called discrete fock space where we do not care about the number of electrons.  its dimension is $2^d$.  The fock space is a hilbertspace with same inner product.\\
+ 
+ The full fock space is when infinite dimensions.  The Hamiltonian now acts on different number of electrons and the whole fock space.  It is convenient to define the creator operator which given on slater determinants.  This connects the subspaces with different number of particles in the fock space.  Also an annihilation operator.  Fermionic anticommutation relations: 
+ \[\{a_i^\dagger , a_j^\dagger\} =0,  \{a_i, a_j\} =0 \{a_i, a_j^dagger\} = \delta_{ij}\]
+ 
+ number operator acts on the full ci spaces gives M times the identity, similar in fock space.
+ 
+ \section{occupation numbers and second quantization}
+ 
+ binary labeling for spin-orbitals called occupation number, occupied number gives 1 unoccupied 0 for a single slater determinant spin orbital.  For a N particle slater determinant there will be exactly N occupation numbers =1.  Therefore the number operator sums the occupation number over the full space.  Binary labeling gives more convenient representation of the fock space called second quantization.  See paper for description related fock space to bra ket space and go from there.
+ 
+ \subsection{Ritz-Galerkin approximation in second quantization}
+  \linebreak[1]  
+
+
+
+\textbf{Look to sources 5-17 for strongly correlated systems} \linebreak[1]
+ \textbf{Look to sources 2-4 for DFT, CC and quantum monte carlo}\linebreak[1]
+ \textbf{Matrix Product states sources 18-21}\linebreak[1]
+ \textbf{Entaglement in tensor networks 23-30}\linebreak[1]
+ \textbf{Tensor Network States 31-44}\linebreak[1]
+ \textbf{Tensor Product approach 45-47}\linebreak[1]
+ \textbf{In Quantum Chemistry MPS in 7, 9, 11, 14-17, 24, 25, 37, 38, 48-97}\linebreak[1]
+ \textbf{In quantum chemistry TNS 7, 98-100}\linebreak[1]
+ \textbf{TNS approximating full-CI 38, 42, 43, 101-109}\linebreak[1]
+ \textbf{Entanglement based quantum chemistry tools 110 - 114}\linebreak[1]
+ \textbf{QC-TTNS for DFT and CC 42, 98-100}\linebreak[1]
+ \textbf{Tensor product approximation to solve differential equations 45, 46, 117}\linebreak[1]
+ \textbf{DMRG 118-120 with examples 20, 121-125}\linebreak[1]
+ \textbf{Quantum chemical DMRG 24, 48, 49, 82, 126}\linebreak[1]
+ \textbf{post-HF method to decompose the 2-electron integrals 148}\linebreak[1]
+ \textbf{HOSVD 19, 34, 152}\linebreak[1]
+ \textbf{Quantum information theory's use in electronic structure theory 11-13, 25,55,61,83, 84, 89 91,95,164-171}\linebreak[1]
+  \end{document}

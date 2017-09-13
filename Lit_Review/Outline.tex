@@ -1,0 +1,65 @@
+\renewcommand{\outlineii}{enumerate}
+\begin{outline}
+\0\large{Literature Review Outline }
+
+\1 Introduction
+
+\1 Ab Initio Many Body Quantum Mechanics
+  
+  \2 Hartree Fock \\
+  
+  \2 Electronic Correlation
+    \3 Many body perturbation theory
+    \3 Configuration interaction theory
+    \3 Couple cluster theory\\
+    
+  \2 Explicitly Correlated Methods
+    \3 Motivation
+    \3 Explicitly correlated many body perturbation theory
+    \3 Explicitly correlated couple cluster methods
+    
+\1 Tensor Algebra Methods to reduce Computational Complexity in Quantum Chemistry
+
+  \2Tensor Reduction methods in a Canonical Quantum Chemistry Framework
+    \3 Density fitting/resolution of the identity
+    \3 Pair natural orbitals/pair atomic orbitals
+    \3 Tensor decomposition methods
+      \4 Tensor hypercontraction
+      \4 Cholesky decomposition
+      \4 Canonical product
+      \4 Tucker decomposition\\
+      
+  \2 Tensor Ans{\"a}tze to Schr{\"o}dinger like Equations
+    \3 Motivation for these kinds of methods (MPS, TNS, TTNS, DMRG etc) How this section is different from the "Canonical QC" section.
+      
+\1 Research Plan\\
+\end{outline}
+
+\end{document}
+
+Resolution of the identity 
+ J. L. Whitten, J. Chem. Phys. 58, 4496 (1973).
+ B. I. Dunlap, J. W. D. Connolly, and J. R. Sabin, J. Chem. Phys. 71, 3396 (1979).
+ O. Vahtras, J. Almlof, and M. W. Feyereisen, ? Chem. Phys. Lett. 213, 514 (1993).
+ F. Weigend and M. Haser, ? Theor. Chem. Acc. 97, 331 (1997).
+
+Cholesky Decomposition 
+ S. Wilson, Comput. Phys. Commun. 58, 71 (1990).
+ I. Røeggen and E. Wisløff-Nilssen, Chem. Phys. Lett. 132, 154 (1986).
+ N. H. F. Beebe and J. Linderberg, Int. J. Quantum Chem. 12, 683 (1977).
+ H. Koch, A. S. de Mers, and T. B. Pedersen, J. Chem. Phys. 118, 9481 (2003).
+
+CP Decomposition in Quantum Chemistry 
+First 2 electronic structure Theory, Second 2 Vibrational coupled cluster theory
+ U. Benedikt, K.-H. Bohm, and A. A. Auer, ? J. Chem. Phys. 139, 224101 (2013).
+ I. H. Godtliebsen, B. Thomsen, and O. Christiansen, J. Phys. Chem. A 117, 7267 (2013).
+ I. H. Godtliebsen, M. B. Hansen, and O. Christiansen, J. Chem. Phys. 142, 024105 (2015).
+ 
+ Tensor HyperContraction
+ In first source use ALS to decompose the 3 index resolution of the identity step
+ In second souce use a grid based approach and a least squares procedure
+ E. G. Hohenstein, R. M. Parrish, and T. J. Mart??nez, J. Chem. Phys. 137, 044103 (2012).
+ E. G. Hohenstein, R. M. Parrish, C. D. Sherrill, and T. J. Mart??nez, J. Chem. Phys. 137, 221101 (2012).
+ C. Song and T. J. Mart??nez, J. Chem. Phys. 144, 174111 (2016).
+ They show in the following source that for a polynomial basis on a certain grid the procedure is exact, not gauranteed using CP. Though most QC uses non polynomial basis sets
+ R. M. Parrish, E. G. Hohenstein, N. F. Schunck, C. D. Sherrill, and T. J. Mart??nez, Phys. Rev. Lett. 111, 132505 (2013).

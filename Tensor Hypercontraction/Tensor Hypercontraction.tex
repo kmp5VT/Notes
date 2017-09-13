@@ -1,0 +1,30 @@
+\documentclass[10pt, draft]{article}
+\usepackage{amsmath}
+\usepackage[margin=0.5in]{geometry}
+\begin{document}
+
+\title{Tensor Hypercontraction: Least Square Method}
+\maketitle
+\raggedright
+The tensor hypercontraction factors, in this paper, are developed through an ALS method of a spatial quadrature over the otherwise singular
+$1/r_{12}$  
+operator.  An analytic and simple method to generate these factors exists.  The factors can be generated with an 
+$\mathcal{O}$
+$(N^5)$ effort if exact integrals are decomposed and 
+$\mathcal{O}$
+$(N^4)$ effort if the decomposition is applied to density-fitted integrals. They used grid fitting error and was found to be negligible even for extremely sparse quadrature grids.\par
+
+The ERI is $$(\mu \nu | \lambda \sigma) = \int_{R^6} = \phi_\mu(\vec{r_1})\phi_\nu(\vec{r_1}) \frac{1}{\vec{r_{12}}} \phi_\lambda(\vec{r_2})\phi_\sigma(\vec{r_2}) d^3_{\vec{r_1}} d^3_{\vec{r_2}} $$
+
+This is in the atomic orbital basis set in chemist notation. The generalized charge densities are $$\rho_{\mu\nu} = \phi_\mu(\vec{r_1}) \phi_\mu(\vec{r_1}) , \rho_{\lambda\sigma} = \phi_\lambda(\vec{r_2}) \phi_\sigma(\vec{r_2})$$
+
+In this paper density fitting/Cholesky decomposition and pseudospectral representations are very important. $$$$
+
+
+Density fitting utilizes the fact that the generalized densities are often largely redundant, and can be approximately represented with an auxiliary basis comprised of $\mathcal{O}$(N) functions.  The density coefficients $d^A_{\mu\nu}$ can be determined using least squares fitting with respect to the $\frac{1}{r_{12}}$  $$$$
+
+A conceptual improvement over density fitting is the pseudospectral method which integrates over one of the electronic coordinates using a numerical quadrature in physical space using a weighted grid-point method, with gridpoints $\vec{r_P}$ and quadrature points $\vec{\omega_P}$ leading to $$(\mu\nu|\lambda\sigma) \approx \omega_P R^P_\mu R^P_\nu A^P_{\lambda\sigma} $$ R represents the collocation matrix in this expression and is defined as $$R^P_\mu = \phi^P_\mu(\vec{_P})$$ the grid representation of the Coulomb potential is $$A^P_{\lambda\sigma} = \int_{R^3}\frac{1}{r_{2P}}\phi_\lambda(\vec{r_2})\phi_\sigma(\vec{r_2}) d^3r_2 $$ One distinguishing point of the pseudospectral method is that replacement of one of the collocation matrices by a least squares fitting Q that guarantees the numerical procedure will reproduce the matrix of the overlap integrals.  The factorization is able to "unpin" the indices $\mu$ and $\nu$ thus expressing the ERI tensor as a product of one third-order and two second-order tensors.  The unpinning is extremely desirable it allows factorization of further equations that involve the contraction of the integrals.  Thought the pseudospectral method does not provide enough numerical accuracy for electronic structure theory.  The successful application of the pseudospectral method to electronic structure requires development and optimization of atomic grids and dealiasing sets.  $$$$
+The following is considered to be the characteristic factorization of all THC  $$(\mu\nu|\lambda\sigma) \approx X^P_\mu X^P_\nu Z^P X^Q_\lambda X^Q_\sigma$$ X and Z are second order tensors with P and Q being their decomposition index; analogous to grid point indices in the pseudospectral  or auxiliary basis. This method develops three body integrals which are decomposed using the CANDECOMP/PARAFAC method which is obtained in practice by an iterative least squares algorithm.  The factorization was used in MP2 and MP3 methods to reduce scaling from $\mathcal{O}(N^5)$ and $ \mathcal{O}(N^6)$ to $\mathcal{O}(N^4)$.  The factorization form yielded accuracies in energies when restricting the range of the decomposition index P to twice the number of functions in the auxiliary density-fitting basis set.  
+
+
+\end{document}

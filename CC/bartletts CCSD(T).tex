@@ -1,0 +1,53 @@
+\documentclass[10pt, draft]{article}
+\usepackage{amsmath}
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+%\usepackage{physics}
+
+\newcommand{\dd}[1]{\mathrm{d}#1}
+
+\begin{document}
+
+\author{karl}
+\raggedright
+\textbf{\Large{\begin{center}
+ DOI: 10.1063/1.443164 \\
+ October 1981
+ The author is George Purvis, and Bartlett\\
+ \end{center}}}
+ 
+ \section{intoduction}
+  A number of applications of MBPT and CCM to ab initio calculations have been reported.  The methods implemented presume the use of HF orbitals, though this is not necessary.  This paper report the derivation and computational implementation of the full CCSD model.  The method uses any orthogonal set of orbitals.  It is possible to use symmetrically orthogonalized bond orbitals instead of HF to take advantage of the concomitant reduction in the number of molecular integrals in large molecules, from localization.  \\
+  The criteria for CCSD based on Pople's "Theoretical model chemistry" proposes that a method (1) should be "size extensive" (scalable with molecular size) (2) applicable to a wide range of problems within a single framework; (3) invariant to classes of unitary transformations; (4) efficient; and (5) able to correctly separate a molecule into its fragments.  \\
+  CCSD is a many body method built on linked diagram theorem therefore it is size extensive and gives correct result for characteristic problem of separating electron pair bonds.As long as a single det is a reasonable starting point (it doesn't have to be restricted or unrestricted HF function) CCSD is applicable to most problems without modification or special symm conditions. CCSD is invariant to any transformation among the excited orbitals or the occupied orbitals.  CCSD is not generally invariant to transformations that mix occupied and unoccupied orbitals amongst themselves. However, for the special case of noninteracting separated electron pairs, it is invariant to such general transformations.  CCSD scales $M^6$ and more T amplitudes further increases the cost.\\
+  CCSD can resolve some degenerate problems when it comes to separation of molecules using single reference.  
+  
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  
+  \section{The single and double excitation approximation in cc theory}
+  CC, MBPT and CI are methods to solve the Schodinger equation and all can be interrelated. Difference is how higher order excitation configurations handled with consequence that many body methods are size extensive.  CC can be viewed as a way to sum certain cats of many body perturbation theory diagrams to all orders.The exponential reps of the exact wave function. Discuss the CCSD approximation from the viewpoint of an exponential representation of the exact wave function.  
+ \[\Psi_{exact} = \Psi_{CC} = e^{\hat{T}}\Phi_0\]
+  Where phi0 is a single determinant with That is a cluster operator, T = T1 + T2 + T3 +... \\
+  T is reduced to the problem of finding the expansion coefficients of the second quantized operators.  For T1 and T2 the expansions are, as they are in crawfords CC paper.\\
+  CI amplitudes and exponential expanded T amplitudes can be equated.  Ci are the sum of i fold excitations so the same excitations using cluster operators can be equated.  \linebreak[1]
+  CC can be regarded as a way to  decompose CI coefficients into other, possibly more physical terms.  Computationally this is good because T2 squared can be calculated easier, though it would be considered part of C4\linebreak[1]
+  CC includes C3 terms but when HF orbitals are used, perturbation theory indicates that the dominant contribution to C3 comes from T3 which is not included in the CCSD method.  When non-HF are used so that T1 is large the other terms of C3 are dominant. These terms are important in bond breaking processes.  
+  
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   
+  \section{CCSD Equations}
+  Set of T1 and T2 amplitude equations and energy equation for CCSD for spin orbitals given in paper.  Applicable to RHF and UHF as well as non-HF reference determinants.  Size extensivity is proven through diagrammatic linked-ness.  All unlinked diagrams cancel with the energy in the T1 and T2 amp equations.  The equations are nonlinear and coupled. T2 and $1/2T1^2$ terms are very similar may be possible to implement a term containing T1 using T2.
+  
+  \section{Implementation of the CCSD method}
+  The first step is to rearrange the equation into an explicit equation for the coefficient $t^d_l$.  This was chosen based on perturbation theory, chose the term containing the diagonal fock matrix elements, for the rearrangement of the T1 equation. The equation for t is solved iteratively, they set the term to 0 for the initial guess.  They chose to simultaneously iterate the equations for T1 and T2 coefficients so that at the end of the nth cycle they would have both amplitudes.  Iterating them separately hurts because they are sufficiently coupled terms.\\
+  One retains the nonlinearity of the CC equations when solving.  They use a reduced linear equation method to accelerate convergence [13]\\
+  The choice of diagonal fock matrix elements provides that the first few iterations beginning with T1=0 correspond to a perturbation solution of the CC equations using a MP partitioning of the H.  If a linear approximation is made then all iterations can be made just as in perturbation theory.  This typically has good convergence but is inappropriate for occasions such as RHF orbitals are used for an open-shell configuration.  This provides an indeterminate term .  Though the problem is artificial and can be eliminated by adding an arb const to both sides of the T1 equation.\linebreak[1]
+  
+  The equations provided can be rewritten and spin factors are specifically included.  The authors have been able to impolement the spin restricted sums just the same as the spin-unrestricted sums by changing loop limits and inserting appropriate factors of 2.\\
+  The authors further reduce work be changing products of 3 terms to 2 products of 2 with an intermediate.  \\
+  
+  
+  
+  
+  
+\end{document}

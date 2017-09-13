@@ -1,0 +1,124 @@
+%tex-main
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% This is a (brief) model paper for submission to the RSC using
+%% standard LaTeX packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Document Formating options 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Document Classes 
+%\documentclass[journal=jpcafh,manuscript=article,email=false]{achemso}
+\documentclass[a4paper,11pt]{article}
+
+% Margins 
+\usepackage{geometry} % to change the page dimensions
+\geometry{margin=1in} % for example, change the margins to 1 inches all round
+
+% Fonts 
+\usepackage[T1]{fontenc} % Modern font encoding
+\usepackage{helvet}      % Helvetica font for sans serif
+\usepackage{mathptmx}    % Times font ("Word-like")
+\usepackage{amsmath}     % Math font 
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+
+% Spacing 
+\usepackage{setspace}    % For double-spacing
+\AtBeginDocument{\doublespacing}
+
+% Figures 
+\usepackage{float}       % For creating charts, graphs and schemes
+\newfloat{chart}{htbp}{loc}
+\newfloat{graph}{htbp}{loh}
+\newfloat{scheme}{htbp}{los}
+
+% Pictures 
+\usepackage{graphicx}    % Embed graphics 
+%\graphicspath{./pics/}
+
+% Tables
+\usepackage[english]{babel}
+\usepackage{array}
+
+% Captions 
+\usepackage{subcaption}  % Sub captions ( Table footnotes) 
+
+% Bibliography
+\usepackage{rsc}         % Loads natbib, etc
+
+% Sections 
+\usepackage{outlines}    % For making outlines 
+\usepackage[normalem]{ulem} % For strikethroughs on outline
+
+% Listing 
+\usepackage{enumitem}    % Changing the enumerate labels 
+\setenumerate[1]{label=\Roman*.}
+\setenumerate[2]{label=\Alph*.}
+\setenumerate[3]{label=\roman*.}
+\setenumerate[4]{label=\alph*.}
+%\setlist[enumerate,1]{label=\Roman*}
+%\setlist[enumerate,2]{label=\Alph*}
+
+% MISC
+\usepackage{cancel}      % For drawing Cancel Out arrows 
+\usepackage{pdfpages}  % including the coversheet as a pdf
+% Docs http://ctan.mirrors.hoobly.com/macros/latex/contrib/cancel/cancel.pdf
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Customized Definitions 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Math 
+\def\ket#1{| #1 \rangle}        %| >
+\def\bra#1{\langle#1 |}         %< |
+%\def\bm#1{\mbox{\boldmath$#1$}}
+\def\bm#1{\mathbf{#1}}
+\def\linresp#1#2{\langle\langle#1;#2\rangle\rangle}
+\def\quadresp#1#2#3{\langle\langle#1;#2;#3\rangle\rangle}
+\def\degrees{deg dm$^{-1}$ (g/mL)$^{-1}$}
+\def\optrot{$[\alpha]$}
+\def\crt#1{a_{#1}^{\dagger}}    % Creation operator
+\def\ann#1{a_{#1}^{\ }}         % annihilation operator 
+\def\cgs{($10^{-40}$ cgs)}      % units 
+\def\selfolap#1{\langle#1|#1\rangle} % <i|i>
+\def\olap#1#2{\langle#1|#2\rangle} %<i|j>
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title page 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\author{Karl M Pierce \thanks{%
+%    Department of Chemistry, Virginia Tech, Blacksburg, Virginia 24061, U.S.A.
+%    E-mail: \texttt{kmp5@vt.edu}
+%  }
+%}
+%\title{CHEM 5914 Literature Review and Research Plan -COVERSHEET- Fall 2016}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\sloppy
+%\maketitle
+\singlespacing
+\thispagestyle{empty}
+%\input{coversheets/final-draft-coversheet.tex}
+%\includepdf[pages={1}]{coversheets/karl_outline-coversheet.pdf}
+%\input{../../outline.tex}
+\doublespacing
+\newpage
+%\thispagestyle{empty}
+%\input{outline/outline.tex}
+%\newpage
+\input{introduction/karl_introduction.tex}
+\input{theoretical/karl_theoretical.tex}
+%\input{response/response.tex}
+%\input{gradient/gradient.tex}
+%\input{plan/plan.tex}
+\newpage
+\singlespacing
+%\bibliographystyle{rsc}
+%\bibliography{/Users/kirklandc/Documents/Mendeley_BibTeX/Literature_Review.bib}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+

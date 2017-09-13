@@ -1,0 +1,58 @@
+\documentclass[10pt, draft]{article}
+\usepackage{amsmath}
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+%\usepackage{physics}
+
+\newcommand{\dd}[1]{\mathrm{d}#1}
+
+\begin{document}
+
+\author{karl}
+\raggedright
+\textbf{\Large{\begin{center}
+Modern Quantum Chemistry\\
+Szabo and Ostland \\
+ \end{center}}}
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+
+Schmidt orthogonalization.  Assume that |1> and |2> are normalized and let <1|2> = S $\neq$ 0.  Choose |I> = |1> so that <I|I> = 1. we set |II'> = |1> + c|2> and choose c so that <I | II'> =0 = 1 + cS finall y normalize |II'> to obtain 
+\[|II> = (S^{-2} -1)^{-1/2} (|1> - S^{-1}|2>)\]
+Secular determinant is |O - w1| = 0 and solving the roots to find eigenvalues/ eigenvectors.\\
+
+Function of matrix, first diagonalize then apply function to eigenvalues then undiagonalize to get the actual function operation.  \\
+
+Lagrange undetermined multipliers on a orthonormal set of linear equations tells us that the restricted problem of solving for the energy is the eigenvalue problem Hc = Ec.  Solving this eigenvalue problems gives E's from E0 to En-1 in increasing energy order.  Thus one finds N solutions to the wavefunction and coefficients which are orthogonal. Thus the eigenvalue Ealpha is the expectation value of the hamiltonian wrt a specific wavefunction.  In particular the lowest eigenvalue Eo is the best approximation of the ground state energy of the hamiltonian and in the space spanned by the basis functions of the exact wavefunction.  \\
+Another way to find expectation of wavefunction.\\
+Assume we can approximate a wfn as
+\[ |\Phi> = \sum_{j=1}^N c_j |\Psi_j> \]
+This provides after left multiplying by the same wfn
+\[\sum_j H_{ij}C_j = Ec_i\]
+Which is matrix notation equivalent to the before eigenvalue problem.  If we used a complete orthonormal basis we would have obtained an exact equation except H would have been in infinite matrix.  The eigenvalues are exactly equal to the eigenvalues of H. Thus linear variational method is equivalent to solving the eigenvalue eqn in finite subspace spanned by the full wavefunction.  
+
+\section{Many electron wave functions and operations}
+Interested in finding approximate solutions of the non-relativistic time-independent schrodinger equation where the hamiltonian operator for a system of nuclei and eectrons described by position vectors.  The full hamoltonian is 
+\[ H = - \sum_{i=1}^N 1/2 \nabla_i^2 - \sum_{A=1}^M 1/(2M_A)\nabla_A^2 - \sum_i \sum_A \frac{Z_A}{r_{ia}} + \sum_i \sum_{j>i} 1/r_{ij} + \sum_A \sum_B>A \frac{Z_A Z_B}{R_{AB}}\]
+Where Ma is the ratio of the mass of nucleus A to mass of an electron and Za is atomic number of nucleus A.  \\
+Atomic Units\\
+Bohr radius a0 = $4\pi \epsilon_0 \bar{h}^2/(m_e e^2)$ length of measure an atomic unit length called a bohr and energy in Hartree.  Bohr is equal to .52918 Angstrom.  One atomic energy unit equals 27.211 eV or 627.51 kcal/mol.\linebreak[1]
+
+The Born-Oppenheimer approximation\linebreak[1]
+Central to quantum chemistry.  Nuclei are much heavier and slower than electrons.  Good approximation one can consider the electrons in a molecule moving in a field of fixed nuclei.  Second term of ham can be neglected and last term is a constant.  Any constant added to an operator adds to the operators eigenvalue so it has no effect on the operator eigenfunction  Remaining terms are the electronic hamiltonian, describing motion of N electrons in field of M point charges.\\
+
+Electronic wfn describes motion of electrons explicitly depends on electronic coordinates. The wfn depends parametrically on nuclear coordinates as does the electronic energy. This means different arrangements of nuclei give different function of electronic coordinates The function coordinates do not explicitly appear in the wavefunction.  \\
+Also possible to solve motion of nuclei under same assumption.  As electrons move faster reasonable to replace the electron coordinates by their average values over the electronic wave function  Generates a nuclear ham of motion of nuclei in the average field of electrons.  Thus the nuclei in the born-oppenheimer approximation move on a potential energy surface obtained by solving the electronic problem.  Solutions of nuclear equation describe vibration rotation and translation of a molecule \linebreak[1]
+
+Antisymmetry of Pauli Exclusion Principle\linebreak[1]
+
+Necessary to specify spin for electronic hamiltonian.  Do this in the context of nonrelativistic theory by introducing spin functions.  Coordinates of electrons are four vectors 3 spatial and one spin.  Because the H makes no reference to spin, making the wfn depend on spin does not lead anywhere. Good theory can be obtained if additionally requirement, A many-electron wave function must be antisymmetric wrt interchange of coordinates X of any 2 electrons.  Called antisymmetry principle. \linebreak[1]
+
+orbitals, slater determinants and basis functions\linebreak[1]
+
+spin orbitals and spatial orbitals - single electron wavefunctions\\
+
+
+\end{document}

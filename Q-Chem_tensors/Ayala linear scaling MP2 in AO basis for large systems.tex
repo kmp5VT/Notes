@@ -1,0 +1,87 @@
+\documentclass[10pt, draft]{article}
+\usepackage{amsmath}
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+%\usepackage{physics}
+
+\newcommand{\dd}[1]{\mathrm{d}#1}
+
+\begin{document}
+
+\author{karl}
+\raggedright
+\textbf{\Large{\begin{center}
+Linear scaling second-order MP theory in atomic orbital basis for large molecular systems\\
+Ayala and Scuseria\\
+ \end{center}}}
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+MP2 theory for many years is a cornerstone of ab initio MO studies and is important part of many reliable models of chemistry.  It is less expensive tan CC, Mp2 does require dedication of formidable computational resources for large molecular systems.  MP2 calculations to date have been limited to molecules with high symmetry.  Objective is to develop MP2 approach that is feasible to study very large moelcular systems like biomolecules.\\
+considering closed shell. \\
+Due to delocalized nature of MOs the computational effort for integral transformations is N5. \linebreak[1]
+
+\textbf{local correlation space sources 16-22 and resolution of the identity 23-27}\linebreak[1]
+
+In this paper show canonical MP2 energy can be reproduced within a given accuracty scaling linearly with system size.  Use Almlof and Haser's seminal work on laplace MP2 ansatz as starting point.  
+
+\section{laplace MP2}
+Almlof showed that exact MP2 energy can be obtained using noncannonical MPs while retaining the simplicity of the conventional formulation\\
+Also importantly showed that the t integration can be accurately carried out by gaussian quadratureShow that microhartree accuracy obtained with 8-10 quadrature points and mili-hartree with only 3-5.  given quadrature weights and abiscissa $\{w_\alpha, t_\alpha\}$ an implementation of laplace MP2 consists in the trivial modification of an existing MP2 algorithm.\\
+The Laplace MP2 energy is invariant if one uses 
+\[i^\alpha = ie^{(\epsilon_i - \epsilon_F)t_\alpha/2} , a^\alpha = ae^{-(\epsilon_a - \epsilon_F)t_\alpha/2}\]
+by setting $\epsilon_F$ to a fermi level between the HOMO and LUMO the exponential wights are always smaller than unity, irrespective of the sign of the MO energy\\
+Several ways to determine teh quadrature parameteres. simplest is a least squares fit of 1/x function over the interval of values spanned by the denominator tensor.  5 points are required to fit 1/x with greater 1e-3 accuracy.Haser and Almlof showed that there is a strong correlation btwn the error in the fit and the error in the Laplace-MP2 energy.  Quality of fit imporoves for large homo lumo gat and smaller eigenvalue scales. Frozen core requires fewer quadrature points.  Though all electrons are correlated in calculations.  Error introduced by quadrautre is systematic when a min of 5 quads are used.  \\
+
+Accuracy of gaussian quadrature improves w/discretization order.  though monotonic improvement not assured with increasing exponential terms. Due to denominator not taken into account in least squares fit and stiffness of the least squares problem determining the optimum quadrature parameters with tau\\
+A systematic improvement can be obtained using a Euler-Mclaurin formula, this is used in radial quadrature schemes for density functional theory.\\
+In principle all e(t) and all higher derivatives are zero at t=inf and r=1. Evaluating e is increasingly time consuming as t approaches 0 so it is best to choose a change of variable for which its jacobian and a number of its derivatives are zero for r=0.  To ensure that the nth derivative is 0 choose a specific change of variable\\
+In the Euler-McLaurin scheme, choice of chang eof variable is arbitrary and quality of integration depends on it.  \\
+It has been found that least squares based quadrature is superior to the Euler-McLaurin scheme for low discretization order.  If accuracy of 5 or 6 desired better to use Euler McLaurin with 8 or more energy points.
+
+\section{AO-Laplace MP2}
+AO representation first discussed by Haser using specific transformation.  This paper refers to a number of the matrices in this method refered to as density matrix.  The Laplace density matrices $X^\alpha$ and $Y^\alpha$ and the standard HF density matrices P and Q have similar properties.  for large $t_\alpha$ only MO with energy close to fermi level contribute to x and y matrices.  \\
+The Laplace quadrature correlates energy levels falling within a specific energy window that shrinks with increasing t. The valence energy levels contribute to each discrete Laplace quadrature point whereas the deepest occupied levels contribute only to energy points with the smaller t.  The abs error in quadrature is likely to be concentrated on the correlation of the core energy levels and can be expected to be systematic.\\
+This paper makes use of the Schwarz screening advocated by Haser.  The fact that the energy can take many forms gives rise to a formidable screening protocol.  Using four two index quantities  one can a priori schreen out partially transformed integrals on the basis  of their contribution to the final MP2 energy. \\
+Obtain MP2 energy by performing all 4 quarter transforms of the AO ints then contracting the transformed ints with the AO ints.  for wch laplace quadrature point.  In the imp of multipass semidirect AO-Laplace MP2 have chosen the following sequence of operations in order to enable the study of very large systems.  \\
+Each transformation is formally more expensive in the AO basis than MO, schwarz screening makes 4 quarter transformations in AO repidly competitive with conventional MP2.  For this reason AO-Laplace MP2 is method of choice for study of large molecular size.  
+
+\section{Quadrature Scaling AO-Laplace MP2}
+Imporant results. \\
+Atomic basis constites a localized basis set and the overlap between atomic orbital decays exponentially with atomic separations. For large enough systems the overlap matrix has thus only N significant elements. \\
+the prefator of the 4-center 2-electron ints is bound within a multiplicative constant.  The number of sig 2-e ints in the AO basis grows asymptotically as N2.\linebreak[1]
+A main frustration for using conventional MP2 for larger system is even though th number of sig ints grows as N2 number of transformations grows as N4 due to delocalization of canonical MOs. Since density is invariant wrt unitary transformation of the MOs is irrelevent in the AO-Laplace MP2.  In AO attension should be paid to decay behavior, sparsity of X and Y. \\
+In insulators AO density matrix elements can be approximatly bound by an exponential.  X and Y, found by shifing density of MO energy by a fermi level, always sparser than P and Q.\\
+Schwarz inequality shows, the quadratic scaling of method by showing that D decays with mu and nu separation.\\The third transformation C decays as well and can by bound.  \\
+In asymptotic regime only diagonal tranformation ints significant\\
+MP2 decays exponentially here and COulomb decays as a power law.  So long rang MP2  due solely to diagonal elements\\
+The basis set size affects the prefactor of the computational cost of the laplace mp2 method bud does not affect asymptotic scaling.  For moderate system AO-Laplace MP2 scales as  N2.6\\
+\section{accuracy} 
+Reducing the scaling of the MP2 calculation from N5 to N2 has many concepts and practical issues in commin with obtaining HF exchange with O(N) effort.  The size of error induced by Schwarz screening in the AO-Laplace MP2 are very similar to ones in linear scaling HF-exchange methods.
+
+\section{Linear Scaling AO-Laplace MP2}
+Linear scaling can be achieved by introducing interaction domains and neglecting selective domain-domain interactions.  \\
+for each ao define an interaction domain determined by a sphere centered on mu.  long range contributions will be accumulated only if the edges of mu and lamda domains are within WS bohrs from each other, meaning if the domains are not well separated.  \\
+These results are verfied in section quadratic scaling section where show that a matrix elements of YS decay with increasing separation for molecules with large HOMO LUMO gaps.  \\
+To a certain extent the approach shares philosophy involved in what Saebo, Pulay and others proposed in their local correlation space method \textbf{sources 16 and 17} however objecive of reproducing canonical MP2 within accuracy remains compromised.  \\
+Argue that total correlation energy made by this approach can be made reliably accurate by having epsilon suitably small and the threshold distance for the two domains to be well separated.\\
+Studying this method fror very large systems, several hundred atoms, gives a question of how the X and Y transformation matrices should be found with linear scaling effort in cases where diagonalizing the fock matrix to get MO energies becomes the bottleneck. 
+\subsection{Transformation matrices}
+Fock matrix evalues and the canonical MOs are not essential prerequisites for constructing the laplace density matrices. One my consider the polynomial expantion of the exponents of the occupied and virtual blocks of the fock matrix in any convenient basis.  When HF is carried out using a linear scaling density matrix search technique, like conjugate gradient density matrix search, the laplace density matrices can by found by the Chebychev expansion of the hamiltonian. \\
+The accuracy of the CHebychev expansion van be reliably estimated by the root mean square deviation wrt exp(-|x|t) over the fock eigenvalue scale. The eigenvalue scale is determined by the linear scaling Lanczos algorithm.  \\
+Recently shown that the density matrix can be obtained by O(N) by Chebychev expansion of the Fermi-Dirac distribution function.  In this  density matrix search method, Chebychev polynomial order for an accurate energy calculation typically exceeds 80.\\
+To compare the Chebychev polynomial order to construct the exp[Htalpha] is rel low.  
+
+\section{Benchmark calculations}
+Step 1 generation and firt quarter transformation of AO ints. This is the most time intesive step.\\
+The linear AO-MP2 follows the general rule of linear scaling in linear systems as Hartree fock so one might expect it to follow the same idea for three dimensional molecules, it should take less molecules.\\
+Useful to compare AO-laplace with conventional algorithms.  Us e the quadratic scaling direct method.  Cross over for water clusters between 128 and 160.  \\
+The calculations in this paper are the largest MP2 calculations to date.
+
+\section{conclusion}
+Shown that by expressing MP2 correlation energy in AO basis via the laplace tranform ansatz, the power-law decay of the Coulomb correlation enerhy and the exponential decay of the exchange energy of molecules with large homo-lumo gap are made apparent.\\
+Make it possible to obtain canonical MP2 energy with computational effort scaling quadratically with system size. \\
+Also shown that long range conts can be thresholded in a reliable and consistent fashion resulting in linear scaling MP2.  Now can study very large molecular systems containing several hundreds of atoms using MP2 level of theory.
+
+\end{document}
