@@ -90,7 +90,7 @@
       \begin{equation}
       \olap{\mu \rho}{\nu \sigma} = (\mu \nu | \rho \sigma) = \int \int \phi^*_\mu(x_1) \phi^*_\rho(x_2) \frac{1}{r_{12}} \phi_\nu (x_1) \phi_\sigma(x_2) dx_1 dx_2
       \end{equation}
-    being the two-electron integrals in physicist and chemist notation, respectively. In the computational procedure of Hartree-Fock, evaluation of the Fock matrix is the most expensive step with asymptotic scaling of $\mathcal{O}(N^4)$ where N is the number of electrons. Because of the basis expansion in the development of Roothaan's equation, the system of equations is non-linear and must be solved iteratively to calculate the optimal expansion coefficients, this is achieved via the self-consistent-field (SCF) procedure.
+    being the two-electron integrals in physicist and chemist notation, respectively. In the computational procedure of Hartree-Fock, evaluation of the Fock matrix is the most expensive step with asymptotic scaling of $\mathcal{O}(N^4)$ where N is the number of electrons and a storage requirement of $\mathcal{O}(N^4)$. Because of the basis expansion in the development of Roothaan's equation, the system of equations is non-linear and must be solved iteratively to calculate the optimal expansion coefficients, this is achieved via the self-consistent-field (SCF) procedure.
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -170,7 +170,7 @@
         \begin{equation}
           \bra{ij}\ket{ab} = \sum_{\mu\nu\rho\sigma} C_{\mu i} C_{\nu j} C_{\rho a} C_{\sigma b} \bra{\mu \nu} \ket{\rho \sigma}
         \end{equation}
-      This is the most computationally rigorous step and has a cost of na{\"i}vely $\mathcal{O}(N^8)$ which can be reduced to $\mathcal{O}(N^5)$.  This step has a higher computational cost than computing the MP2 energy.  Efforts to eliminate by using a Laplace transformation on the orbital energy determinant term to scale atomic orbitals have been implemented in Laplace transform MP2\cite{almof 1991, Haser 1992}.  Though efficient reduction in computational cost has only been observed with sufficiently large molecules, more than 200 atoms.
+      This is the most computationally rigorous step and has a cost of na{\"i}vely $\mathcal{O}(N^8)$ which can be reduced to $\mathcal{O}(N^5)$ and a storage requirement of $\mathcal{O}(N^4)$.  This step has a higher computational cost than computing the MP2 energy.  Efforts to eliminate by using a Laplace transformation on the orbital energy determinant term to scale atomic orbitals have been implemented in Laplace transform MP2\cite{almof 1991, Haser 1992}.  Though efficient reduction in computational cost has only been observed with sufficiently large molecules, more than 200 atoms.
         
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -213,7 +213,7 @@
         	\end{aligned}
         \end{equation}
       Equation (41) exemplifies how solving for the CI correlation energy requires one to solving $\binom{N}{2K}$ coupled equations.  Thus, full-CI calculations are typically restricted to small molecules. One can reduce the full-CI correlation energy calculation by truncating the full set CI coefficients.  This is done, for example, in configuration interaction singles and doubles (CISD), where one assumes that only $C^i_a$ and $C^{ij}_{ab}$ are non-zero.  CISD only requires an iterative solution to a pair of coupled equations.  \\
-      The CISD formulation has computational scaling of $\mathcal{O}(N^6)$.  Any truncation to the full-CI method eliminates the size-consistency of CI methods.  Additionally, truncated CI is not size-extensive, meaning the energy calculated by truncated CI methods do not scale linearly with number of electrons, N, but is variational.
+      The CISD formulation has computational scaling of $\mathcal{O}(N^6)$ and storage requirement of $\mathcal{O}(N^4)$.  Any truncation to the full-CI method eliminates the size-consistency of CI methods.  Additionally, truncated CI is not size-extensive, meaning the energy calculated by truncated CI methods do not scale linearly with number of electrons, N, but is variational.
       %Though the best ground state can be formed with a single determinant of the first N electron spin orbitals orbitals, $\{\chi_k\}$, the number of combination of orbitals is much larger. The other determinants can be taken 
 
       %The exact orbitals solved analytically from the electronic wavefunction expression of hydrogen are defined using slater orbitals.  In theoretical chemistry Slater type orbitals are approximate by linear combinations of Gaussian type orbitals.  
@@ -263,7 +263,7 @@
           0 = \bra{\Psi^{ab}_{ij}} e^{-\hat{T}} \hat{H} e^{\hat{T}} \ket{\Psi_0}
         \end{equation}
       can be developed using a diagrammatic or Wick's theorem approach, see (crawford reference) for a full explanation on expanding the expression.  Equations (50) and (51) provide a set on nonlinear equations which must be solved iteratively to provide the single and double cluster operator amplitudes, $t^a_i$ and $t^{ab}_{ij}$.
-      Coupled Cluster theory is not variational but is size-consistent and invariant to unitary rotation, as long as there is no mixing of the occupied and unoccupied orbitals.  The scaling of CC singles and doubles (CCSD) is $\mathcal{O}(N^6)$ and adding the triple cluster operator (CCSDT) increases scaling to $\mathcal{O}(N^8)$\cite{Noga 1987, Scuseria 1988}. Chemists have developed a way around this problem by using a perturbation approach, following Rayleigh-Schr{\"o}dinger perturbation theory, to include the triples operator\cite{Crawford 2000}.  This approach scales as $\mathcal{O}(N^7)$ and is considered quantum chemistries gold standard.
+      Coupled Cluster theory is not variational but is size-consistent and invariant to unitary rotation, as long as there is no mixing of the occupied and unoccupied orbitals.  The scaling of CC singles and doubles (CCSD) is $\mathcal{O}(N^6)$ and adding the triple cluster operator (CCSDT) increases scaling to $\mathcal{O}(N^8)$\cite{Noga 1987, Scuseria 1988} with storage requirements of $\mathcal{O}(N^4) \text {and} \mathcal{O}(N^6)$, respectively. Chemists have developed a way around this problem by using a perturbation approach, following Rayleigh-Schr{\"o}dinger perturbation theory, to include the triples operator\cite{Crawford 2000}.  This approach scales as $\mathcal{O}(N^7)$ and is considered quantum chemistries gold standard.
 
   \subsection{Explicitly Correlated Methods}
     It can be concluded that even when using the "gold standard" in quantum chemistry, CCSD(T), there still exists some error in our approximations.  The most influential contribution to this error is the basis set error.  The first place this error comes from is in the expression of one electron wave functions.  In order to achieve high accuracy in calculations one must enlist large basis sets and large $\zeta$, though it still has very slow convergence and fails to recreate the electron cusp condition.  Figure 1 shows the electron probability on a cross section of a sphere.  Because Hartree-Fock provides an average electronic field, the electrons probability is constant no matter the position of electron two.  While in truth there is zero probability of electron one at the point of electron two and higher probaility that electron one will be found $\pi$ radians away from electron two.  These corrections are known as Coulombic correlation. 
@@ -302,9 +302,9 @@
         \end{equation}
       Where the geminal basis function are quasi-double excitations with respect to the reference, $\ket{\Psi_0}$
         \begin{equation}
-        \ket{\Psi^{ij}_{xy}} = \frac{1}{2} \bar{R}^{\alpha \beta}_{xy} \tilde{a}^{ij}_{\alpha \beta} \ket{\Psi_0}
+        \ket{\Psi^{ij}_{xy}} = \frac{1}{2} \bar{R}^{\alpha \beta}_{xy} \tilde{a}^{\alpha \beta}_{i j} \ket{\Psi_0}
         \end{equation}
-      Where $\tilde{a}$ acting on the reference provides a doulby excited state and $\bar{R}^{\alpha\beta}_{xy}$ are matrix elements of the explicitly correlated factor, $f(r_{12})$ projected by a function, $\hat{Q}_{12}$, which ensure orthogonality of the excited geminal functions:
+      Where $\tilde{a}^{\alpha\beta}_{ij}$ is the normal ordered, with respect to the reference state, string of creation and annihilation operators that produce a doubly excited state $\ket{\Psi^{ij}_{\alpha\beta}}$ and $\bar{R}^{\alpha\beta}_{xy}$ are matrix elements of the explicitly correlated factor, $f(r_{12})$ projected by a function, $\hat{Q}_{12}$, which ensure orthogonality of the excited geminal functions:
         \begin{equation}
           R^{\alpha \beta}_{xy} = \bra{\alpha \beta} \hat{Q}_{12} f(r_{12})\ket{xy}
         \end{equation}
@@ -324,4 +324,25 @@
       The integrals of $E^{(2)}_{R12}$ can be solved analytically if the correlation factor, $f(r_{12})$, is Gaussian\cite{Polly 2006}.  The terms in $E^{(2)}_{R12}$ do require approximations to calculated fast and accurately some of which will be discussed later\cite{Kong 2012}.
 
     \subsubsection{Explicitly Correlated CC R12 method}
-      It is necessary to apply R12 methods to CC in order to achieve the theories full potential because MP2-R12 has limited chemical framework\cite{kong 2012}.  CC-R12 extends the standard CC cluster operator, $\hat{T}$, to include R12 geminal operator, $f(r_{12})$\cite{Noga 1992, Noga 1994}
+      It is necessary to apply R12 methods to CC in order to achieve the theories full potential because MP2-R12 has limited chemical framework\cite{kong 2012}.  CC-R12 extends the standard CC cluster operator, $\hat{T}$, to include R12 geminal operator, $f(r_{12})$\cite{Noga 1992, Noga 1994}.  For example the CCSD-R12 wave function has the form 
+        \begin{equation}
+          \ket{\Psi_{exact}} = e^{\hat{T}}\ket{\Psi_0}
+        \end{equation}
+      Where $\hat{T}$ has the form
+        \begin{equation}
+          \hat{T} = \hat{T}_1 + \hat{T}_2 + \hat{R}
+        \end{equation}
+      The operators $\hat{T}_1 \text{ and } \hat{T}_2$ are defined using equation (45) and $\hat{R}$ is defined as 
+        \begin{equation}
+          \hat{R} = \frac{1}{(2!)^3} t^{xy}_{ij} \bar{R}^{\alpha \beta}_{xy} \tilde{a}^{ij}_{\alpha \beta}
+        \end{equation}
+      where $\bar{R}^{\alpha \beta}_{xy}$ is the conjugate matrix element of the explicitly correlated factor defined in equation (59).
+      The energy and amplitudes of the CC equation are found in the same fashion described in section 2.2.3 with the added projection of excited geminal functions using the operator $\tilde{\gamma}^{xy}_{ij}$
+        \begin{equation}
+          \ket{\Psi^{xy}_{ij}} \equiv \tilde{\gamma}^{xy}_{ij}\ket{\Psi_0} = \frac{1}{2!} \bar{R}^{\alpha \beta}_{xy} \tilde{a}^{ij}_{\alpha \beta}
+        \end{equation}
+      This creates an additional projection term
+        \begin{equation}
+          \bra{\Psi^{xy}_{ij}} e^{\hat{T}} \hat{H} e^{\hat{T}} \ket{\Psi_0} = 0
+        \end{equation}
+      Though this additional amplitude equation does have small store dimension, $\mathcal{O}(o^4)$ the computational complexity to implement CCSD-R12 is much greater than CCSD and MP2-R12, with CCSD-R12 scaling as $\mathcal{O}(N^8)$ with storage requirement of $\mathcal{O}(N^6)$.  Scaling can be reduced to $\mathcal{O}(N^6)$ with direct computation of an intermediate each iteration.\cite{Kong 2012} 

@@ -1,0 +1,42 @@
+\section{Tensor Algebra Methods to Reduce Computational Complexity in Quantum Chemistry}
+	A tensor is a multidimensional array; an N-th order tensor can considered as a outer product of N vector spaces. A first order tensor is an array, a second order tensor is a matrix and tensor of order three or higher is referred to as a higher-order tensor.\cite{Kolda 2008}. Tensors are naturally applied single reference quantum mechanics: operators such as \textbf{F} can be expressed in terms of two electron coordinate products and form second order tensors while other operators and amplitudes such as the coulomb repulsion operator, $\hat{J}$, and the cluster operator amplitudes, $t^{ij\dots}_{ab\dots}$, can be expressed as higher-order tensor whose order depends on the number of indices's.  This extension therefore means as number of electrons increase, there is an exponential increase in the amount of storage and computational processing required to solve a given problem.  This problem is referred to as the "curse of dimensionality" %find a curse of dimensionality paper!%
+	 To overcome this curse requires one to discover the underlying structure in data to reduce storage requirements and to redesign algorithms to scale with the structure of the data.\\
+	The goal of a decomposition is to reduce the complexity of a tensor utilizing the underlying form of data in a tensor.  The result of a tensor decomposition provide information on the relative importance and weighting of individual vector spaces.  Direct methods to compute second order, matrix decompositions, such as the Singular Value, LU, and Jordan decomposition, have been around for quite some time.  Though, interests to decompose higher order tensors didn't develop until 1927 with Hitchcock's idea of a tensor to be a polyadic sum of products\cite{Hitchcock 1927, Hitchcock 1928} and later Cattells's idea of a multi-way model in 1944\cite{Cattell 1944, Cattell 1952}. These ideas would later be used to develop canonical product(CP) (CANDECOMP/PARAFAC canonical decomposition / parallel factor decomposition) \cite{Carroll 1970, Harshman 1970} and Tucker decompositions\cite{Tucker 1966}.  In order to apply ab initio quantum mechanics to larger systems and circumvent the "curse of dimensionality" it is necessary to take advantage of matrix and higher order tensor decomposition approximations and to redesign canonical algorithms using tensors in decomposed form. To follow are theoretical chemist's current tools to approximate and reduce the complexity of large systems while preserving accuracy.
+
+	\subsection{Density Fitting}
+		The roots of Density fitting have been grounded in Coulomb\cite{Ten-no 1995, Vahtras 1993} and Exchange\cite{Weigend 2002} fitting in Hartree-Fock and has been applied to MP2\cite{Feyereisen 1993}, CCSD(T)\cite{Rendell 1994} and even explicitly correlated methods\cite{Manby 2003}.  The derivation of density fitting to proceed will be based on equations presented by Werner et al.\cite{Werner 2003} Density fitting is used to reduce the dimensionality of the fourth order integral tensors into two third order tensors. The two electron integral term of the operator $\frac{1}{r_{12}}$ can be re-imagined as two orbital density products
+			\begin{equation}
+			\olap{\mu\gamma}{\nu\sigma} = (\mu\nu|\gamma\sigma) = \int\frac{\phi_\mu(r_1) \phi_\nu(r_1) \phi_\gamma(r_2)\phi_\sigma(r_2)}{r_{12}} dr_1 dr_2
+			= \int \frac{\rho_{\mu\nu}(r_1)\rho_{\gamma\sigma}(r_2)}{r_{12}}dr_1 dr_2
+			\end{equation}
+		one electron densities, $\rho_{\mu\nu}(r) = \phi_\mu(r) \phi_\nu(r)$, can then be approximated as 
+			\begin{equation}
+				\bar{\rho_{\mu\nu}}(r) = \sum_A^{N_{fit}} d^{\mu\nu}_A \chi_A(r)
+			\end{equation}
+		where $\chi_A(r)$ are fitting basis functions and expansion coefficients, $d^{\mu\nu}_A$, can be found by minimizing the functional 
+			\begin{equation}
+				\Delta_{\mu\nu} = \int dr_1 \int dr_2 \frac{(\rho_{\mu\nu}(r_1)-\bar{\rho}_{\mu\nu}(r_1)) - (\rho_{\mu\nu}(r_2) - \bar{\rho}_{\mu\nu}(r_2))}{r_{12}}
+			\end{equation}
+		which provides 
+			\begin{equation}
+				d^{\mu\nu}_B = \sum_B (\mu\nu|A)[J^{-1}]_{AB}
+			\end{equation}
+		where 
+			\begin{equation}
+				(\mu\nu|A) = \int dr_1 \int dr_2 \frac{\phi_\mu(r_1)\phi_\nu(r_1)\chi_A(r_2)}{r_{12}}
+			\end{equation}
+		The term J is chosen to be some metric, here it is defined as the coulomb metric\cite{Dunlap 1977, Dunlap 1979}
+			\begin{equation}
+				J_{AB} = \int dr_1 \int_dr2 \frac{\chi_A(r_1) \chi_B(r_2)}{r_{12}}
+			\end{equation}
+		other metrics have been proposed\cite{Baerends 1973} and though they are less accurate, these metrics are computed more quickly than the Coulomb metric.\\
+		This allows one to express the two electron integrals as 
+			\begin{equation}
+				(\mu\nu|\gamma\sigma) = \sum_B d^{\mu\nu}_B (B|\gamma\sigma) = \sum_{AB} (\mu\nu|A)[J^{-1}]_{AB}(B|\gamma\sigma)
+			\end{equation}
+		transforming $J^{-1} = J^{-1/2}J^{-1/2}$ allows one to store the two electron integrals as two third order tensors, reducing storage requirements from $\mathcal{O}(N^4)$ to $\mathcal{O}(N^2\cdot N_{fit}) \approx \mathcal{O}(N^3)$; $N_{fit}$ typically scales linearly with basis set.  Additionally one finds reduction in computational effort in calculations such as the Coulomb term, $\hat{J}$, in Hartree-Fock and transforming integrals from the AOs to MOs in MP2 calculations.
+
+	\subsection{OSV/PNO/PAO}%Think of a better name
+
+
+%include something on the curse of  
