@@ -10,7 +10,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Document Classes 
 %\documentclass[journal=jpcafh,manuscript=article,email=false]{achemso}
-\documentclass[a4paper,12pt]{article}
+\documentclass[a4paper,11.5pt]{article}
 
 % Margins 
 \usepackage{geometry} % to change the page dimensions
@@ -65,7 +65,7 @@
 \usepackage{cancel}      % For drawing Cancel Out arrows 
 \usepackage{pdfpages}  % including the coversheet as a pdf
 % Docs http://ctan.mirrors.hoobly.com/macros/latex/contrib/cancel/cancel.pdf
-
+\usepackage{cleveref}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Customized Definitions 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -83,6 +83,8 @@
 \def\cgs{($10^{-40}$ cgs)}      % units 
 \def\selfolap#1{\langle#1|#1\rangle} % <i|i>
 \def\olap#1#2{\langle#1|#2\rangle} %<i|j>
+
+\newcommand{\crefrangeconjunction}{--}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Title page 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -118,7 +120,7 @@
 \newpage
 \singlespacing
 %\bibliographystyle{rsc}
-\bibliography{references.bib}
+%\bibliography{/Users/karlpierce/Notes/Lit_Review/maketex_example-master/tex/references.bib}
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

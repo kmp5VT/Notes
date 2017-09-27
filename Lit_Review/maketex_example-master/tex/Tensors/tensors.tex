@@ -2,7 +2,6 @@
 	A tensor is a multidimensional array; an N-th order tensor can considered as a outer product of N vector spaces. A first order tensor is an array, a second order tensor is a matrix and tensor of order three or higher is referred to as a higher-order tensor.\cite{Kolda2008}. Tensors are naturally applied single reference quantum mechanics: operators such as \textbf{F} can be expressed in terms of two electron coordinate products and form second order tensors while other operators and amplitudes such as the coulomb repulsion operator, $\hat{J}$, and the cluster operator amplitudes, $t^{ij\dots}_{ab\dots}$, can be expressed as higher-order tensor whose order depends on the number of indices's.  This extension therefore means as number of electrons increase, there is an exponential increase in the amount of storage and computational processing required to solve a given problem.  This problem is referred to as the "curse of dimensionality" %find a curse of dimensionality paper!%
 	 To overcome this curse requires one to discover the underlying structure in data to reduce storage requirements and to redesign algorithms to scale with the structure of the data.\\
 	The goal of a decomposition is to reduce the complexity of a tensor utilizing the underlying form of data in a tensor.  The result of a tensor decomposition provide information on the relative importance and weighting of individual vector spaces.  Direct methods to compute second order, matrix decompositions, such as the Singular Value, LU, and Jordan decomposition, have been around for quite some time.  Though, interests to decompose higher order tensors didn't develop until 1927 with Hitchcock's idea of a tensor to be a polyadic sum of products\cite{Hitchcock 1927, Hitchcock 1928} and later Cattells's idea of a multi-way model in 1944\cite{Cattell 1944, Cattell 1952}. These ideas would later be used to develop canonical product(CP) (CANDECOMP/PARAFAC canonical decomposition / parallel factor decomposition) \cite{Carroll 1970, Harshman 1970} and Tucker decompositions\cite{Tucker 1966}.  In order to apply ab initio quantum mechanics to larger systems and circumvent the "curse of dimensionality" it is necessary to take advantage of matrix and higher order tensor decomposition approximations and to redesign canonical algorithms using tensors in decomposed form. To follow are theoretical chemist's current tools to approximate and reduce the complexity of large systems while preserving accuracy.
-
 	\subsection{Cholesky Decomposition}
 		The Cholesky decomposition (CD) was first applied to quantum chemistry and specifically the two electron integral (TEI) tensor in 1977 by Beeble and Linderberg\cite{Beeble 1977} when the authors realized that, coupled with the positive definite nature of the integrals values, one could to reorder the higher-order tensor into a lower order object and perform a matrix decomposition.  What makes the CD special is that it can remove small and zero eigenvalues without calculating the entire matrix, providing computational savings.  CD has been in conjunction with two electron geminal implementation, derivative integrals and more recently has been applied to large scale TEI decomposition\cite{Aquilante 2011}.\\
 		CD works by using a partial lower-upper(LU) decomposition of any two electron tensor recast into a symmetric positive definite matrix 
@@ -114,7 +113,6 @@
 	  		T_2(i,a,j,b) = \frac{(ia|jb)}{\epsilon_i + \epsilon_j - \epsilon_a - \epsilon_b}
 	  	\end{equation}
 	  This author showed that HOSVD could reduce storage of $T_2$ amplitudes for MP2 energy recovery from 85 to 99\%.  Additionally, they showed that orbital active spaces obtained through the HOSVD coincide with physical intuition based on how the tensor is unfolded, in the first step of the HOSVD algorithm.  Though the HOSVD does have some downsides, first HOSVD alone does not provide an optimal basis in terms of energy recovery it must therefore be coupled with other tensor decompositions and the algorithm to compute the HOSVD scales asymptotically as $\mathcal{O}(N^5)$\cite{Bell 2010}.
-
 	\subsection{Tensor Hypercontraction}
 		Tensor Hypercontraction (THC) was introduced in 2012 by Hohenstein, Parrish and Martinez\cite{Schutski}.  THC can be though of as a tensors decompositions applied to a DF decomposition, though in practice a CD or DF is not required. The THC for the TEI for example can be formulated a number of ways.  As an example a TCH on a general four index tensor (FIT) will be derived.  THC's goal is to recompose the FIT as a connected product of matrices 
 			\begin{equation}
@@ -144,8 +142,21 @@
 				V_{pqrs} = U_{p, \alpha} W_{q, \alpha} W_{\alpha, \beta} W_{\beta, r} W_{\beta, s}
 			\end{equation}
 		THC has been used in the field to represent the electron interaction potentials in CC2 methods and to decompose the TEI and calculate CCSD and FCI energies. In work presented by Hummel et al \cite{Hummel} THC was used to reduce the computational scaling of distinguishable CCD or linearlized CCSD from $\mathcal{O}(N^6)$ to $\mathcal{O}(N^5)$ and in work presented by Schutski et al\cite{Schutski} computational scaling of CCSD was reduced to $\mathcal{O}(N^4)$.  Schutski also presents a direct THC method which allows TEI decomposition to scale as $\mathcal{O}(N^5)$ using the SVD or $\mathcal{O}(N^4)$ using a DF scheme while preserving accuracy of \~.5 millihartree .
+	\subsection{Orbital localization methods}
+		A non-obvious method to reduce the complexity of tensors is to define new occupied and virtual orbital sets. Conveniently, unitary transformations of the molecular orbital space which do not mix occupied and unoccupied orbitals commutes with all observable operators\cite{SzaboAttila1982} and can be used in localization correlation (LC) methods.  
+		%In Correlation methods outlined all possible electron substitutions are considered to create $\Psi_{corr}$ even though the effective correlation space for a specific orbital does not grow with molecular size, thus these correlation spaces are delocalized\cite{Saebo1993}.  
+		In LC methods, the wave function is projected so orbitals are concentrated in a small volume.  There are many developed localization schemes such as Boys and Pipek-Mezey\cite{Boughton1993}.  These localization techniques are used in a number of methods include projected atomic orbitals (PAO), pair natural orbitals(PNO) and orbital specific virtual methods (OSV) and are outlined below.  In general these methods use localized occupied orbitals to transform unoccupied (correlation) orbitals.
 
-	\subsection{OSV/PNO/PAO}%Think of a better name
+		In canonical PAO method orbital coefficients are obtained through HF optimization.  The full set, or just the valence set, of occupied orbitals is first localized using some localization scheme $\{\chi\}_{occ} \rightarrow\{\chi_L\}_{occ}$   %The occupied orbitals are split into core and valance orbitals.  Typically core orbitals are preserved while valance are transformed to localized molecular orbitals using some localization scheme.  
+		Unoccupied or correlation orbitals are localized by projecting atomic basis functions against the HF localized occupied molecular orbitals, \cref{AO_eqn}
+			\begin{equation}\label{proj_AO}
+				\ket{\tilde{\phi}_\mu} = \left(1- \sum_{i=1}^{m} \ket{(\chi_i)_L}\bra{(\chi_i)_L} \right) \ket{\phi_\mu} = \sum_{\rho=1}^N \ket{\phi_\rho}\tilde{R}_{\rho\mu}
+			\end{equation}
+		where the expansion coefficient of the projected functions $\tilde{\phi}_\mu$ in AO basis $\{\phi_\mu\}$ is given by 
+			\begin{equation}
+				\mathbf{\tilde{R}} = 1 - \mathbf{D} \cdot \mathbf{S}
+			\end{equation}
+		where \textbf{D} and \textbf{S} are obtained during HF procedure\cite{Hampel1996}
+		This type of localization ensures the unoccupied be orthogonal to the occupied space, but vectors in the unoccupied space will not be orthogonal.  PAO implementation has impressive impact in its implementation in CCSD(T) and equation of motion CCSD by Werner et al and more recently R12 methods\cite{Riplinger2013}
 
-
-%include something on the curse of  
+		The definition of PNO virtual orbitals is very
