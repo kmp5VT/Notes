@@ -91,13 +91,13 @@
 			\begin{minipage}{.5\textwidth}
 			  \centering
 			  \includegraphics[width=1\linewidth]{./pics/CP_picture.jpg}
-			  \captionof{figure}{Pictorial representation of CP format}
+			  \captionof{figure}{Representation of CP format}
 			  \label{fig:Figure 2}
 			\end{minipage}%
 			\begin{minipage}{.5\textwidth}
 			  \centering
 			  \includegraphics[width=1 \linewidth]{./pics/Tucker_picture.jpg}
-			  \captionof{figure}{Pictorial representation of Tucker format}
+			  \captionof{figure}{Representation of Tucker format}
 			  \label{fig:Figure 3}
 			\end{minipage}
 		\end{figure}
@@ -143,20 +143,65 @@
 			\end{equation}
 		THC has been used in the field to represent the electron interaction potentials in CC2 methods and to decompose the TEI and calculate CCSD and FCI energies. In work presented by Hummel et al \cite{Hummel} THC was used to reduce the computational scaling of distinguishable CCD or linearlized CCSD from $\mathcal{O}(N^6)$ to $\mathcal{O}(N^5)$ and in work presented by Schutski et al\cite{Schutski} computational scaling of CCSD was reduced to $\mathcal{O}(N^4)$.  Schutski also presents a direct THC method which allows TEI decomposition to scale as $\mathcal{O}(N^5)$ using the SVD or $\mathcal{O}(N^4)$ using a DF scheme while preserving accuracy of \~.5 millihartree .
 	\subsection{Orbital localization methods}
-		A non-obvious method to reduce the complexity of tensors is to define new occupied and virtual orbital sets. Conveniently, unitary transformations of the molecular orbital space which do not mix occupied and unoccupied orbitals commutes with all observable operators\cite{SzaboAttila1982} and can be used in localization correlation (LC) methods.  
-		%In Correlation methods outlined all possible electron substitutions are considered to create $\Psi_{corr}$ even though the effective correlation space for a specific orbital does not grow with molecular size, thus these correlation spaces are delocalized\cite{Saebo1993}.  
-		In LC methods, the wave function is projected so orbitals are concentrated in a small volume.  There are many developed localization schemes such as Boys and Pipek-Mezey\cite{Boughton1993}.  These localization techniques are used in a number of methods include projected atomic orbitals (PAO), pair natural orbitals(PNO) and orbital specific virtual methods (OSV) and are outlined below.  In general these methods use localized occupied orbitals to transform unoccupied (correlation) orbitals.
-
-		In canonical PAO method orbital coefficients are obtained through HF optimization.  The full set, or just the valence set, of occupied orbitals is first localized using some localization scheme $\{\chi\}_{occ} \rightarrow\{\chi_L\}_{occ}$   %The occupied orbitals are split into core and valance orbitals.  Typically core orbitals are preserved while valance are transformed to localized molecular orbitals using some localization scheme.  
-		Unoccupied or correlation orbitals are localized by projecting atomic basis functions against the HF localized occupied molecular orbitals, \cref{AO_eqn}
-			\begin{equation}\label{proj_AO}
-				\ket{\tilde{\phi}_\mu} = \left(1- \sum_{i=1}^{m} \ket{(\chi_i)_L}\bra{(\chi_i)_L} \right) \ket{\phi_\mu} = \sum_{\rho=1}^N \ket{\phi_\rho}\tilde{R}_{\rho\mu}
-			\end{equation}
-		where the expansion coefficient of the projected functions $\tilde{\phi}_\mu$ in AO basis $\{\phi_\mu\}$ is given by 
+		A non-obvious method to reduce the complexity of tensors is to define new more compact occupied and unoccupied orbital sets, such is the basis for the projected atomic orbitals (PAO), pair natural orbitals(PNO) and orbital specific virtual (OSV) methods. Conveniently, unitary transformations of the molecular orbital space which do not mix occupied and unoccupied orbitals commutes with all observable operators\cite{SzaboAttila1982} and can be used in orbital localization correlation (LC) methods. There are many developed orbital localization schemes such as Boys and Pipek-Mezey\cite{Boughton1993} among others which are utilized by PNO, PAO and OSV methods.  In all the following methods MO are optimized using HF, though other optimizations are possible. Localized occupied MO's (OMO) will be denoted i,j,k and canonical unoccupied MOs (UMO) will be denoted a,b,c, non-canonical UMO's will be denoted r,s,t.  All the following methods start by localizing the set of canonical OMO's. The methods to follow specify some formula to generate a new occupied electron pair specific UMO's 
 			\begin{equation}
-				\mathbf{\tilde{R}} = 1 - \mathbf{D} \cdot \mathbf{S}
+				\ket{r^{ij}} = \sum_a \ket{a}R^{ij}_{ar}
 			\end{equation}
-		where \textbf{D} and \textbf{S} are obtained during HF procedure\cite{Hampel1996}
-		This type of localization ensures the unoccupied be orthogonal to the occupied space, but vectors in the unoccupied space will not be orthogonal.  PAO implementation has impressive impact in its implementation in CCSD(T) and equation of motion CCSD by Werner et al and more recently R12 methods\cite{Riplinger2013}
+		where $R^{ij}_{ar}$ is a pair specific transformation matrix. This allows one to transform $T_1$ and $T_2$ amplitudes as 
+			\begin{equation}
+				t^i_a = \sum_{r\in[ii]} R^{ij}_{ar}t^i_r
+			\end{equation}
+			\begin{equation}
+			t^{ij}_{ab} = \sum_{r\in[ij]} R^{ij}_{ar}t^{ij}_{rs}R^{ij}_{bs}
+			\end{equation}
+		In this format, correlation amplitudes and residual equations can be reduced using domain approximations based on electron pair distances\cite{yang2012}.
+		The PAO method works by projecting AO basis functions against the UMO's\cite{pulay1983}
+			%\begin{equation}\label{proj_AO}
+			%	\ket{\tilde{\phi}_\mu} = \left(1- \sum_{i=1}^{m} \ket{(\chi_i)_L}\bra{(\chi_i)_L} \right) \ket{\phi_\mu} = \sum_{\rho=1}^N \ket{\phi_\rho}\tilde{R}_{\rho\mu}
+			%\end{equation}
+			%where the expansion coefficient of the projected functions $\tilde{\phi}_\mu$ in AO basis $\{\phi_\mu\}$ is given by 
+			%	\begin{equation}
+			%		\mathbf{\tilde{R}} = 1 - \mathbf{D} \cdot \mathbf{S}
+			%	\end{equation}
+			%where \textbf{D} and \textbf{S} are obtained during HF procedure\cite{Hampel1996}
+			\begin{equation}
+				\ket{r} = \sum_a \ket{a}R_{ar}
+			\end{equation}
+		where
+				\begin{equation}
+					R_{ar} = \olap{a}{\phi_r}
+				\end{equation}
+		This type of localization ensures the unoccupied space be orthogonal to the occupied space, but vectors in the unoccupied space are not orthogonal. PAO implementation has large impact in its implementation in CCSD(T) and equation of motion CCSD by Werner et al and more recently R12 methods\cite{Riplinger2013}.  The number of PAOs to obtain accurate recovery of correlation energy (>99\%) grows linearly with size of the basis set per atom and domain sizes are asymptotically independent of molecule size.
 
-		The definition of PNO virtual orbitals is very
+		In PNO methods $R^{ij}_{ar}$ is defined by diagonalizing the MP2-like density matrix\cite{yang2012,neese2009}
+			\begin{equation}
+				D^{ij} = \frac{1}{1+\delta_{ij}}(\tilde{T}^{ij}T^{ij} + \tilde{T}^{ij}T^{ij^\dagger})
+			\end{equation}
+		where
+			\begin{equation}
+				T^{ij}_{ab} = \frac{\olap{ij}{ab}}{\epsilon_i + \epsilon_j - \epsilon_a - \epsilon_b}
+			\end{equation}
+			\begin{equation}
+				\tilde{T}^{ij}_{ab} = 2T^{ij}_{ab} - T^{ji}_{ab}
+			\end{equation}
+		such that
+			\begin{equation}
+				D^{ij}R^{ij}_r = n^{ij}_rR^{ij}_r
+			\end{equation}
+		where $n^{ij}$ is the natural occupation number.  Now PNOs can be expanded in UMO or vice versa as
+			\begin{equation}
+				\ket{r^{ij}} = \sum_a R^{ij}_{ar} \ket{a}
+			\end{equation}
+			\begin{equation}
+				\ket{a} = \sum_r \bar{R}^{ij}_{ar} \ket{r^{ij}}
+			\end{equation}
+		PNOs for a given pair are orthogonal but PNOs between pairs are non-orthogonal.  One can truncate the full set of PNOs taking the occupation number as a threshold; it has been found that 30 to 40 PNOs per electron pair can recover 99.9\% of canonical correlation energy for a triple-$\zeta$ bsis set. Unfortunately the number of PNOs scales with the number of pairs so the total number of PNOs might still be too large.  To compensate one can also truncate the set of [ij] pairs based on MP2 based on a pair MP2 energy threshold.  The PNO methods formal scaling is $\mathcal{O}(N^5)$ though these approximations among others have introduced near linear scaling of PNOs in CCSD\cite{Riplinger2013}
+
+		More recently Yang et al\cite{yang2011} has combined the ideas of pair independent PAOs and pair specific PNOs and proposed an OSV method. In this method $R^{ij}_{ar}$ is found by SVD of the diagonal MP2 pair amplitudes.  
+			\begin{equation}
+				[R^{i\dagger} T^{ij} R^{i}]_{rs} = t^{ii}_r \delta{rs}
+			\end{equation}
+			\begin{equation}
+				\ket{r^i} = \sum_a \ket{a}Q^i_ar
+			\end{equation}
+		Like PNOs, OSVs of a given OMO are orthogonal but OSVs of different OMO's are non-orthogonal.  It has been shown that typically 100 OSVs are required to recover 99.8\% of correlation energy, requiring fewer orbitals than both PNO and OSV methods. Computational scaling of OSV construction is $\mathcal{O}(N^4)$

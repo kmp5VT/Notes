@@ -20,8 +20,7 @@
     \end{equation}
   Though the full multi variable partial differential SE defined above is simplified with the Born-Oppenheimer approximation, it is still too complicated to solve for systems with more than one electron.\cite{SzaboAttila1982}
   \subsection{Hartree-Fock}
-    Though it may not be possible to analytically solve the SE for an arbitrary number of electrons, it is able to exactly solve the differential for one electron.  The idea of solving the SE in a basis of N-tuple single electron functions is the fundamental basis for an approximate solution, known as Hartree-Fock (HF) theory. \cite{Hartree1928, Fock1930, SzaboAttila1982, Sherril2000} This approximation implies that one can express the electronic wavefunction, $\Psi_{elec}$, as an antisymmetric product of one electron functions that depend on the coordinate, $x = \{\vec{r}, \omega\}$, which contains spacial, $\vec{r}$, and spin, $\omega$, coordinates. Formally the antisymmetric wavefunction is constructed using a Slater determinant\cite{Slater1929, Slater1930} 
-
+    Though it may not be possible to analytically solve the SE for an arbitrary number of electrons, it is able to exactly solve the differential for one electron.  The idea of solving the SE in a basis of N-tuple single electron functions is the fundamental basis for an approximate solution, known as Hartree-Fock (HF) theory. \cite{Hartree1928,Fock1930,SzaboAttila1982,Sherril2000} This approximation implies that one can express the electronic wavefunction, $\Psi_{elec}$, as an antisymmetric product of one electron functions, molecular orbitals (MO), that depend on the coordinate, $x = \{\vec{r}, \omega\}$, which contains spacial, $\vec{r}$, and spin, $\omega$, coordinates. Formally the antisymmetric wavefunction is constructed using a Slater determinant\cite{Slater1929,Slater1930} 
     \begin{equation}
     \Psi_{0}(x_1, x_2, ..., x_N) = \frac{1}{\sqrt{N!}}
     \begin{vmatrix}
@@ -69,15 +68,15 @@
     %Larger basis sets variationally reduce the Hartree-Fock Energy, $E_0$, to the Hartree-Fock limit and will be useful in methods such as configuration interaction and coupled cluster.\cite{Szabo 1996}  \\
     
     %To numerically solve the HF eigenvalue equation one must define the one electron orbital functions $\{\chi_k\}$.  
-    The solutions of the Hydrogen atom define one electron orbital functions, $\{\chi_k\}$, exactly as Slater type orbitals. Unfortunately, numerical differentiation, integration and finding distinct functional solutions to the HF equations using Slater type orbitals provides a formidable challenge. In order to produce a simplified solution one expands the one electron basis function into an M function atomic orbital basis
+    The solutions of the Hydrogen atom define one electron orbital functions, $\{\chi_k\}$, exactly as Slater type orbitals. Unfortunately, numerical differentiation, integration and finding distinct functional solutions to the HF equations using Slater type orbitals provides a formidable challenge. In order to produce a simplified solution one expands MO basis functions into M atomic orbital (AO) basis functions
       \begin{equation} \label{AO_eq}
       \chi_i = \sum_\mu^M C_{i\mu} \phi_\mu(x)
       \end{equation}
-    where $\phi_\mu$ are typically atom centered functions.  Applying \cref{AO_eq} to \cref{Fock_eq} produces what is known as the Hartree-Fock-Roothaan matrix equation\cite{Roothaan 1960, Roothaan 1951}
+    where $\phi_\mu$ are typically atom centered functions.  Applying \cref{AO_eq} to \cref{Fock_eq} produces what is known as the Hartree-Fock-Roothaan matrix equation\cite{Roothaan 1960,Roothaan 1951}
       \begin{equation} \label{Rooth}
       \textbf{FC} = \textbf{SC}\epsilon
       \end{equation}
-    \textbf{C} is the transformation matrix from \cref{AO_eq}, \textbf{S} is the overlap of two atomic orbitals
+    \textbf{C} is the transformation matrix from \cref{AO_eq}, \textbf{S} is the overlap of two AO's
       \begin{equation}
       S_{\mu\nu} = \int \phi^*_\mu(x_1) \phi_\nu(x_1) dx_1
       \end{equation}
@@ -99,9 +98,9 @@
       \end{equation}
     in physicist and chemist notation, respectively. Roothaan's equation \cref{Rooth} specifies HF as a system of non-linear equations and must be solved iteratively to optimize expansion coefficients in a self-consistent-field (SCF) procedure. Computationally evaluation of the Fock matrix is the most expensive step of HF with asymptotic scaling of $\mathcal{O}(N^4)$ or $\mathcal{O}(N^2(lnN)^2)$ for large systems where N is the number of electrons and a storage requirement of $\mathcal{O}(N^4)$.  
   \subsection{Electronic Correlation Methods}
-    Correlation is a concept of probability. Two variables are considered independent if the joint probability of the variables is a product of each variables probability; $p(x,y) = p(x) \times p(y)$ where $p(\cdot)$ is a probability function.  Otherwise, the two variables are said to be correlated.\cite{Kutzelnigg 2003}  Electron correlation develops from %antisymmetric and indistinguishable%
+    Correlation is a concept of probability. Two variables are considered independent if the joint probability of the variables is a product of each variables probability; $p(x,y) = p(x) \times p(y)$ where $p(\cdot)$ is a probability function.  Otherwise, the two variables are said to be correlated.\cite{Kutzelnigg2003}  Electron correlation develops from %antisymmetric and indistinguishable%
     properties of fermions and Coulombic repulsion between electronic charges. HF does cannot recover electron correlation beyond the fermionic description.  The wavefunction in HF theory relies on the independent particle model, by definition this is an uncorrelated description as it does not consider electron-electron repulsion explicitly but as %electron repulsion with an average electron cloud charge.  
-    field effect. Correlation energy, as defined by L{\"o}wdin \cite{Lowdin 1959}, is 
+    field effect. Correlation energy, as defined by L{\"o}wdin \cite{Lowdin1959}, is 
       \begin{equation} \label{corr_E}
       E_{corr} = \mathcal{E}_{0} - E_{HF}
       \end{equation}
@@ -109,9 +108,9 @@
       \begin{equation}
       \Psi_{exact} = \Psi_{HF} + \Psi_{corr}
       \end{equation}
-    where $\Psi_{corr}$ is orthogonal to $\Psi_{HF}$ and encapsulates all correlation not captured by HF.\cite{Kong 2012}  Though correlation energy only contributes a very small portion to the total energy, these corrections are extremely necessary in the accurate calculation of molecular properties and prediction of reactions.  Outlined to follow are a methods that allow theoretical chemistry to systematically calculate correlation energy.
+    where $\Psi_{corr}$ is orthogonal to $\Psi_{HF}$ and encapsulates all correlation not captured by HF.\cite{Kong2012}  Though correlation energy only contributes a very small portion to the total energy, these corrections are extremely necessary in the accurate calculation of molecular properties and prediction of reactions.  Outlined to follow are a methods that allow theoretical chemistry to systematically calculate correlation energy.
     \subsubsection{Many Body Perturbation Theory}
-      Many Body Perturbation Theory (MBPT) was first developed in 1957\cite{Brueckner, 1955} to study the energy of nuclear matter.  Not until 1968 was the it applied to ab initio quantum chemistry.\cite{Freed 1968, Freed 1971}.  Though there are many formulations of MBPT, two of the most well known being Rayleigh-Schr{\"o}dinger\cite{Lindgren 1974} and M{\/o}ller-Plesset\cite{Moller 1934, Raghavachari 1989}, all methods are developed from the same principles.  %The distinction comes from the use of diagrams and the definition of the zeroth order hamiltonian and perturbative potential.  
+      Many Body Perturbation Theory (MBPT) was first developed in 1957\cite{Brueckner1955} to study the energy of nuclear matter.  Not until 1968 was the it applied to ab initio quantum chemistry.\cite{Freed1968,Freed1971}.  Though there are many formulations of MBPT, two of the most well known being Rayleigh-Schr{\"o}dinger\cite{Lindgren1974} and M{\/o}ller-Plesset\cite{Moller1934, Raghavachari1989}, all methods are developed from the same principles.  %The distinction comes from the use of diagrams and the definition of the zeroth order hamiltonian and perturbative potential.  
       The formulation presented will follow the M{\/o}ller-Plesset (MPn) definition of MBPT, where n is the perturbative order correction. 
       MBPT is not variational, the solution recovered from an approximation is lower bounded by the exact energy, but is size consistent.       %check the validity of this statement}
       For a method to be size consistent it must be able to calculate the energy of two elements, separated by infinite distant to be the sum of its individual parts.  
@@ -154,7 +153,7 @@
             %&\vdots
           %\end{aligned}
         %\end{equation}
-      MPn theory typically focuses on solving second order correction, MP2; first order corrections are zero by Brillouin theorem \cite{surjan 1989}.  Substituting \cref{h0,h1} into \cref{mpn} one finds 
+      MPn theory typically focuses on solving second order correction, MP2; first order corrections are zero by Brillouin theorem \cite{surjan1989}.  Substituting \cref{h0,h1} into \cref{mpn} one finds 
         \begin{equation}
           \bra{\Phi^{(0)}}\hat{H}^{(0)}\ket{\Phi^{(0)}} = \sum_{i=1}^N \epsilon_i = E^{(0)}
         \end{equation}
@@ -162,9 +161,9 @@
         \begin{equation}
            \bra{\Phi^{(0)}}\hat{H}^{(1)}\ket{\Phi^{(1)}} =\bra{\Phi^{(0)}}(\hat{H}_{elec} - \hat{H}^{(0)}) \ket{\Phi^{(1)}}  =  E^{(2)}
          \end{equation}
-       Where $\epsilon_i$ are the Hartree-Fock orbital energy coefficients. $\Phi^{(1)}$ is expanded in terms of eigenvectors of $\hat{H}^{(0)}$.  Slater-Condon rules\cite{Szabo 1982} determine %say that, because all the terms in $\hat{H}^{(1)}$ are two particle operators, the right wavefunction and left projection can only differ by two terms.  Thus 
+       Where $\epsilon_i$ are the HF orbital energy coefficients. $\Phi^{(1)}$ is expanded in terms of eigenvectors of $\hat{H}^{(0)}$.  Slater-Condon rules\cite{SzaboAttila1982} determine %say that, because all the terms in $\hat{H}^{(1)}$ are two particle operators, the right wavefunction and left projection can only differ by two terms.  Thus 
        %the only non-zero basis orthogonal to $\Psi_0$ is the 
-       $\ket{\Phi^{(1)}}$ must be from the set of double excited reference state determinant, $\ket{\Psi^{ij}_{ab}}$. Where terms of the form $\ket{\Psi^{ijk\dots}_{abc\dots}}$ are created by replacing HF molecular orbital $\chi_i$ in the set N occupied orbital with an orbital $\chi_a$ from the next set of 2K-N unoccupied orbitals and so on.  This provides the expansion 
+       $\ket{\Phi^{(1)}}$ must be from the set of double excited reference state determinant, $\ket{\Psi^{ij}_{ab}}$. Where terms of the form $\ket{\Psi^{ijk\dots}_{abc\dots}}$ are created by replacing HF MO $\chi_i$ in the set N occupied orbital with an orbital $\chi_a$ from the next set of 2K-N unoccupied orbitals and so on.  This provides the expansion 
          \begin{equation} \label{phi1}
           \ket{\Phi^{(1)}} 
           %= \sum_{\substack{i<j\\a<b}} \ket{\Psi^{ij}_{ab}} \olap{\Psi^{ij}_{ab}}{\Phi_0}  
@@ -182,7 +181,7 @@
       This transformation is the most computationally rigorous step of MP2 scaling as $\mathcal{O}(N^5)$ with a storage requirement of $\mathcal{O}(N^4)$.  Efforts to eliminate the transformation using the Laplace transformation (LT) will be discussed in detail in the research section.  Currently, LT-MP2's efficient reduction in computational cost has only been observed with sufficiently large molecules, more than 200 atoms.   
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \subsubsection{Configuration Interaction}
-      Configuration Interaction (CI) method is an application of the Ritz method of linear variations to the electronic wavefunction\cite{Shavitt 1977, Ritz 1909, Szabo 1998}. CI methods diagonalize the N-electron hamiltonian in terms of $\Psi_{exact}$.  This can be achieved by expanding $\Psi_{corr}$ as a linear combination of all possible N-tuply excited slater determinants%slater determinants constructed from N electrons and 2K spin orbitals, $\{\chi_k\}$ 
+      Configuration Interaction (CI) method is an application of the Ritz method of linear variations to the electronic wavefunction\cite{Shavitt1977,Ritz1909,Szabo1998}. CI methods diagonalize the N-electron hamiltonian in terms of $\Psi_{exact}$.  This can be achieved by expanding $\Psi_{corr}$ as a linear combination of all possible N-tuply excited slater determinants%slater determinants constructed from N electrons and 2K spin orbitals, $\{\chi_k\}$ 
         \begin{equation}\label{CI_wfn}
       	  \ket{\Psi_{exact}} = C_0\ket{\Psi_0} + \sum_{ia} C^i_a \ket{\Psi^i_a} + \sum_{\substack{i<j\\  a<b}} C^{ij}_{ab} \ket{\Psi^{ij}_{ab}} + \sum_{\substack{i<j<k \\ a<b<c}} C_{abc}^{ijk} \ket{\Psi_{abc}^{ijk}} + \dots 
         \end{equation}
@@ -266,12 +265,9 @@
       %$\Phi$, is assumed to be the HF reference wavefunction, $\Psi_0$ and 
       with intermediate normalization, $\olap{\Psi_0}{\Psi_{CC}} = 1$. 
       %To obtain a more computationally friendly expression the the expression is left projected by $e^{-\hat{T}}$, providing a similarity transformed Hamiltonian.  
-      Left projecting the SE by $e^{-\hat{T}}$ allows one to simplify the energy expression using the Cambell-Baker-Hausdorff formula\cite{Crawford 2000} and find%then provide computationally useful equations using the following equations 
-        \begin{equation}
-          \begin{aligned}
-            E_{CC} &= \bra{\Psi_0}e^{-\hat{T}} \hat{H} e^{\hat{T}} \ket{\Psi_0} \\
-            &= E_0 + \sum_{ia} \hat{f}_{ia}t^a_i + \frac{1}{4} \sum_{ijab} \bra{ij}\ket{ab}t^{ab}_{ij} + \frac{1}{2} \sum_{ijab} \bra{ij}\ket{ab}t^a_i t^b_j
-          \end{aligned}
+      Left projecting the SE by $e^{-\hat{T}}$ allows one to simplify the energy expression using the Cambell-Baker-Hausdorff formula\cite{crawford2000} and find%then provide computationally useful equations using the following equations 
+        \begin{equation}\label{E_cc}
+            E_{CC} = \bra{\Psi_0}e^{-\hat{T}} \hat{H} e^{\hat{T}} \ket{\Psi_0}
         \end{equation}
         \begin{equation}\label{t1}
           0 = \bra{\Psi^a_i} e^{-\hat{T}} \hat{H} e^{\hat{T}} \ket{\Psi_0}
@@ -283,13 +279,14 @@
         \begin{equation}
           E_{CC} = E_0 + E_{corr}
         \end{equation}
-      %can be developed using a diagrammatic or Wick's theorem approach, see (crawford reference) for a full explanation on expanding the expression.  
       \cref{t1,t2} provide a set on nonlinear equations which must be solved iteratively to provide the single and double cluster amplitudes, $t^a_i$ and $t^{ab}_{ij}$.
-      Coupled Cluster theory is not variational but is size-consistent and size-extensive %and invariant to unitary rotation, as long as there is no mixing of the occupied and unoccupied orbitals.  
-      CCSD scales as $\mathcal{O}(N^6)$ and inclusion of the triple cluster operator (CCSDT) increases scaling to $\mathcal{O}(N^8)$\cite{Noga 1987, Scuseria 1988} with storage requirements of $\mathcal{O}(N^4) \text {and} \mathcal{O}(N^6)$, respectively. Chemists have developed a way around this problem by applying perturbation theory to CC to include the triples operator\cite{Crawford2000}.%using a perturbation approach, following Rayleigh-Schr{\"o}dinger perturbation theory, to include the triples operator\cite{Crawford 2000}.  
+      Coupled Cluster theory is not variational but is size-consistent and size-extensive.  
+      CCSD scales as $\mathcal{O}(N^6)$ and inclusion of the triple cluster operator (CCSDT) increases scaling to $\mathcal{O}(N^8)$\cite{Noga 1987, Scuseria 1988} with storage requirements of $\mathcal{O}(N^4) \text {and} \mathcal{O}(N^6)$, respectively. Chemists have developed a way around this problem by applying perturbation theory to CC to include the triples operator\cite{Crawford2000}. 
       This approach scales as $\mathcal{O}(N^7)$ and is considered quantum chemistries gold standard.
   \subsection{Explicitly Correlated Methods}
-    It can be concluded that even when using the "gold standard" in quantum chemistry, CCSD(T), there still exists some error in our approximations.  The most influential contribution to this error is the basis set error.  The first place this error comes from is in the expression of one electron wavefunctions.  In order to achieve high accuracy in calculations one must enlist large basis sets and large $\zeta$, though it still has very slow convergence and fails to recreate the electron cusp condition.  Figure 1 shows the electron probability on a cross section of a sphere.  Because Hartree-Fock provides an average electronic field, the electrons probability is constant no matter the position of electron two.  While in truth there is zero probability of electron one at the point of electron two and higher probaility that electron one will be found $\pi$ radians away from electron two.  These corrections are known as Coulombic correlation. 
+    %It can be concluded that even when using the "gold standard" in quantum chemistry, CCSD(T), there still exists some error in our approximations.  
+    Within quantum chemistries most accurate approximations one finds the largest contribution to error is the basis set error.  %The first place this error comes from is in the expression of one electron wavefunctions.  
+    In the wavefunction framework established above, to achieve high accuracy in calculations one must enlist large basis sets and large $\zeta$.  Even so basis set error contributions have very slow convergence and fails to recreate the electron cusp condition.  Figure 1 shows the electron probability on a cross section of a sphere.  Because HF provides an average electronic field, the electrons probability is constant no matter the position of electron two.  While in truth there is zero probability of electron one at the point of electron two and higher probaility that electron one will be found $\pi$ radians away from electron two.  These corrections are known as Coulombic correlation. 
     \begin{figure}[H]
       \centering
         \includegraphics[width = 9cm, height = 6cm]{./pics/ang.jpeg}
