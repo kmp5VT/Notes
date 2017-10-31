@@ -3,7 +3,7 @@
 
 \section{Ab Initio Many Body Quantum Mechanics}
  %The first task of quantum chemistry is to formulate mathematics that can describe molecular systems through the physics of non-relativistic electrons and nuclei. This is accomplished through Hamiltonian mechanics acting on a set of functions, a basis, dubbed the Schr{\"o}dinger equation(SE).
- The non-relatavistic physics of electron and nuclei in a stationary state is described by the time-independent Schr{\"o}dinger equation (SE)
+ The non-relativistic physics of electron and nuclei in a stationary state is described by the time-independent Schr{\"o}dinger equation (SE)
    \begin{equation}\label{SE}
     \hat{H}\ket{\Psi} = E\ket{\Psi}
    \end{equation}
@@ -206,7 +206,7 @@
       where $C_{\mu i}$ are eigenvectors of the Fock operator. This transformation is the most computationally rigorous step of MP2 scaling as $\mathcal{O}(N^5)$ with a storage requirement of $\mathcal{O}(N^4)$. Efforts to eliminate the transformation using Laplace transformation (LT) methods will be discussed in detail in the research section. Currently, LT-MP2's efficient reduction in computational cost has only been observed with sufficiently large molecules, more than 200 atoms.  
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \subsubsection{Configuration Interaction}
-      Configuration Interaction (CI) method is an application of the Ritz method of linear variations to the electronic wavefunction\cite{Shavitt1977,SzaboAttila1982}. CI methods diagonalize the N-electron hamiltonian applied to \cref{psiex}, where $\Psi_{\text{corr}}$ is expressed as all possible excited state slater determinants
+      Configuration Interaction (CI) method is an application of the Ritz method of linear variations to the electronic wavefunction\cite{Shavitt1977,SzaboAttila1982}. CI methods diagonalize the N-electron Hamiltonian applied to \cref{psiex}, where $\Psi_{\text{corr}}$ is expressed as all possible excited state slater determinants
       %CI methods diagonalize the N-electron hamiltonian in terms of $\Psi_{exact}$. This can be achieved by expanding $\Psi_{corr}$ as a linear combination of all possible N-tuply excited slater determinants%slater determinants constructed from N electrons and 2K spin orbitals, $\{\chi_k\}$ 
         \begin{equation}\label{CI_wfn}
       	  \ket{\Psi_{exact}} = C_0\ket{\Psi_0} + \sum_{ia} C^i_a \ket{\Psi^i_a} + \sum_{\substack{i<j\\  a<b}} C^{ij}_{ab} \ket{\Psi^{ij}_{ab}} + \sum_{\substack{i<j<k \\ a<b<c}} C_{abc}^{ijk} \ket{\Psi_{abc}^{ijk}} + \dots 
