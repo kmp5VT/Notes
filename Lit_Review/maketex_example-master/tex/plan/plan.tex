@@ -1,2 +1,48 @@
 \section{Research Plan}
-	It is apparent from the literature that operators and amplitude expressions in quantum chemistry have some low order format that can be taken advantage of as dimensionality in number of electrons increases.  It is therefore the goal for this research to apply modern computational architecure scaling tensor decomposition algorithms to reduce scaling of correlation methods based on MBPT, CC and CC-R12 methods.  THC is quantum chemistries first step into utilizing struture of tensors to reduce storage requirements without arbitarty truncation based on intrinics.  CP and Tucker decompositions have character from the full set of vectors which span the tensor space, unlike the truncated SVD or eigenvalue decomposition.  
+	It is apparent from the literature that operators and amplitude expressions in quantum chemistry have some compact format that can be taken advantage of as the dimension of a system increases, ie number of electrons. It is the goal for this research to apply tensor decomposition algorithms, which make use of modern computational architecture, to reduce scaling of correlation methods based on MBPT, CC, and CC-R12 methods. 
+	%modern computational architecture scaling tensor decomposition algorithms to reduce scaling of correlation methods based on MBPT, CC and CC-R12 methods. 
+	THC is quantum chemistries first step into utilizing the structure of tensor decompositions to reduce storage requirements without arbitrary truncation based on practiced thresholds.%intrinsics. 
+	%CP and Tucker decompositions dissect the character from the full set of vectors which span the tensor space, unlike the truncated SVD or eigenvalue decomposition. 
+	CP and Tucker decompositions encode the behavior of every element in a given tensor into a set of vectors with reduced dimension. 
+	%In PNO and OSV methods virtual set domain truncation is based on either a occupation number or the diagonal MP2 amplitude threshold and rank is reduced by removing information.  
+	While truncation methods based on an eigenvalue, occupation number, or diagonal MP2 amplitudes discard information deemed unnecessary. Implementing tensor decompositions, instead of these truncation methods, to reduce storage requirements will allow for data compression without significantly loss of information. Figure 4 and 5, below, show how memory requirements of canonical tensors in quantum chemistry, such as the TEIs, can be significantly reduced with little cost in accuracy.  Tensor decompositions will allow for method development in reduced scaling accurate molecular property investigation, where truncation based approaches can significant influence a property's value.
+	%Changing these rank reduction methods to tensor decompositions would allow for data compression without loss of information. These new rank reductions methods c assist in the calculation of molecular properties where for example loss of even small valued vectors could have large contributions in derivative based response properties. 
+
+	In order to reduce the computational demands of computing the CP decomposition modern mathematics turns to tensor compression.  Tensor compression reduces computational bottleneck of large tensor using smaller proxy tensors, which are then used to approximately the CP decomposition. Original methods to compute a tensor compression used the Tucker decomposition\cite{Bro1998,Lathauwer2000}. However, this approach requires the computation of an expensive singular value decomposition on each mode of a tensor. More recently, mathematicians have found that randomized tensor compression methods can achieve significant computational savings while producing near-optimal approximation quality\cite{Erichson2017}. Application of these compression methods, to tensors which are too either large to store in fast memory or are slow to converge to their optimal rank, will allow for reduced scale tensor algebra methods to be more reasonably applied to single reference quantum chemistry.
+	\begin{figure}
+		\centering
+			\begin{minipage}{.5\textwidth}
+			  \centering
+			  \includegraphics[width=1\linewidth]{./plots/Store}
+			  %\captionof{figure}{Reduced storage requirements of TEI after CP decomposition }
+			  \label{fig:Figure 4}
+			\end{minipage}%
+			\begin{minipage}{.5\textwidth}
+			  \centering
+			  \includegraphics[width=1 \linewidth]{./plots/Energy}
+			  \label{fig:Figure 5}
+			\end{minipage}
+			\caption{Reduced storage requirements of TEI after CP decomposition\\
+			\textbf{Figure 5:} MP2 energy calculated using methods presented by Benedikt et al\cite{Benedikt2011} compared to canonical spin restricted MP2 calculations.\\
+			Following Benedikt's implementation the HF orbital energy denominator term was decomposed to a CP threshold of $\epsilon = .01$; Calculations on $\text{H}_2\text{O}$ and $\text{CH}_4$ were performed using a 6-31G* basis and calculations on $\text{C}_2\text{H}_4$ used a 6-31G basis}
+		\end{figure}
+
+	Generally tools in computational chemistry limit the application of methods such as CCSD(T) or CCSD-RI because computational scaling and storage  requirements are unmanageably high.  These methods do not have a simple prescription to reorder indices's of higher order tensors to apply matrix decomposition. Though, tensor decomposition methods to compress higher order amplitude expressions has not yet been explored by quantum chemistry. An interesting example is the application of CP decomposition to the CADF work presented by Hollman et al\cite{Hollman2014}.  Application of CP decompositions to CADF will decouple electronic indices's from electronic density terms allowing one to calculate more simply HF exchange terms %Hollman and co-authors CADF method reduced computational cost with less error th 
+
+	In work originally presented by Alm{\"o}f\cite{Almlof1991} and later H{\"a}ser\
+	{Haser1992} it has been shown that the integral transform step of MP2 \cref{AO2MO} using a Laplace transform of the denominator term
+		\begin{equation}\label{LP_MP2}
+			D_{ijab} = \frac{1}{\epsilon_i + \epsilon_j - \epsilon_a - \epsilon_b} = \int e^{(\epsilon_i + \epsilon_j - \epsilon_a - \epsilon_b)t}dt
+		\end{equation}
+	from there the exponential term can be factored into the AO wavefuntion
+		\begin{equation}
+			\ket{\phi_i} = \ket{\phi_i}e^{-\epsilon_i t/2}
+		\end{equation}
+		\begin{equation}
+			\ket{\phi_a} = \ket{\phi_a}e^{\epsilon_a t/2}
+		\end{equation}
+	Computationally the integral in \cref{LP_MP2} can be transformed to a finite sum
+		\begin{equation}
+			E_{MP2} = \sum_\alpha^\tau w_\alpha e_2^\alpha
+		\end{equation}
+	$e_2^\alpha$ is the weighted integral form of \cref{AO2MO} based on the difference in energy between $\epsilon_i$ or $\epsilon_a$ and $\epsilon_F$ the fermi level.  These integrals can be in AO basis or any non-canonical form.  Using tensor decomposition methods one can optimize the weighting coefficients and calculate more accurate quadrature points.  Laplace transform methods coupled with multiple applications of tensor decompositions to perturbation theories such as CCSD(T) and CCSD(T)-R12, could provide interesting in reducing the storage and computational cost scaling of these calculations

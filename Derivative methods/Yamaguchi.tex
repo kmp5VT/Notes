@@ -1,0 +1,139 @@
+\section{Chapter 1}
+	\subsection{Introduction}
+		Second derivative matrix (Hessian) of total energy wrt geometrical variables is used to evaluate vibrational frequencies and related properties and to interrogate reactive potential energy hyper surfaces.  Analytic first der methods wrt geometric variables was first proposed by Pulay in 1969.  First and second derivative for SCF and correlated wavefunctions have been developed by groups and applied to investigate large variety of chemical phenomena.
+
+		GTO's are used in ab initio studies because they are simple recurring character of their derivatives.  
+\section{Chapter 2: Basic Concepts and Definitions}
+	\subsection{Basis sets}
+		AO's are reffered to as Basis sets. Most typically they are Slater type orbitals or Gaussian type orbitals.  ANgular part described by powers of cartesian coordinates with the radial part being expressed by an exponential of r (STO) or $r^2$ (GTO).
+	\subsection{HF and SCF wavefunctions}
+		HF is variation-ly best wavefunction constructed by giving each electron a separate orbital.  The best wavefunction is obtained from the variational conditions 
+			\begin{equation}
+				\delta E_{elec} = \delta \bra{\Psi_{HF}} H_{elec} \ket{\Psi_{HF}}
+			\end{equation}
+		This leads to the HF equations
+			\begin{equation}
+				F\phi_i = \epsilon_i \phi_i
+			\end{equation}
+		Where $\phi_i$ are expanded MO's and epsilon is an orbital energy. Never possible to obtain a complete set of basis functions in molecular computation one obtains approximate solutions to the HF equations.  Best single configuration wfn within a finite basis set is the SCF wavefunction.  For the SCF wavefunction the electronic energy is minimized wrt changes of the molecular orbital coefficients under the constraint of orthonormality. Roothaan for closed shell using LCAO MO approach
+
+		For open shell the convention is to used the generalized fock operator
+			\begin{equation}
+				F_i(1) = f_ih(1) + \sum_k^{occ}(\alpha_ik J_k(1) + \beta_ikK_k(1))
+			\end{equation}
+		$f$, $\alpha$, and $\beta$ are one and two electron coupling contants.  
+	\subsection{The CI wavefunction}
+		CI wavefunction is a linear combination of finite number of either slater determinants or configuration state functions (CSF lCO determinants to be eigenfunctions of the square of the total electronic spin angular momentum operator).
+		The CI hamiltonian matrix $H_IJ$ is 
+			\begin{equation}
+				\begin{aligned}
+					H_IJ &= \bra{\phi_I} H_{elec} \ket{\phi_J} \\
+					&= \sum_{ij}^{MO} A_{ij}^{IJ} h_{ij} + \sum_{ijkl}^{MO}G_{ijkl}^{IJ}(ij|kl)
+				\end{aligned}
+			\end{equation}
+			phi here are the CSF orbitals and $Q^{IJ}$ and $G^{IJ}$ are the one and two electron coupling constants between configurations and MO's. One uses this to find the CI coefficients
+
+			Electronic energy is given alternitevly in the MO expansion as 
+				\begin{equation}
+					E_{elec} = \sum_{ij}^{MO} Q_{ij}H_{ij} + \sum_{ijkl}^{MO}G_{ijkl}(ij|kl)
+				\end{equation}
+			where G and Q are modified by the determined CI coefficient.  
+
+			CI is based of a reference wavefunction which is typically an SCF or multi-configuration SCF wavefunction.  When all possible excitations are included its called full CI.  In constructing CI the frozen core or deleted virtual approximations are employed.  In frozen core a limited number of inner electrons are kept frozen from excitations.  In deleted a number of high lying virtuals are deleted.
+	\subsection{THe multiconfiguration SCF wavefunction}
+		In this method electronic energy is minimized wrt both molecular orbitals and the CI coefficients.  MCSCF is expressed as a linear combinations of slater determinants or CSFs
+
+\section{Chapter 4: Closed Shell SCF wavefunction}
+	electronic energy determined using one set of doubly occupied orbitals.  the single configuration is oversimplified in quantum mechanical sense. It is well defined and accepted at least as conceptual and computational starting point.  Many chemical phenomena can be explained quite successfully using this method. The energy expression for a closed shell system is given first and then the fock operator and the variational conditions are described.  
+	\subsection{The SCF Energy}
+		in RHF the energy for a single config CLSCF wavefunction is 
+			\begin{equation} \label{Eelec}
+				E_{elec} = 2 \sum_i^{d.o} h_{ii} + \sum_{ij}^{d.o} \left\{2(ii|jj) - (ij|ij)\right\}
+			\end{equation}
+		expressed using one-electron integrals and closed shell orbital integrals 
+			\begin{equation}
+				E_{elec} = \sum_i ^{do} (h_{ii} + \epsilon_i)
+			\end{equation}
+		where the orbital energies, $\epsilon_i$ are defined by 
+			\begin{equation}
+				\epsilon_i = h_{ii} + \sum_k^{do} \left\{2(ii|kk) - (ik|ik)\right\}
+			\end{equation}
+		Electronic energy is defined using only the double occupied orbitals, this is to make sure there isn't double counting.  Only these double occupied orbitals are well defined physically in single configuration HF theory.  virtual or unocc exist as eigenfunctions of the Fock operator and are mathematically well defined but of limited value as far as the physical model is concerned.
+
+	\subsection{The closed shell Fock operator and variational condition}
+		in RHF the fock operator for a single configuration CLSCF is 
+			\begin{equation}
+				F = H + \sum_k^{do} \left(2J_k - K_k\right)
+			\end{equation}
+		The Fock matrix elements involve a sum over double occupied orbitals 
+			\begin{equation}\label{Fock}
+				F_{ij} = \bra{\phi_i} F \ket{\phi_j} = h_ij + \sum_k^{do} \{2(ij|kk) - (ik|jk)\}
+			\end{equation}
+		Using the variational condition provides
+			\begin{equation}
+				F_{ij} = \delta_{ij}\epsilon_i
+			\end{equation}
+		The choice of variational condition is only possible for CLSCF wavefunction with one fock operator for all closed shell occupied orbitals. 
+
+	\subsection{The first derivative of the electronic energy}
+		In the born Oppenheimer approx the nuclear repulsion energy and its derivatives are trivial to evaluate at fixed geometry for the under perturbation in chapter 3.  Only SCF considered.  taking the derivative of $E_{elec}$ wrt Cartesian nuclear coordinate "a" one finds the derivative in each term of \cref{Eelec} of which derivatives are labeled 4.9-4.11 and are part of section three. The derivatives have sum over auxiliary coordinate which goes over al occupied and virtual MOs.  Simplifying the expression, including the definition of the fock matrix and summing over i and j gives
+			\begin{equation}\label{dE}
+				\frac{\partial E_{elec}}{\partial a} = 2 \sum_i^{do} h^a_{ii} + \sum_{ij}^{do} \{2 (ii|jj)^a - (ij|ij)^a\} + 4 \sum_i^{all}\sum_j^{do} U_{ij}^a F_{ij}
+			\end{equation}
+		The definition of $h^a_{ij}$ and U can be found in chapter three.  This equation is applicable to any CLSCF wavefunction whose fock matrix is constructed using \cref{Fock}
+
+		In canonical basis set the Fock is diagonal so the final term can be further simplified
+			\begin{equation}
+				\frac{\partial E_{elec}}{\partial a} = 2 \sum_i^{do} h^a_{ii} + \sum_{ij}^{do} \{2 (ii|jj)^a - (ij|ij)^a\} + 4 \sum_i^{do} U_{ii}^a \epsilon_i
+			\end{equation}
+		The molecular orbitals are orthonormal as a consequence of the variational condition.
+
+		Important result from 3.7 the first derivative of the orthogonality 
+			\begin{equation}
+				S_{ij} = \delta_{ij}
+			\end{equation}
+		provides
+			\begin{equation}
+				U^a_{ij} + U^{a}_{ji} + S^a_{ij} = 0
+			\end{equation}
+		and
+			\begin{equation}
+				U^{a}_{ii} = -\frac{1}{2} S^a_{ii}
+			\end{equation}
+		Substituted into \cref{dE} provides
+			\begin{equation}
+				2\sum_i^{do} h^a_{ii} + \sum_{ij}^{do}\{2(ii|jj)^a - (ij|ij)^a\} - 2 \sum_i^{do}S^a_{ii} \epsilon_i
+			\end{equation}
+		This means that the first derivative expression does not require the explicit evaluation of the changes in the MO coefficients, the U's.  Thus the coupled pertubed HF equations need not to be solved if only first order derivatives of CLSCF wavefunction are of interest.  This is not possible in higher order derivatives.
+
+	\subsection{Evaluation of the energy first derivative}
+		derived in AO basis. MO coefficients can be subbed out with the density matrix.  The programmable equations can be found as 4.26
+
+	\subsection{First derivative of the Fock Matrix}
+		first derivative of the elements of the fock needed for future use.  
+			\begin{equation}
+				\frac{\partial F_{ij}}{\partial a} = \frac{\partial h_{ij}}{\partial a} + \sum_k^{do}\{2\frac{\partial (ij|kk)}{\partial a} - \frac{\partial (ik|jk)}{\partial a}\}
+			\end{equation}
+			\begin{equation}
+				= F^a_{ij} + \sum_k^{all}(U^a_{ki}F_{kj} + U^a_{kj}F_{ik}) + \sum_k^{all} \sum_{l}^{do} U^a_{kl} A_{ij,kl}
+			\end{equation}
+			\begin{equation}
+				A_{ij,kl} = 4(ij|kl) - (ik|jl) - (il|jk)
+			\end{equation}
+
+	\subsection{The second derivative of the electronic energy}
+		An expression for the second derivative wrt second coordinate "b" can be found by taking a derivative of the derivative expression. This can be found as equation 4.49 in page 62.  Involving second derivatives of the MO and this equation is applicable to any CLSCF wavefunction whose fock matrix is \cref{Fock}
+
+		TO eliminate $U_{ij}^{ab}$ the second derivative form of the orthonormality condition of the MO orbitals is used
+			\begin{equation}
+				U^{ab}_{ij} + U^{ab}_{ji} + \xi^{ab}_{ij} = 0
+			\end{equation}
+		where 
+			\begin{equation}
+				\xi^{ab}_{ij} = S^{ab}_{ij} + \sum_m^{all}\{ U^a_{im} U^b_{jm} + U^b_{im}U^a_{jm} - S^a_{im}S^b_{jm} - S^b_{im}S^a_{im} \}
+			\end{equation}
+		with diagonal elements 
+			\begin{equation}
+				U^{ab}_{ii} = -1/2 \xi^{ab}_{ii}
+			\end{equation}
+		The final equation is 4.54 on page 62-63
